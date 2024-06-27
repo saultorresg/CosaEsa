@@ -1,0 +1,25 @@
+.equipos {
+
+}
+
+.equipo {
+    border-radius: 2%;
+    background-color: #C4F4FF;
+    width: 300px;
+    height: 420px;
+    border-color: black;
+    overflow: hidden;
+}
+
+.equipo .nombre_equipo {
+    float: right
+}
+
+.equipo img {
+}
+
+.nombre_jugador {
+}
+
+.nombre_equipo {
+}
