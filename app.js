@@ -1,3 +1,5 @@
+
+
 const express = require('express');
 const path = require('path');
 const app = express();
@@ -9,6 +11,14 @@ app.use(express.static(path.join(__dirname)));
 // Servir el archivo index.html en la ruta raíz
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'HTML', 'index.html'));
+});
+
+app.get('/canasta', (req, res) => {
+    res.sendFile(path.join(__dirname, 'HTML', 'canasta.html'));
+});
+
+app.get('/redirigir-canasta', (req, res) => {
+    res.redirect('/canasta')
 });
 
 app.get('/data', (req, res) => {
