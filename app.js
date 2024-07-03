@@ -4,6 +4,12 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const db = require('./JS/Databases/db');
+const bodyParser = require('body-parser');
+const authRoutes = require('./JS/auth/Routes')
+
+app.use(express.json());
+
+app.use('/auth', authRoutes);
 
 // Servir archivos estáticos desde la carpeta "public"
 app.use(express.static(path.join(__dirname)));
@@ -17,25 +23,22 @@ app.get('/canasta', (req, res) => {
     res.sendFile(path.join(__dirname, 'HTML', 'canasta.html'));
 });
 
-app.get('/redirigir-canasta', (req, res) => {
-    res.redirect('/canasta')
-});
-
-app.get('/data', (req, res) => {
-    const query = 'SELECT * FROM productos';
-    db.query(query, (err,result) => {
-        if (err) {
-            console.error('Error al hacer la consulta ', err);
-            res.status(500).send('Error interno del servidor');
-            return;
-        }
-        res.json(result);
-    }); 
+app.get('/data', async (req, res) => {
+    try {
+        const [rows, fields] = await db.query('SELECT * FROM productos');
+        res.json(rows);
+    } catch (err) {
+        console.error('Error al hacer la consulta ', err);
+        res.status(500).send('Error interno del servidor');
+    }
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Servidor web escuchando en el puerto ${PORT}`);
 });
+
+
+
 
 module.exports = app;

@@ -15,11 +15,34 @@
     float: right
 }
 
-.equipo img {
-}
+.modal-content {
+    border-radius: 0;
+  }
 
-.nombre_jugador {
-}
+  .modal-dialog-full-height {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+  .modal-content-full-height {
+    height: 100vh;
+  }
+  .modal-body-full-height {
+    overflow-y: auto;
+    height: calc(100vh - 120px); /* Ajusta según el tamaño de los encabezados y pies de página del modal */
+  }
 
-.nombre_equipo {
+.modal.right .modal-dialog {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    width: 100%;
+    max-width: 620px;
+    height: 100%;
+  }
+
+.modal.right .modal-content {
+    height: 100vh;
+    border: 0;
 }
