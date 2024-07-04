@@ -14,5 +14,6 @@
             "username": "sangrael",
             "askForPassword": true
         }
-    ]
+    ],
+    "livePreview.defaultPreviewPath": "/HTML/index.html"
 }

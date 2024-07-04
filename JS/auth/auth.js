@@ -6,7 +6,7 @@ const db = require('../Databases/db');
 const register = async (req, res) => {
     const { name, email, password } = req.body;
 
-    
+    console.log(name, email, password);
 
     try {
         const [rows] = await db.query('SELECT email FROM usuarios WHERE email = ?', [email]);
@@ -53,6 +53,9 @@ const login = async (req, res) => {
     ;
         const payload = { user: { id: user.id}};
         const token = jwt.sign(payload, 'mysecretkey', {expiresIn: '1h'});
+        //sessionStorage.setItem('authToken', token)
+        const decode = jwt.decode(token)
+        console.log(decode);
         res.status(200).json({ token });
     } catch (error) {
         
