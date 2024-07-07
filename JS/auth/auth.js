@@ -50,10 +50,18 @@ const login = async (req, res) => {
         if (!isMatch) {
             return res.status(400).json({ message: 'Crendenciales invalidas'});
         } 
-    ;
-        const payload = { user: { id: user.id}};
+
+        const [row] = await db.query('SELECT id FROM canasta WHERE client_id = ?', [user.id])
+        const canasta = row[0]
+
+        const payload = { 
+            user: { 
+                id: user.id,
+                name: user.name,
+                id_canasta: canasta.id
+            }};
         const token = jwt.sign(payload, 'mysecretkey', {expiresIn: '1h'});
-        //sessionStorage.setItem('authToken', token)
+        
         const decode = jwt.decode(token)
         console.log(decode);
         res.status(200).json({ token });
@@ -63,4 +71,19 @@ const login = async (req, res) => {
     }
 }
 
-module.exports = { register, login };
+const ingresar_producto_canasta = async (req, res) => {
+
+    const { cantidad, id_canasta, id_producto } = req.body;
+
+    try {
+        
+        const row = await db.query('INSERT INTO canasta_productos (cantidad, id_producto, id_canasta) values (?, ?, ?)', [cantidad, id_producto, id_canasta] )
+        
+        res.status(200).json({row})
+        
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+}
+
+module.exports = { register, login, ingresar_producto_canasta };

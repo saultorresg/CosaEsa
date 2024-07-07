@@ -6,12 +6,18 @@
     seccion_carousel = document.getElementById('carouselExample')
     carousel = document.querySelector('.carousel-inner')
 
+  
+
 function tomar_datos() {
+
+    const numero_cards = detectar_tamaño()
+    
     
     fetch('/data')
         .then(response => response.json())
         .then(data => {
             data.forEach((element, indice) => {
+                console.log(indice);
                 num = indice -= 1
                 if (indice >= 1 && element.equipo !== data[num].equipo) {
                     
@@ -31,7 +37,7 @@ function tomar_datos() {
                     contador = 0
                 }
                 contador += 1
-                if (contador == 5) {
+                if (contador == numero_cards) {
                     
                     contador = 0
                 }
@@ -60,6 +66,7 @@ function crear_card(element, contador) {
         nombre.textContent = element.jugador
 
         div_agregar.classList.add('canasta', 'position-absolute', 'end-0')
+        btn_agregar.setAttribute('id_producto', '' + element.id)
         btn_agregar.classList.add('btn', 'btn-warning', 'end-0', 'rounded-circle')
         btn_agregar.textContent = '+'
         div_agregar.appendChild(btn_agregar)
@@ -106,12 +113,41 @@ function item_activo(contador, conte) {
             item_active = item_activo
         }
 
-        console.log(carousel);
         item_active.appendChild(conte)
+        console.log(item_active);
         carousel.appendChild(item_active)
     }
 
+function detectar_tamaño () {
+
+    const tamanio_pagina = window.innerWidth
+
+    const numero_cards = Math.floor(tamanio_pagina / 326)
+    
+    return numero_cards
+}
+
+
 tomar_datos()
 
+window.addEventListener('resize', function () {
 
+    const carouseles = this.document.querySelectorAll('.carousel')
+    seccion_carousel = document.getElementById('carouselExample')
+    carousel = document.querySelector('.carousel-inner')
 
+    carouseles.forEach( carousel => {
+
+        if (carouseles[0] == carousel) {
+
+            const inner = carousel.querySelector('.carousel-inner')
+            inner.innerHTML = ''
+        } else {
+
+            carousel.remove()
+        }
+    })
+    
+    
+    tomar_datos()
+})

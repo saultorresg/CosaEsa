@@ -58,20 +58,22 @@ async function log(email, password) {
     
         const data = await response.json();
     
-        
+        sessionStorage.setItem('authToken', data.token)
     
         if (response.ok) {
             
             console.log('Respuesta del servidor: ', data);
 
             const event = new CustomEvent('tokenChanged', { detail: { data } });
-            //window.dispatchEvent(event);
+            window.dispatchEvent(event)
         }else {
             console.log('Error', data.message);
         }
     } catch (error) {
         console.error('Error al registrar ususarios: ', error.message);
     }
+
+        
 }
 
 async function reg(email, password ,name) {
@@ -101,10 +103,20 @@ async function reg(email, password ,name) {
     }
 }
 
-
 window.addEventListener('tokenChanged', (event) => {
 
     const perfil = document.getElementById('perfil')
     console.log('Token changed', event.detail.data['token']);
-   
+    const token = parseJwt(event.detail.data['token'])
+    perfil.textContent = token.user.name
 })
+
+function parseJwt(token) {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    console.log(jsonPayload);
+    return JSON.parse(jsonPayload);
+}
