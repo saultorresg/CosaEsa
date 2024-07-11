@@ -10,14 +10,24 @@
 })();
 
 window.addEventListener('sessionStorageChange', (event) => {
+
+    var noctificacion = document.getElementById('noctificacion')
+
+    $('#inicio-sesion').modal('hide')       
+
+    const fondo = document.querySelector('.modal-backdrop')
+    
+    fondo.remove()
+
+    noctificacion.classList.add('show')
+
     console.log('Cambio detectado en sessionStorage');
     console.log(`Clave: ${event.key}`);
     console.log(`Nuevo valor: ${event.newValue}`);
 
     const token = parseJwt(event.newValue)
-
-    const perfil = document.getElementById('perfil')
-    perfil.textContent = perfil.user.name
+    const perfil = document.getElementById('btn-ingresar')
+    perfil.textContent = token.user.name
 });
 
 function parseJwt (token) {
@@ -26,7 +36,6 @@ function parseJwt (token) {
     const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
     }).join(''));
-    console.log(jsonPayload);
     return JSON.parse(jsonPayload);
 }
 

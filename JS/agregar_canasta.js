@@ -1,41 +1,17 @@
-document.addEventListener('codigoTerminado', function() {
+document.addEventListener('codigoTerminado',  function() {
     
+    const btn_agregar = document.querySelectorAll('.btn-warning')
+
+    btn_agregar.forEach( boton => {
+
+        boton.removeEventListener('click', AgregarProducto)
+        boton.addEventListener('click', AgregarProducto)
+    })
+
     const equipos = document.querySelectorAll('.equipo')
     equipos.forEach(equipo => {
 
         const btn = equipo.querySelector('.btn')
-
-        btn.addEventListener('click', async function () {     
-
-            const token = sessionStorage.getItem('authToken');
-            const id_canasta = parseJwt(token)
-        
-            try {
-                const response = await fetch('/auth/agregar', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify( {
-                        cantidad: 1,
-                        id_canasta: id_canasta.user.id_canasta,
-                        id_producto: parseInt(btn.getAttribute('id_producto'))
-                    })
-                })
-        
-                const data = await response.json();
-                
-                if (response.ok) {
-                    console.log(data);
-                    
-                    return
-                } else {
-                    console.log(data.message);   
-                }
-            } catch (error) {
-                console.log(error);   
-            }
-        })
 
         equipo.addEventListener('mouseenter', function() {
             
@@ -57,6 +33,38 @@ document.addEventListener('codigoTerminado', function() {
         
     });
 });
+
+async function AgregarProducto() {
+    
+    const token = sessionStorage.getItem('authToken');
+            const id_canasta = parseJwt(token)
+        
+            try {
+                const response = await fetch('/auth/agregar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify( {
+                        cantidad: 1,
+                        id_canasta: id_canasta.user.id_canasta,
+                        id_producto: parseInt(this.getAttribute('id_producto'))
+                    })
+                })
+        
+                const data = await response.json();
+                
+                if (response.ok) {
+                    console.log(data);
+                    
+                    return
+                } else {
+                    console.log(data.message);   
+                }
+            } catch (error) {
+                console.log(error);   
+            }
+}
 
 function parseJwt(token) {
     const base64Url = token.split('.')[1];

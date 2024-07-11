@@ -16,7 +16,7 @@ app.use(express.static(path.join(__dirname)));
 
 // Servir el archivo index.html en la ruta raíz
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'HTML', 'index.html'));
+    res.sendFile(path.join(__dirname, 'HTML', 'tienda.html'));
 });
 
 app.get('/canasta', (req, res) => {
@@ -36,6 +36,7 @@ app.get('/data', async (req, res) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Servidor web escuchando en el puerto ${PORT}`);
+    console.log(db);
 });
 
 

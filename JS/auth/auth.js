@@ -86,4 +86,31 @@ const ingresar_producto_canasta = async (req, res) => {
     }
 }
 
-module.exports = { register, login, ingresar_producto_canasta };
+const mostrar_canasta = async (req, res) => {
+
+    try {
+        const [rows, fields] = await db.query('SELECT * FROM canasta_productos')
+        res.json(rows)
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const obtener_producto = async (req, res) => {
+
+    const { id } = req.body;
+
+    console.log(id);
+
+    try {
+        
+        const producto = await db.query('SELECT * FROM productos WHERE id = ?', [id] )
+        console.log(producto);
+        res.status(200).json({producto})
+
+    } catch (error) {
+        console.log(error);        
+    }
+}
+
+module.exports = { register, login, ingresar_producto_canasta, mostrar_canasta, obtener_producto };
