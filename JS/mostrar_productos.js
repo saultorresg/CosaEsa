@@ -8,9 +8,8 @@ function obtener_productis() {
         .then(data => {
             data.forEach((element, indice) => {
 
-                console.log(element);
-
-                const card = document.createElement('div')
+                const card = document.createElement('a')
+                card.href = '/canasta?id=' + element.id 
                 card.classList.add('card', 'position-relative', 'rounded-4')
                 card.setAttribute('style', 'width: 18rem')
 
@@ -23,7 +22,7 @@ function obtener_productis() {
 
                 const label_name = document.createElement('p')
                 label_name.classList.add('card-text')
-                label_name.innerText = element.jugador
+                label_name.innerText = element.nombre
 
                 const card_footer = document.createElement('div')
                 card_footer.classList.add('row', 'justify-content-between')

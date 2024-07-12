@@ -32,13 +32,23 @@ function seleccion() {
         const password = document.getElementById('password').value;
         const name = document.getElementById('name').value;
 
-        if (btn_login.checked) {
-            await log(email, password)        
-        } else if (btn_sigin.checked) {
-            await reg(email, password, name)
-        } else {
+        const advertencia = document.getElementById('advertencia')
+        advertencia.innerText = ''
+
+            if (btn_login.checked) {
+                await log(email, password)        
+            } else if (btn_sigin.checked) {
+                if (email === '' || password === '' || name === '') {
+                    
+                    const advertencia = document.getElementById('advertencia')
+                    advertencia.innerText = '* Por favor llene todos los campos *'
+                    
+                } else {
+
+                    await reg(email, password, name)
+                }
+            } 
     
-        }
     })
 }
 
@@ -57,6 +67,7 @@ async function log(email, password) {
         });
     
         const data = await response.json();
+        console.log(data.token);
     
         sessionStorage.setItem('authToken', data.token)
     
@@ -74,29 +85,47 @@ async function log(email, password) {
 }
 
 async function reg(email, password ,name) {
-    
-    try {
+
+    const label_novalido = document.getElementById('label-novalido')
+
+    if (Validar_Email(email)) {
         
-        const response = await fetch('/auth/register', {
+        label_novalido.innerText = ''
 
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({name, email, password})
-        });
+        try {
+        
+            const response = await fetch('/auth/register', {
+    
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({name, email, password})
+            });
+    
+            const data = await response.json();
+    
+            if (response.ok) {
+                
+                console.log('Respuesta del servidor: ', data);
+                
 
-        const data = await response.json();
-
-        if (response.ok) {
-            
-            console.log('Respuesta del servidor: ', data);
-        } else {
-            
-            console.log('Error', data.message);
+            } else {
+                
+                console.log('Error', data.message);
+            }
+        } catch (error) {
+            console.error('Error al registrar ususarios: ', error.message);
         }
-    } catch (error) {
-        console.error('Error al registrar ususarios: ', error.message);
+    } else {
+        
+        label_novalido.innerText = '* Email no valido *'
+
     }
 }
 
+function Validar_Email (email) {
+
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+}

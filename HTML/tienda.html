@@ -217,7 +217,9 @@
         </div>
         <div id="menu-productos" class="d-inline-block col-md-9">
             <div id="menu-productos-container" class="d-flex flex-wrap justify-content-center gap-3">
-                
+                <a href="">
+                  
+                </a>
             </div>
         </div>
     </section>
@@ -238,13 +240,15 @@
                 <label class="btn w-50" for="option6">Login</label>
               </div>
               <form action="http://localhost:3000/login" method="POST">
+                <label id='advertencia' for=""></label>
                 <div id="input_name" class="mb-3">
-                  <label for="exampleInputEmail1" class="form-label">nnombre de usuario</label>
+                  <label for="exampleInputEmail1" class="form-label">nombre de usuario</label>
                   <input type="text" class="form-control" id="name" aria-describedby="emailHelp" name="name" required>
                 </div>
-                <div class="mb-3">
+                <div id="input-email" class="mb-3">
                   <label for="exampleInputEmail1" class="form-label">Email</label>
                   <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email" required>
+                  <label id="label-novalido"></label>  
                 </div>
                 <div class="mb-3">
                   <label for="exampleInputPassword1" class="form-label" >Contraseña</label>

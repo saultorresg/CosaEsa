@@ -1,14 +1,13 @@
 document.addEventListener('codigoTerminado',  function() {
     
-    const btn_agregar = document.querySelectorAll('.btn-warning')
+    const btn_agregar = document.getElementById('btn-agregar')
 
-    btn_agregar.forEach( boton => {
-
-        boton.removeEventListener('click', AgregarProducto)
-        boton.addEventListener('click', AgregarProducto)
+    btn_agregar.addEventListener('click', function () {
+        
+        AgregarProducto()
     })
 
-    const equipos = document.querySelectorAll('.equipo')
+    /*const equipos = document.querySelectorAll('.equipo')
     equipos.forEach(equipo => {
 
         const btn = equipo.querySelector('.btn')
@@ -31,13 +30,21 @@ document.addEventListener('codigoTerminado',  function() {
             this.style.backgroundColor = ''; // Ejemplo: Restaura el color de fondo
         });
         
-    });
+    });*/
 });
 
 async function AgregarProducto() {
     
     const token = sessionStorage.getItem('authToken');
-            const id_canasta = parseJwt(token)
+    const id_canasta = parseJwt(token)
+    const params = new URLSearchParams(window.location.search)
+    const id = params.get('id')
+
+    const label_contador = document.querySelector('.label-cantidad')
+
+    console.log(label_contador.innerText);
+
+    console.log(id);
         
             try {
                 const response = await fetch('/auth/agregar', {
@@ -46,9 +53,9 @@ async function AgregarProducto() {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify( {
-                        cantidad: 1,
+                        cantidad: label_contador.innerText,
                         id_canasta: id_canasta.user.id_canasta,
-                        id_producto: parseInt(this.getAttribute('id_producto'))
+                        id_producto: id
                     })
                 })
         

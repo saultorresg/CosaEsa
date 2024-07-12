@@ -20,7 +20,10 @@ app.get('/', (req, res) => {
 });
 
 app.get('/canasta', (req, res) => {
-    res.sendFile(path.join(__dirname, 'HTML', 'canasta.html'));
+
+    const id = req.query.id
+
+    res.sendFile(path.join(__dirname, 'HTML', 'agregar_canasta.html'));
 });
 
 app.get('/data', async (req, res) => {

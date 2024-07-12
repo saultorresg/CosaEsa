@@ -1,0 +1,13 @@
+.container-data-opciones {
+
+    width: 500px;
+    height: 700px;
+    background-color: white;
+}
+
+.container-imgs {
+
+    background-color: white;
+    height: 700px;
+    max-height: 700px;
+}
