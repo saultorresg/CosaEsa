@@ -88,19 +88,26 @@ const ingresar_producto_canasta = async (req, res) => {
 
 const mostrar_canasta = async (req, res) => {
 
+    const { id } = req.body;
+
     try {
-        const [rows, fields] = await db.query('SELECT * FROM canasta_productos')
-        res.json(rows)
+        const [rows, fields] = await db.query('SELECT * FROM canasta_productos WHERE id_canasta = ?', [id])
+        
+        if (rows.length === 0) {
+            return res.status(404).json({ message: 'No se encontraron productos en la canasta.' });
+        }
+        
+        console.log(rows);
+        res.status(200).json({rows})
     } catch (error) {
         console.log(error);
+        res.status(500).json({ message: 'Error interno del servidor.' });
     }
 }
 
 const obtener_producto = async (req, res) => {
 
     const { id } = req.body;
-
-    console.log(id);
 
     try {
         

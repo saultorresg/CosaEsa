@@ -41,10 +41,6 @@ async function AgregarProducto() {
     const id = params.get('id')
 
     const label_contador = document.querySelector('.label-cantidad')
-
-    console.log(label_contador.innerText);
-
-    console.log(id);
         
             try {
                 const response = await fetch('/auth/agregar', {

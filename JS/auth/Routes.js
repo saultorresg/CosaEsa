@@ -6,8 +6,9 @@ const { register, login, ingresar_producto_canasta, mostrar_canasta,
 router.post('/register', register);
 router.post('/login', login);
 router.post('/agregar', ingresar_producto_canasta)
-router.get('/mostrar', mostrar_canasta)
+router.post('/mostrar', mostrar_canasta)
 router.post('/producto', obtener_producto)
+
 
 
 

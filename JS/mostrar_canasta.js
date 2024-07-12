@@ -1,15 +1,30 @@
-function inicio() {
-    
-    fetch('/auth/mostrar')
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            data.forEach(elemento => {
+async function inicio() {
 
-                Obtener_datos(elemento.id_producto)
-                //Crear_card(elemento)
-            })
+    const token = sessionStorage.getItem('authToken')
+    const traduccion = parseJwt(token)
+    const id_canasta = parseInt(traduccion.user.id_canasta)
+
+    console.log(typeof(id_canasta));
+
+    console.log(id_canasta);
+
+    try {
+        
+        const response = await fetch('/auth/mostrar', {
+
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({id_canasta})
         })
+        const data = await response.json()
+        console.log(data);
+        Obtener_datos(data.id_producto)
+
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 async function Obtener_datos(id) {
@@ -51,10 +66,34 @@ function Crear_card(producto) {
 
     const card_title = document.createElement('h5')
     card_title.classList.add('card-title')
+    card_title.innerText = producto.producto[0].nombre
+
+    const precio = document.createElement('p')
+    precio.classList.add('card-text')
+    precio.innerText = producto.producto[0].costo
+
+    const div_buttons = document.createElement('div')
+    const btn_mas = document.createElement('button')
+    const label_cantidad = document.createElement('label')
+    const btn_menos = document.createElement('button')
+
+    btn_mas.classList.add('btn')
+    btn_menos.classList.add('btn')
+
+    label_cantidad.innerText = 'pepe'
     
+    const div = document.querySelector('.col-md-4')
+    div.append()
 }
 
-window.addEventListener('sessionStorageChange', (event) => {
-
+function parseJwt(token) {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    console.log(jsonPayload);
+    return JSON.parse(jsonPayload);
+}
     inicio()
-})
+

@@ -25,12 +25,12 @@ window.addEventListener('sessionStorageChange', (event) => {
     console.log(`Clave: ${event.key}`);
     console.log(`Nuevo valor: ${event.newValue}`);
 
-    const token = parseJwt(event.newValue)
+    const token = parseJwts(event.newValue)
     const perfil = document.getElementById('btn-ingresar')
     perfil.textContent = token.user.name
 });
 
-function parseJwt (token) {
+function parseJwts (token) {
     const base64Url = token.split('.')[1];
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
@@ -38,4 +38,7 @@ function parseJwt (token) {
     }).join(''));
     return JSON.parse(jsonPayload);
 }
+
+
+
 

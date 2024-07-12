@@ -30,7 +30,7 @@ CREATE TABLE `canasta` (
   PRIMARY KEY (`id`),
   KEY `fk_client_id` (`client_id`),
   CONSTRAINT `fk_client_id` FOREIGN KEY (`client_id`) REFERENCES `usuarios` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +40,7 @@ CREATE TABLE `canasta` (
 LOCK TABLES `canasta` WRITE;
 /*!40000 ALTER TABLE `canasta` DISABLE KEYS */;
 INSERT INTO `canasta` VALUES
-(1,6,0.00);
+(3,12,0.00);
 /*!40000 ALTER TABLE `canasta` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -61,7 +61,7 @@ CREATE TABLE `canasta_productos` (
   KEY `fk_canasta_productos_canasta` (`id_canasta`),
   CONSTRAINT `fk_canasta_productos_canasta` FOREIGN KEY (`id_canasta`) REFERENCES `canasta` (`id`),
   CONSTRAINT `fk_canasta_productos_producto` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -71,9 +71,14 @@ CREATE TABLE `canasta_productos` (
 LOCK TABLES `canasta_productos` WRITE;
 /*!40000 ALTER TABLE `canasta_productos` DISABLE KEYS */;
 INSERT INTO `canasta_productos` VALUES
-(1,1,8,1),
-(2,1,14,1),
-(3,1,15,1);
+(1,2,24,3),
+(2,1,24,3),
+(3,1,24,3),
+(4,1,24,3),
+(5,1,NULL,3),
+(6,1,23,3),
+(7,1,24,3),
+(8,1,24,3);
 /*!40000 ALTER TABLE `canasta_productos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -86,13 +91,12 @@ DROP TABLE IF EXISTS `productos`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `productos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `jugador` varchar(100) NOT NULL,
-  `equipo` varchar(100) NOT NULL,
-  `numero` int(11) NOT NULL,
+  `descripcion` varchar(100) NOT NULL,
   `costo` decimal(10,2) NOT NULL,
   `stock` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -102,28 +106,8 @@ CREATE TABLE `productos` (
 LOCK TABLES `productos` WRITE;
 /*!40000 ALTER TABLE `productos` DISABLE KEYS */;
 INSERT INTO `productos` VALUES
-(1,'CESAR GIOVANNY PALACIOS','CALVOS FC',1,100.00,15),
-(2,'JOSE EDUARDO MORENO','CALVOS FC',2,150.00,11),
-(3,'JOHAN MEJORADA','CALVOS FC',3,250.00,20),
-(4,'DIEGo VELAZQUEZ','CALVOS FC',4,100.00,20),
-(5,'BOGAR GUADALUPE MORENO','CALVOS FC',5,100.00,20),
-(6,'ALBERTO ARMANDO MENDEZ','CALVOS FC',6,100.00,20),
-(7,'OSCAR DANIEL PATIÑO','CALVOS FC',7,100.00,20),
-(8,'LUIS MANUEL MAGAÑA','CALVOS FC',8,100.00,20),
-(9,'FERNANDO MORALES','CALVOS FC',9,100.00,20),
-(10,'MOISES','CACHORROS',1,100.00,20),
-(11,'LUIS DIEGO GOMEZ','CACHORROS',2,100.00,20),
-(12,'JONATHAN MOYA','CACHORROS',3,100.00,20),
-(13,'ISAI CALLEJAS','CACHORROS',4,100.00,20),
-(14,'DIEGO MORENO','CACHORROS',5,100.00,20),
-(15,'ALEXIS ARATH VALDES','CACHORROS',6,100.00,20),
-(16,'CESAR ALESSANDRO DIAZ','CALLEJEROS FC',1,150.00,15),
-(17,'VICTOR OMAR QUIROZ','CALLEJEROS FC',2,150.00,15),
-(18,'JUAN CARLOS MARTINEZ','CALLEJEROS FC',3,150.00,15),
-(19,'EDDI GABRIEL SANCHEZ','CALLEJEROS FC',4,150.00,15),
-(20,'DANIEL ALONSO RAMIREZ','CALLEJEROS FC',5,150.00,15),
-(21,'RAMOS VICTOR PEREZ','CALLEJEROS FC',6,150.00,15),
-(22,'PABLO ANTONIO MEDINA','CALLEJEROS FC',7,150.00,15);
+(23,'T-Shirt Gambeta para mujer, color, rojo',600.00,20,'T-Shirt Gambeta para Mujer'),
+(24,'Camiseta de juego de manga corta del Equipo Calvos temporada 2024',1200.00,20,'Camiseta Oficial Amor 2024 Juvenil');
 /*!40000 ALTER TABLE `productos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -141,7 +125,7 @@ CREATE TABLE `usuarios` (
   `password` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -151,7 +135,7 @@ CREATE TABLE `usuarios` (
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
 INSERT INTO `usuarios` VALUES
-(6,'Sangrael','angeltorralva@hotmail.com','$2a$10$ucI2n.U7vGLMvQU/vOrOee4U.jzlypuqnc4WigLa3SN5IXDOW0w0i');
+(12,'Sangrael','angeltorralva@hotmail.com','$2a$10$KgE5F/y5Ng7IXXRsJRiAiO1o9ZFjpTk9nTVIZG7nCRHz3bf6AD1I2');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -185,4 +169,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-11 10:54:36
+-- Dump completed on 2024-07-11 23:48:51
