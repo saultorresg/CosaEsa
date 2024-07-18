@@ -9,17 +9,7 @@
     };
 })();
 
-window.addEventListener('sessionStorageChange', (event) => {
-
-    var noctificacion = document.getElementById('noctificacion')
-
-    $('#inicio-sesion').modal('hide')       
-
-    const fondo = document.querySelector('.modal-backdrop')
-    
-    fondo.remove()
-
-    noctificacion.classList.add('show')
+window.addEventListener('localStorage', (event) => {
 
     console.log('Cambio detectado en sessionStorage');
     console.log(`Clave: ${event.key}`);
@@ -39,6 +29,20 @@ function parseJwts (token) {
     return JSON.parse(jsonPayload);
 }
 
+if (localStorage.getItem('authToken')) {
+    
+    const token = localStorage.getItem('authToken')
+
+    const decode = parseJwts(token)
+
+    const btnLogin = document.getElementById('btn-ingresar')
+    btnLogin.remove()
+
+    const btn = document.getElementById('nameUsuario')
+    btn.innerText = decode.userName
+
+    console.log(btn);
+}
 
 
 

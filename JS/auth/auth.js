@@ -6,7 +6,6 @@ const db = require('../Databases/db');
 const register = async (req, res) => {
     const { name, email, password } = req.body;
 
-    console.log(name, email, password);
 
     try {
         const [rows] = await db.query('SELECT email FROM usuarios WHERE email = ?', [email]);
@@ -14,10 +13,6 @@ const register = async (req, res) => {
         if (rows.length > 0) {
             return res.status(400).json({ message: 'EL usuario ya existe'});
         }
-
-        console.log(name);
-        console.log(email);
-        console.log(password);
 
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
@@ -30,12 +25,14 @@ const register = async (req, res) => {
         
         res.status(500).json({message: 'Server error'});
     }
-};
+};  
 
 const login = async (req, res) => {
 
     const { email, password } = req.body;
 
+    console.log(email);
+    console.log(password);
 
     try {
         const [rows] = await db.query('SELECT * FROM usuarios WHERE email = ?', [email]);
@@ -43,7 +40,6 @@ const login = async (req, res) => {
         if (rows.length === 0) {
             return res.status(400).json({message: 'Credenciales invalidas'})
         } 
-
 
         const user = rows[0]
         const isMatch = await bcrypt.compare(password, user.password);
@@ -54,16 +50,14 @@ const login = async (req, res) => {
         const [row] = await db.query('SELECT id FROM canasta WHERE client_id = ?', [user.id])
         const canasta = row[0]
 
-        const payload = { 
-            user: { 
-                id: user.id,
-                name: user.name,
-                id_canasta: canasta.id
-            }};
+        const payload = {
+            userId: user.id,
+            userName: user.name
+        }
+
         const token = jwt.sign(payload, 'mysecretkey', {expiresIn: '1h'});
         
         const decode = jwt.decode(token)
-        console.log(decode);
         res.status(200).json({ token });
     } catch (error) {
         

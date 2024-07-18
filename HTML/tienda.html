@@ -14,44 +14,7 @@
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">Navbar</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Dropdown
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-              </li>
-            </ul>
-            <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-              <button type="button" id="btn-ingresar" data-bs-toggle="modal" data-bs-target="#inicio-sesion">Ingresar</button>
-              <button id="btn-canasta">Canasta</button>
-            </form>
-          </div>
-        </div>
-      </nav>    
+   
     <section id="productos">
         <div id="carouselExampleIndicators" class="carousel slide">
             <div class="carousel-indicators">
@@ -90,11 +53,7 @@
     
                 </header>
                     <ul class="list-unstyled">
-                        <li>
-                            <label class="" for="">MOstrar Todos
-                                <input type="checkbox" name="" id="" class="">
-                            </label>
-                        </li>
+                        
                         <li>
                             <label class="" for="">En Stock
                                 <input type="checkbox" name="" id="">
@@ -225,43 +184,7 @@
     </section>
     
 
-    <div class="modal fade" id="inicio-sesion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <div class="d-flex p-2">
-                <input type="radio" class="btn-check w-50" name="options-base" id="option5" autocomplete="off" checked  onclick="seleccion()">
-                <label class="btn w-50" for="option5">Sign in</label>
-                <input type="radio" class="btn-check w-50" name="options-base" id="option6" autocomplete="off" onclick="seleccion()">
-                <label class="btn w-50" for="option6">Login</label>
-              </div>
-              <form action="http://localhost:3000/login" method="POST">
-                <label id='advertencia' for=""></label>
-                <div id="input_name" class="mb-3">
-                  <label for="exampleInputEmail1" class="form-label">nombre de usuario</label>
-                  <input type="text" class="form-control" id="name" aria-describedby="emailHelp" name="name" required>
-                </div>
-                <div id="input-email" class="mb-3">
-                  <label for="exampleInputEmail1" class="form-label">Email</label>
-                  <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email" required>
-                  <label id="label-novalido"></label>  
-                </div>
-                <div class="mb-3">
-                  <label for="exampleInputPassword1" class="form-label" >Contraseña</label>
-                  <input type="password" class="form-control" id="password" name="password" required>
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="submit" class="btn btn-primary" id="login">Submit</button>
-            </div>
-          </div>
-        </div>
-      </div>
+
 
       <div class="modal fade" id="noctificacion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -280,39 +203,7 @@
         </div>
       </div>
 
-      <div class="modal fade modal-end right" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-full-height">
-          <div class="modal-content modal-content-full-height-">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Carrito</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body modal-body-full-height ">
-              <div class="card " style="">
-                <div class="row g-0">
-                  <div class="col-md-4">
-                    <img src="../IMAGES/kirbo.png" class="img-fluid rounded-start" alt="..." style="max-width: 180px">
-                  </div>
-                  <div class="col-md-8">
-                    <div class="card-body">
-                      <h5 class="card-title">Playera num 20</h5>
-                      <p class="card-text">$140.00</p>
-                      <div class="border rounded border-warning border-2">
-                        <button type="button" class="btn">-</button>
-                        <button type="button" class="btn ">0</button>
-                        <button type="button" class="btn ">+</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="w-100" >Pagar pedido</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      
 
       <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
@@ -320,8 +211,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <script src="../JS/mostrar_productos.js" defer></script>
-    <script src="../JS/Databases/login.js"></script>
-    <script src="../JS/escucha_logeo.js"></script>
 
 </body>
 </html>l
