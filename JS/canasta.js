@@ -51,6 +51,7 @@ function Mostrar_Producto(producto) {
 }
 
 function Contador(boton) {
+
     
     if (boton.value == '+') {
         
@@ -60,7 +61,7 @@ function Contador(boton) {
         contador-=1
     }
 
-    label_contador.value = contador
+    label_contador.textContent = contador
 }
 
 function parseJwts (token) {
@@ -77,10 +78,10 @@ Obtener_producto()
 
 const token = sessionStorage.getItem('authToken')
 
-const traduccion = parseJwts(token)
+//const traduccion = parseJwts(token)
 
-console.log(traduccion);
+//console.log(traduccion);
 
 const btn_ingresar = document.getElementById('btn-ingresar')
 
-btn_ingresar.innerText = traduccion.user.name
+//btn_ingresar.innerText = traduccion.user.name

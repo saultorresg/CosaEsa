@@ -1,35 +1,44 @@
 async function inicio() {
+    
+    const btn = document.getElementById('btn-canasta')
 
-    const token = sessionStorage.getItem('authToken')
-    const traduccion = parseJwt(token)
-    const id_canasta = parseInt(traduccion.user.id_canasta)
+    btn.addEventListener('click', async function() {
 
-    console.log(typeof(id_canasta));
-
-    console.log(id_canasta);
-
-    try {
+        const columna = document.getElementById('columna')
+        columna.innerHTML = ''
         
-        const response = await fetch('/auth/mostrar', {
+        const token = localStorage.getItem('authToken')
+        const traduccion = parseJwt(token)
+        const id = parseInt(traduccion.canastaId)
 
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({id_canasta})
-        })
-        const data = await response.json()
-        console.log(data);
-        Obtener_datos(data.id_producto)
+        try {
+            
+            const response = await fetch('/auth/mostrar', {
 
-    } catch (error) {
-        console.log(error);
-    }
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({id})
+            })
+            const data = await response.json()
+            data.rows.forEach(element => {
+                console.log(element);
+                Obtener_datos(element.id_producto, element.cantidad, element.id)
+            });
+            console.log(data.rows);
+            //Obtener_datos(data.rows[0].id_producto ,data.rows[0].cantidad)
+
+        } catch (error) {
+            console.log(error);
+        }
+    })
+
+    
 }
 
-async function Obtener_datos(id) {
+async function Obtener_datos(id, cantidad, idCanasta) {
     
-    console.log(id);
 
     try {
 
@@ -43,47 +52,96 @@ async function Obtener_datos(id) {
         })
 
         const data = await response.json();
-        Crear_card(data.producto)
-        console.log(data);
+        console.log(data.producto[0][0]);
+        Crear_card(data.producto, cantidad, idCanasta)
 
     } catch (error) {
         console.log(error);
     }
 }
 
-function Crear_card(producto) {
-    
-    console.log(producto[0]);
+function Crear_card(producto, cantidad, idCanasta) {
+
+    console.log(producto[0][0]);
+
+    const column_img = document.createElement('div')
+    column_img.classList.add('col-md-4')
+
+    const img = document.createElement('img')
+    img.classList.add('img-fluid', 'rounded-start')
+    img.setAttribute('style', 'max-width:180px')
+    img.src = '../IMAGES/kirbo.png'
+
+    column_img.appendChild(img)
 
     const columna_datos = document.createElement('div')
-    columna_datos.classList.add('col', 'md-8')
+    columna_datos.classList.add('col-md-8')
 
     const card_body = document.createElement('div')
     card_body.classList.add('card-body')
 
-    const btns = document.createElement('div')
-    btns.classList.add('border', 'rounded', 'border-warning', 'border-2')
-
     const card_title = document.createElement('h5')
     card_title.classList.add('card-title')
-    card_title.innerText = producto.producto[0].nombre
+    card_title.innerText = producto[0][0].nombre
 
     const precio = document.createElement('p')
     precio.classList.add('card-text')
-    precio.innerText = producto.producto[0].costo
+    precio.innerText = producto[0][0].costo
+
+    const btnBorrar = document.createElement('button')
+    btnBorrar.id = 'btn-borrar'
+    btnBorrar.innerText = 'Borrar'
+    btnBorrar.setAttribute('onclick','BorrarProducto(this)')
+    btnBorrar.setAttribute('elej', idCanasta)
 
     const div_buttons = document.createElement('div')
+    div_buttons.classList.add('border', 'rounded', 'border-warning', 'border-2')
+
     const btn_mas = document.createElement('button')
-    const label_cantidad = document.createElement('label')
+    const label_cantidad = document.createElement('button')
     const btn_menos = document.createElement('button')
 
     btn_mas.classList.add('btn')
+    btn_mas.setAttribute('tipo', producto[0][0].id)
+    btn_mas.setAttribute('elej', idCanasta)
+    btn_mas.textContent = '+'
+    btn_mas.setAttribute('onClick' , 'AumentarDisminuir(this)')
     btn_menos.classList.add('btn')
+    btn_menos.setAttribute('tipo', producto[0][0].id)
+    btn_menos.setAttribute('elej', idCanasta)
+    btn_menos.textContent = '-'
+    btn_menos.setAttribute('onClick' , 'AumentarDisminuir(this)')
 
-    label_cantidad.innerText = 'pepe'
+    label_cantidad.innerText = cantidad
+    label_cantidad.classList.add('btn')
+    label_cantidad.setAttribute('tipos', producto[0][0].id)
+    label_cantidad.disabled
     
-    const div = document.querySelector('.col-md-4')
-    div.append()
+    div_buttons.appendChild(btn_menos)
+    div_buttons.appendChild(label_cantidad)
+    div_buttons.appendChild(btn_mas)
+
+    card_body.appendChild(card_title)
+    card_body.appendChild(precio)
+    card_body.appendChild(btnBorrar)
+    card_body.appendChild(div_buttons)
+
+    columna_datos.appendChild(card_body)
+
+    const orientacion = document.createElement('div')
+    orientacion.classList.add('row', 'g-0')
+
+    orientacion.appendChild(column_img)
+    orientacion.appendChild(columna_datos)
+
+    const card = document.createElement('div')
+    card.classList.add('card')
+    card.appendChild(orientacion)
+
+    const columna = document.getElementById('columna')
+    console.log(columna);
+    console.log(card);
+    columna.appendChild(card)
 }
 
 function parseJwt(token) {
@@ -92,7 +150,6 @@ function parseJwt(token) {
     const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
     }).join(''));
-    console.log(jsonPayload);
     return JSON.parse(jsonPayload);
 }
     inicio()

@@ -52,7 +52,9 @@ const login = async (req, res) => {
 
         const payload = {
             userId: user.id,
-            userName: user.name
+            userName: user.name,
+            canastaId: canasta.id,
+            pepe: 'pepe'
         }
 
         const token = jwt.sign(payload, 'mysecretkey', {expiresIn: '1h'});
@@ -114,4 +116,30 @@ const obtener_producto = async (req, res) => {
     }
 }
 
-module.exports = { register, login, ingresar_producto_canasta, mostrar_canasta, obtener_producto };
+const modificar_cantidad = async (req, res) => {
+
+    const { cantidad, id } = req.body
+
+    try {
+        
+        const modifcacion = await db.query('UPDATE canasta_productos SET cantidad = ? WHERE id = ?', [cantidad, id])
+        res.status(200).json({modifcacion})
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const eliminar_producto_canasta = async (req, res) => {
+
+    const { id } = req.body
+
+    try {
+        
+        const eliminar = await db.query('DELETE FROM canasta_productos WHERE id = ?', [id])
+        res.status(200).json({eliminar})
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+module.exports = { eliminar_producto_canasta, modificar_cantidad, register, login, ingresar_producto_canasta, mostrar_canasta, obtener_producto };

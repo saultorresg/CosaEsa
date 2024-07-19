@@ -35,6 +35,8 @@ if (localStorage.getItem('authToken')) {
 
     const decode = parseJwts(token)
 
+    console.log(decode);
+
     const btnLogin = document.getElementById('btn-ingresar')
     btnLogin.remove()
 

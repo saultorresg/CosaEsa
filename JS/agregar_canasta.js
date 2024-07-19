@@ -35,7 +35,7 @@ document.addEventListener('codigoTerminado',  function() {
 
 async function AgregarProducto() {
     
-    const token = sessionStorage.getItem('authToken');
+    const token = localStorage.getItem('authToken');
     const id_canasta = parseJwt(token)
     const params = new URLSearchParams(window.location.search)
     const id = params.get('id')
@@ -50,7 +50,7 @@ async function AgregarProducto() {
                     },
                     body: JSON.stringify( {
                         cantidad: label_contador.innerText,
-                        id_canasta: id_canasta.user.id_canasta,
+                        id_canasta: id_canasta.canastaId,
                         id_producto: id
                     })
                 })
@@ -58,13 +58,14 @@ async function AgregarProducto() {
                 const data = await response.json();
                 
                 if (response.ok) {
-                    console.log(data);
                     
-                    return
+                    location.reload()
+                    window.location.href = '/tienda'
                 } else {
                     console.log(data.message);   
                 }
             } catch (error) {
+                
                 console.log(error);   
             }
 }
@@ -75,7 +76,6 @@ function parseJwt(token) {
     const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
     }).join(''));
-    console.log(jsonPayload);
     return JSON.parse(jsonPayload);
 }
 

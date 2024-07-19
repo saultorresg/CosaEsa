@@ -14,6 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/auth', authRoutes);
 app.use('/protected', protectedR)
+
 // Servir archivos estáticos desde la carpeta "public"
 app.use(express.static(path.join(__dirname)));
 
@@ -21,6 +22,10 @@ app.use(express.static(path.join(__dirname)));
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'HTML', 'NavBar.html'));
 });
+
+app.get('/tienda', (req, res) => {
+    res.sendFile(path.join(__dirname, 'HTML', 'tienda.html'))
+})
 
 app.get('/canasta', (req, res) => {
 

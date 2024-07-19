@@ -106,7 +106,7 @@
               <h5 class="modal-title" id="exampleModalLabel">Carrito</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body modal-body-full-height ">
+            <div id="columna" class="modal-body modal-body-full-height ">
               <div class="card " style="">
                 <div class="row g-0">
                   <div class="col-md-4">
@@ -116,8 +116,9 @@
                     <div class="card-body">
                       <h5 class="card-title">Playera num 20</h5>
                       <p class="card-text">$140.00</p>
+                      <button id="btn-borrar" >Basura</button>
                       <div class="border rounded border-warning border-2">
-                        <button type="button" class="btn">-</button>
+                        <button type="button" class="btn" onclick="AumentarDisminuir(this)">-</button>
                         <button type="button" class="btn ">0</button>
                         <button type="button" class="btn ">+</button>
                       </div>
@@ -140,5 +141,7 @@
           
       <script src="../JS/Databases/login.js"></script>
       <script src="../JS/escucha_logeo.js"></script>
+      <script src="../JS/mostrar_canasta.js"></script>
+      <script src="../JS/monitoreo_canasta.js"></script>
 </body>
 </html>
