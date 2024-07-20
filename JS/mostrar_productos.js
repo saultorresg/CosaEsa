@@ -1,13 +1,18 @@
 
 
+const arrayPrincipal = []
 function obtener_productis() {
 
-    const container = document.getElementById('menu-productos-container')
+    var contador = 0
+    var arrauNuevo = []
     
     fetch('/data')
         .then(response => response.json())
         .then(data => {
             data.forEach((element, indice) => {
+
+                contador += 1
+
 
                 const card = document.createElement('a')
                 card.href = '/canasta?id=' + element.id 
@@ -45,9 +50,85 @@ function obtener_productis() {
                 card.appendChild(img)
                 card.appendChild(card_body)
 
-                container.appendChild(card)
+                if (contador == 12) {
+
+                    arrayPrincipal.push(arrauNuevo)
+                    contador = 0
+                    arrauNuevo = []
+
+                } else {
+
+                    arrauNuevo.push(card)
+                }
+
             })
+            arrayPrincipal.push(arrauNuevo)
+            ImprimirProductos(arrayPrincipal, 0)
+
         })
 }
+
+function ImprimirProductos(array, numero) {
+
+    const container = document.getElementById('menu-productos-container')
+    const pagination = document.getElementById('pag')
+
+    container.innerHTML = ''
+    pagination.innerHTML = ''
+    
+    array.forEach((element, indice) => {
+
+        if (indice == numero) {
+            
+            element.forEach(element => {
+
+                container.appendChild(element)
+            })
+        }
+
+        const lista = document.createElement('li')
+        lista.classList.add('page-item')
+
+        const button = document.createElement('button')
+        button.classList.add('page-link')
+        button.textContent = indice + 1
+        button.onclick = function () {
+            
+            CambiarPagina(this)
+        }
+        lista.appendChild(button)
+
+        console.log(pagination);
+        pagination.appendChild(lista)
+
+        localStorage.setItem('indice', numero)
+    })
+}
+
+function CambiarPagina(boton) {
+    
+    
+    if (boton.childNodes.length != 1) {
+
+        const indice = parseInt(localStorage.getItem('indice'))
+        
+        if (boton.childNodes[1].textContent === '»' && (arrayPrincipal.length - 1) != indice ) {
+        
+
+            console.log(indice);
+            console.log(arrayPrincipal.length - 1);
+            ImprimirProductos(arrayPrincipal, indice + 1 )
+        } else if (boton.childNodes[1].textContent === '«' && indice != 0) {
+            
+            ImprimirProductos(arrayPrincipal, indice - 1 )          
+        } 
+    } else {
+
+        ImprimirProductos(arrayPrincipal, parseInt(boton.textContent)-1)
+    }
+
+        
+ } 
+    
 
 obtener_productis()
