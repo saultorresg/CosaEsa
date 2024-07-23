@@ -17,7 +17,7 @@ const register = async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        await db.query('INSERT INTO usuarios (name, email, password) VALUES (?,?,?)', [name,email, hashedPassword]);
+        await db.query('INSERT INTO usuarios (name, email, password)  (?,?,?)', [name,email, hashedPassword]);
         
         res.status(201).json({ message: 'Usuario registrado'});
 
@@ -73,7 +73,7 @@ const ingresar_producto_canasta = async (req, res) => {
 
     try {
         
-        const row = await db.query('INSERT INTO canasta_productos (cantidad, id_producto, id_canasta) values (?, ?, ?)', [cantidad, id_producto, id_canasta] )
+        const row = await db.query('INSERT INTO canasta_productos (cantidad, id_producto, id_canasta)  (?, ?, ?)', [cantidad, id_producto, id_canasta] )
         
         res.status(200).json({row})
         

@@ -6,7 +6,8 @@ const app = express();
 const db = require('./JS/Databases/db');
 const bodyParser = require('body-parser');
 const authRoutes = require('./JS/auth/Routes')
-const protectedR = require('./JS/auth/proy')
+const protectedR = require('./JS/auth/proy');
+const { log } = require('console');
 
 app.use(bodyParser.json());
 
@@ -42,9 +43,43 @@ app.get('/registro', (req, res) => {
     res.sendFile(path.join(__dirname, "HTML", "Registrarse.html"))
 })
 
-app.get('/data', async (req, res) => {
+app.post('/data', async (req, res) => {
+
+    const { tipos, equipos } = req.body;
+
+    if (!Array.isArray(tipos) || !Array.isArray(equipos)) {
+        return res.status(400).json({ error: 'Tipos y equipos deben ser arrays' });
+    }
+
+    let values = [];
+    let equiposCondition = '';
+    let tiposCondition = '';
+
     try {
-        const [rows, fields] = await db.query('SELECT * FROM productos');
+        let query = "SELECT * FROM productos";
+
+        if (equipos.length > 0) {
+            equiposCondition = equipos.map(() => 'equipo LIKE ?').join(' OR ');
+            values.push(...equipos.map(equipo => `%${equipo}%`));
+        }
+
+        if (tipos.length > 0) {
+            tiposCondition = tipos.map(() => 'tipo LIKE ?').join(' OR ');
+            values.push(...tipos.map(tipo => `%${tipo}%`));
+        }
+
+        if (equiposCondition && tiposCondition) {
+            query += ` WHERE (${equiposCondition}) AND (${tiposCondition})`;
+        } else if (equiposCondition) {
+            query += ` WHERE ${equiposCondition}`;
+        } else if (tiposCondition) {
+            query += ` WHERE ${tiposCondition}`;
+        }
+
+        console.log('SQL Query:', query);  // Imprime la consulta para depuración
+        console.log('Values:', values);    // Imprime los valores para depuración
+
+        const [rows] = await db.query(query, values);
         res.json(rows);
     } catch (err) {
         console.error('Error al hacer la consulta ', err);

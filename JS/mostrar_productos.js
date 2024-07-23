@@ -1,18 +1,26 @@
 
+let arrayPrincipal = []
+function obtener_productis(tipos, equipos) {
 
-const arrayPrincipal = []
-function obtener_productis() {
-
+    arrayPrincipal = []
     var contador = 0
     var arrauNuevo = []
+    console.log(tipos);
+    console.log(equipos);
+
     
-    fetch('/data')
+    fetch('/data', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({tipos, equipos})
+    })
         .then(response => response.json())
         .then(data => {
             data.forEach((element, indice) => {
 
                 contador += 1
-
 
                 const card = document.createElement('a')
                 card.href = '/canasta?id=' + element.id 
@@ -49,9 +57,12 @@ function obtener_productis() {
 
                 card.appendChild(img)
                 card.appendChild(card_body)
+                card.setAttribute('tipo', element.tipo)
+                card.setAttribute('equipo', element.equipo)
 
                 if (contador == 12) {
 
+                    console.log(arrauNuevo);
                     arrayPrincipal.push(arrauNuevo)
                     contador = 0
                     arrauNuevo = []
@@ -69,6 +80,8 @@ function obtener_productis() {
 }
 
 function ImprimirProductos(array, numero) {
+
+
 
     const container = document.getElementById('menu-productos-container')
     const pagination = document.getElementById('pag')
@@ -98,7 +111,6 @@ function ImprimirProductos(array, numero) {
         }
         lista.appendChild(button)
 
-        console.log(pagination);
         pagination.appendChild(lista)
 
         localStorage.setItem('indice', numero)
@@ -106,6 +118,7 @@ function ImprimirProductos(array, numero) {
 }
 
 function CambiarPagina(boton) {
+    
     
     
     if (boton.childNodes.length != 1) {
@@ -129,6 +142,36 @@ function CambiarPagina(boton) {
 
         
  } 
+
+function FiltrarDatos(buton) {
+
+    var arrayEquipos = []
+    const arrayTipos = []
+    var arrayFiltrado = []
+
+    const filtros = document.querySelectorAll('input[type="checkbox"]:checked')
+    
+    filtros.forEach(chk => {
+        
+        if (chk.classList == 'equipos') {
+            
+            arrayEquipos.push(chk.value)
+
+        } else if (chk.classList == 'tipo') {
+            
+            arrayTipos.push(chk.value)
+        }
+    })
+
     
 
-obtener_productis()
+    console.log(arrayEquipos);
+    console.log(arrayTipos);
+
+    obtener_productis(arrayTipos, arrayEquipos)
+
+}
+arrayTipo = []
+arrayEquipo = []
+
+obtener_productis(arrayTipo, arrayEquipo)

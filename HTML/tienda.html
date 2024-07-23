@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    
+
     <title>Document</title>
     <style>
         .filtros label {
@@ -46,17 +46,21 @@
     <section id="equipos-logos">
 
     </section>
+
+   
     <section class="row justify-content-between">
-        <div id="menu-filtrar" class="d-inline-block col-md-3     ">
-            <article class="filtros rounded-4 border-end border-bottom border-danger position-fixed ">
+        <div id="menu-filtrar" class="d-inline-block col-md-3">
+            <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                Link with href
+              </a>
+            <article class="filtros rounded-4 border-end border-bottom border-danger position-fixed collapse" id="collapseExample">
                 <header>
-    
                 </header>
                     <ul class="list-unstyled">
                         
                         <li>
                             <label class="" for="">En Stock
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" onchange="">
                             </label>
                         </li>
                         <li>
@@ -73,42 +77,42 @@
                     <ul>
                         <li>
                             <label for="">Articulos Oficiales
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name=""  id="">
                             </label>
                         </li>
                         <li>
                             <label for="">Camiseta Oficial 24 Niño
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" value="camisetan" name="" class="tipo" onchange="FiltrarDatos(this)">
                             </label>
                         </li>
                         <li>
                             <label for="">Camiseta Oficial 24 Adulto
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" value="camisetaa" name="" class="tipo" onchange="FiltrarDatos(this)">
                             </label>
                         </li>
                         <li>
                             <label for="">T-Shirt
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" value="t-shirt" name="" class="tipo" onchange="FiltrarDatos(this)">
                             </label>
                         </li>
                         <li>
                             <label for="">Sweater
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" value="sweater" name="" class="tipo" onchange="FiltrarDatos(this)">
                             </label>
                         </li>
                         <li>
                             <label for="">Termos
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" value="termo" name="" class="tipo" onchange="FiltrarDatos(this)">
                             </label>
                         </li>
                         <li>
                             <label for="">Tazas
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" value="taza" name=""  class="tipo" onchange="FiltrarDatos(this)">
                             </label>
                         </li>
                         <li>
                             <label for="">Gorras
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" value="gorras" name="" class="tipo" onchange="FiltrarDatos(this)">
                             </label>
                         </li>
                     </ul>
@@ -120,52 +124,52 @@
                         </li>
                         <li>
                             <label for="">Calvos FC
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" value="calvos" name=""  class="equipos"  onchange="FiltrarDatos(this)">
                             </label>
                         </li>
                         <li>
                             <label for="">Cachorros
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" value="cachorros" name="" class="equipos" onchange="FiltrarDatos(this)">
                             </label>
                         </li>
                         <li>
                             <label for="">Callejeros FC
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" value="callejeros" name="" class="equipos"  onchange="FiltrarDatos(this)">
                             </label>
                         </li>
                         <li>
                             <label for="">Ziza FC
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" value="ziza" name="" class="equipos" onchange="FiltrarDatos(this)">
                             </label>
                         </li>
                         <li>
                             <label for="">Tanos FC
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" value="tanos" name="" class="equipos"  onchange="FiltrarDatos(this)">
                             </label>
                         </li>
                         <li>
                             <label for="">Gambeta
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" value="gambeta" name="" class="equipos" onchange="FiltrarDatos(this)">
                             </label>
                         </li>
                         <li>
                             <label for="">Amor
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" value="amor" name="" class="equipos"  onchange="FiltrarDatos(this)">
                             </label>
                         </li>
                         <li>
                             <label for="">Rota FC
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" value="rota" name="" class="equipos"  onchange="FiltrarDatos(this)">
                             </label>
                         </li>
                         <li>
                             <label for="">La Gloria FC
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" value="gloria" name="" class="equipos"  onchange="FiltrarDatos(this)">
                             </label>
                         </li>
                         <li>
                             <label for="">Emperors FC
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" value="emperors" name="" class="equipos"  onchange="FiltrarDatos(this)">
                             </label>
                         </li>
                     </ul>
@@ -201,8 +205,8 @@
         </div>
     </section>
     
-
-
+  
+    
 
       <div class="modal fade" id="noctificacion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -225,9 +229,6 @@
 
       <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
-    
     <script src="../JS/mostrar_productos.js" defer></script>
 
 </body>

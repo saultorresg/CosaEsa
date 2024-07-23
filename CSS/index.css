@@ -29,7 +29,7 @@
   }
   .modal-body-full-height {
     overflow-y: auto;
-    height: calc(100vh - 120px); /* Ajusta según el tamaño de los encabezados y pies de página del modal */
+    height: calc(100vh - 120px),; /* Ajusta según el tamaño de los encabezados y pies de página del modal */
   }
 
 .modal.right .modal-dialog {
