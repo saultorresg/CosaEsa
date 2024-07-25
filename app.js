@@ -43,6 +43,10 @@ app.get('/registro', (req, res) => {
     res.sendFile(path.join(__dirname, "HTML", "Registrarse.html"))
 })
 
+app.get('/compras', (req, res) => {
+    res.sendFile(path.join(__dirname, 'HTML', 'Compras.html'))
+})
+
 app.post('/data', async (req, res) => {
 
     const { tipos, equipos } = req.body;

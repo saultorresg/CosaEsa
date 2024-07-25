@@ -1,3 +1,11 @@
-select * from productos where (equipo like "%calvos%" or equipo like "%reta%") and (tipo like "%taza%" or tipo like "%gorras%");
+create table likes (
+
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    usuarioid INT,
+    productoid INT,
+    FOREIGN KEY (usuarioid) REFERENCES usuarios(id) ON DELETE CASCADE,
+    FOREIGN KEY (productoid) REFERENCES productos(id) ON DELETE CASCADE
+);
+
 
 
