@@ -1,0 +1,200 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:Obviously;
+    }
+    @font-face{
+        font-family:Obviously;
+        src:url(../IMAGES/fonnts.com-Obviously.otf);
+    }
+    body:before{
+        z-index:  var(--before-z-index, 0);
+        content: '';
+        opacity: var(--before-z-index, 0);
+        position: absolute;
+        background: rgba(43, 43, 43, 0.6);
+        width: 100%;
+        top: 0;
+        left: 0;
+    }
+    .nav_top{
+        display:flex;
+        background-color: #FFFFFF;
+        width: 100%;
+        height: 9.77%;
+        z-index: 2;
+        position: fixed;
+       
+    } 
+    .nav_top a{
+        color: #004789;
+   }
+       .union_header{
+            height: 180%;
+            position: absolute;
+       }
+       .nav_top_links{
+           margin-top: 1.2%;
+           margin-left: 2.4%;
+           margin-right:2.4%;
+           width: 100%;
+           display: flex; 
+           position: relative;
+           justify-content: space-between;
+           height: 43.8%;
+       }
+           .nav_top_1{
+               font-size: calc(10px + 1vw);
+               display: flex;
+             
+           }
+           .nav_top_2{
+               display:flex;
+               align-items: center;
+               font-size: calc(10px + .5vw);
+               display: flex; 
+              
+           }
+               .nav_top_2 a{
+                text-decoration: none;
+                 margin: 0 20px;
+               }
+                   .buscador{
+                       width: 170px;
+                       padding: 10px 0px 10px 40px;
+                       border-radius: 9999px;
+                       border: solid rgba(0, 0, 0, 0);
+                       transition: all .2s ease-in-out;
+                       outline: none;
+                       opacity: 1;
+                       color: #004789;
+                      background-color: rgba(0, 0, 0, 0); ;
+                     }
+                     .buscador::placeholder {
+                       color: #004789; /* Cambia este color por el que desees */
+                       opacity: 1; /* Para asegurar que el color no se vea transparente */
+                     }
+                      .container-buscador {
+                       position: relative;
+                     }
+                     .container-buscador svg {
+                       position: absolute;
+                       top: 50%;
+                       left: 10px;
+                       transform: translate(0, -50%);
+                     }
+
+                     .buscador:focus {
+                      border: solid 3px #f15d2a;
+                       opacity: 1;
+                       width: 450px;
+                     }
+                     
+                     
+                   .btn_carrito {
+                       display: inline-flex; 
+                       align-items: center; 
+                       justify-content: center;
+                       padding: 15px 25px;
+                       border: solid #f15d2a;
+                       border-radius: 20px;
+                       color: #f15d2a; 
+                       z-index: 1;
+                       background: #FFFFFF;
+                       position: relative;
+                       transition: all 250ms;
+                       overflow: hidden;
+                      }
+
+                      .btn_carrito::before {
+                       content: "";
+                       position: absolute;
+                       top: 0;
+                       left: 0;
+                       height: 100%;
+                       width: 0;
+                       border-radius: 0 ;
+                       background-color: #f15d2a;
+                       z-index: -1;
+                       transition: all 250ms;
+                      }
+
+                      .btn_carrito:hover {
+                       color: #FFFFFF;
+                       
+                      }
+                      .carrito{      
+                           fill:#f15d2a;
+                      }
+                      .svg_carrito{
+                          width:24px; 
+                          height:24px;
+                      }
+                      .btn_carrito:hover .svg_carrito{
+                            fill:#FFFFFF;
+                      }
+
+                     .btn_carrito:hover::before {
+                       width: 100%;
+                      }
+                      .lista_carrito {
+                        width: 33%;
+                        height: 100%;
+                        background-color: #FFFFFF;
+                        position: fixed;
+                        z-index: 3;
+                        transition: all .3s ease;
+                        display: grid;
+                        grid-template-columns:1fr ;
+                        grid-template-rows:  9.8% 74% 16.2%;
+                         grid-template-areas:"lista_carrito_titulo"
+                                             "lista_carrito_compras"
+                                             "lista_carrito_btn";
+                    }
+                        .lista_carrito.active{
+                            width: 0px;
+                            
+                        }
+                            .lista_carrito_titulo{
+                               grid-area: lista_carrito_titulo;
+                               margin: 20PX;
+                               margin-top: 45px;
+                               display: flex; 
+                               justify-content: space-between;
+                                
+                            }
+                            .lista_carrito_btn{
+                                grid-area: lista_carrito_btn;
+                                display: grid;
+                                margin: 20PX;
+                                gap:20px;
+                                grid-template-columns:1fr ;
+                                grid-template-rows:  1fr 1fr;
+                            }
+                                .btn_lista_carrito_1{
+                                    background-color: #f15d2a;
+                                    border-radius: 15px;
+                                    border: 3px solid #f15d2a;
+                                    color: #FFFFFF;
+                                }
+                                .btn_lista_carrito_2{
+                                    border-radius: 15px;
+                                    border: 3px solid #f15d2a;
+                                    color: #f15d2a;
+                                }
+                            .lista_carrito_compras{
+                                overflow-y: scroll;
+                                grid-area: lista_carrito_compras;
+                                
+                            }
+                            .div_scroll{
+                                background-color: #6A00CD;
+                                width:  100%;
+                                height: 200%;
+                            }
+                            .carta_carrito{
+                                background-color: antiquewhite;
+                                height: 300px;
+                                width: 100%;
+                            }

@@ -78,7 +78,7 @@ function Crear_card(producto, cantidad, idCanasta) {
     columna_datos.classList.add('col-md-8')
 
     const card_body = document.createElement('div')
-    card_body.classList.add('card-body')
+    card_body.classList.add('card-body', 'txt_carta_carrito')
 
     const card_title = document.createElement('h5')
     card_title.classList.add('card-title')

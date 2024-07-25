@@ -21,28 +21,27 @@ function obtener_productis(tipos, equipos) {
             data.forEach((element, indice) => {
 
                 contador += 1
+                console.log(element);
+                console.log(contador);
 
                 const card = document.createElement('a')
                 card.href = '/canasta?id=' + element.id 
-                card.classList.add('card', 'position-relative', 'rounded-4')
-                card.setAttribute('style', 'width: 18rem')
+                card.classList.add('carta')
 
                 const img = document.createElement('img')
-                img.classList.add('card-img-top', 'img-fluid')
+                img.classList.add('img_carta', 'img-fluid')
                 img.src = '../IMAGES/kirbo.png'
 
                 const card_body = document.createElement('div')
-                card_body.classList.add('card-body')
+                card_body.classList.add('txt_carta')
 
-                const label_name = document.createElement('p')
-                label_name.classList.add('card-text')
+                const label_name = document.createElement('h5')
                 label_name.innerText = element.nombre
 
                 const card_footer = document.createElement('div')
-                card_footer.classList.add('row', 'justify-content-between')
+                card_footer.classList.add('txt_carta_2')
 
                 const label_costo = document.createElement('p')
-                label_costo.classList.add('class-text', 'd-inline-block', 'col-md-3')
                 label_costo.innerText = element.costo
 //dede
                 const chkbox_deseo = document.createElement('input')
@@ -62,6 +61,7 @@ function obtener_productis(tipos, equipos) {
 
                 if (contador == 12) {
 
+                    arrauNuevo.push(card)
                     console.log(arrauNuevo);
                     arrayPrincipal.push(arrauNuevo)
                     contador = 0
@@ -83,7 +83,7 @@ function ImprimirProductos(array, numero) {
 
 
 
-    const container = document.getElementById('menu-productos-container')
+    const container = document.getElementById('grupo_cartas')
     const pagination = document.getElementById('pag')
 
     container.innerHTML = ''
