@@ -3,8 +3,8 @@
 function seleccion(event) {
     event.preventDefault();
         
-    const inputEmail = document.getElementById('email')
-    const inputPass = document.getElementById('password')
+    const inputEmail = document.getElementById('validationCustom01')
+    const inputPass = document.getElementById('validationCustom02')
 
     log(inputEmail, inputPass)
 

@@ -4,12 +4,17 @@ function RegistrarUsuarios(event) {
 
     console.log(event);
 
-    console.log(event);
+    console.log(event.target[0].value);
     
-    const nombreApellido = document.getElementById('nombreApellido').value
-    const email = document.getElementById('email').value
-    const password = document.getElementById('password').value
-    const password2 = document.getElementById('password2').value
+    const nombreApellido = document.getElementById('validationCustom01').value
+    const email = document.getElementById('validationCustom011').value
+    const password = document.getElementById('validationCustom02').value
+    const password2 = document.getElementById('validationCustom022').value
+
+    console.log(nombreApellido);
+    console.log(email);
+    console.log(password);
+    console.log(password2);
 
     if(ValidarContrasenia(password, password2)) {
 
