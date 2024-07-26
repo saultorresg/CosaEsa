@@ -18,8 +18,6 @@ async function log(inputEmail, inputPassword) {
 
     try {
 
-        console.log(email);
-        console.log(password);
     
         const response = await fetch('/auth/loginar', {
     

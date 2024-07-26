@@ -2,6 +2,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const db = require('../Databases/db');
+const { response } = require('express');
 
 const register = async (req, res) => {
     const { name, email, password } = req.body;
@@ -33,8 +34,6 @@ const login = async (req, res) => {
 
     const { email, password } =  req.body;
 
-    console.log(email);
-    console.log(password);
 
     try {
         const [rows] = await db.query('SELECT * FROM usuarios WHERE email = ?', [email]);
@@ -145,4 +144,23 @@ const eliminar_producto_canasta = async (req, res) => {
     }
 }
 
-module.exports = { eliminar_producto_canasta, modificar_cantidad, register, login, ingresar_producto_canasta, mostrar_canasta, obtener_producto };
+const cerrar_sesion = async (req, res) => {
+
+    const { token } = req.body
+
+    jwt.verify(token, 'mysecretkey', (err, decode) => {
+        if (err) {
+            if (err.name === 'TokenExpiredError') {
+                // Token ha expirado
+                return res.status(401).json({ message: 'Token expirado' });
+            }
+            // Otros errores de token
+            return res.status(401).json({ message: 'Token inválido' });
+        }
+        req.user = decode
+    })
+
+    res.status(500).json({message: 'Se cerro'})
+}
+
+module.exports = { cerrar_sesion, eliminar_producto_canasta, modificar_cantidad, register, login, ingresar_producto_canasta, mostrar_canasta, obtener_producto };

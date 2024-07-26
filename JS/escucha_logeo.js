@@ -1,3 +1,5 @@
+
+
 (function() {
     const originalSetItem = sessionStorage.setItem;
     sessionStorage.setItem = function(key, value) {
@@ -29,7 +31,60 @@ function parseJwts (token) {
     return JSON.parse(jsonPayload);
 }
 
+function CerrarSesion() {
+    
+    try {
+
+        fetch('/auth/cerrar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(localStorage.getItem('authToken'))
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+        })
+    } catch (error) {
+        console.log(error);
+    }
+    
+}
+
+async function CerrarSesion() {
+
+    const token  = localStorage.getItem('authToken')
+    console.log(token);
+    
+    /*try {
+
+        const response = await fetch('/auth/cerrar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({token})
+        })
+        
+        const data = response.json()
+
+        if (response.ok) {
+            console.log(data);
+            localStorage.removeItem('authToken')
+            window.location.reload()
+        }
+
+    } catch (error) {
+        console.log(error);
+    }*/
+        localStorage.removeItem('authToken')
+        window.location.reload()
+}
+
 if (localStorage.getItem('authToken')) {
+
+    
     
     const token = localStorage.getItem('authToken')
 
@@ -52,7 +107,7 @@ if (localStorage.getItem('authToken')) {
                 <li><a class="dropdown-item" href="#">Mis Favoritos</a></li>
                 <li><a class="dropdown-item" href="#">Mis Datos</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Cerrar Sesion</a></li>
+                <li><a class="dropdown-item" href="#" onClick="CerrarSesion(this)">Cerrar Sesion</a></li>
             </ul>
         
     `;
@@ -64,6 +119,8 @@ if (localStorage.getItem('authToken')) {
    btn.innerHTML += decode.userName
 
 }
+
+
 
         
 
