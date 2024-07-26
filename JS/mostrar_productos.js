@@ -41,15 +41,26 @@ function obtener_productis(tipos, equipos) {
                 const card_footer = document.createElement('div')
                 card_footer.classList.add('txt_carta_2')
 
-                const label_costo = document.createElement('p')
+                const label_costo = document.createElement('a')
                 label_costo.innerText = element.costo
+
+                const lbl = document.createElement('label')
+                lbl.classList.add('container')
 //dede
                 const chkbox_deseo = document.createElement('input')
-                chkbox_deseo.classList.add('d-inline-block', 'col-md-3')
                 chkbox_deseo.type = 'checkbox'
 
+                const svgContent = `
+                    <svg id="Layer_1" version="1.0" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <path d="M16.4,4C14.6,4,13,4.9,12,6.3C11,4.9,9.4,4,7.6,4C4.5,4,2,6.5,2,9.6C2,14,12,22,12,22s10-8,10-12.4C22,6.5,19.5,4,16.4,4z"></path>
+                    </svg>
+                `;
+
+                lbl.appendChild(chkbox_deseo)
+                lbl.innerHTML = svgContent
+
                 card_footer.appendChild(label_costo, chkbox_deseo)
-                card_footer.appendChild(chkbox_deseo)
+                card_footer.appendChild(lbl)
 
                 card_body.appendChild(label_name)
                 card_body.appendChild(card_footer)

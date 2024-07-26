@@ -1,13 +1,13 @@
 
  
                 .contenedor{
-                    top: 9.69%;
+                    top: 94px;
                     position: absolute;
                     width: 100%;
-                    height: 211%;
+                    height: 2541px;
                     display: grid;
                     grid-template-columns:1fr ;
-                    grid-template-rows:  11.7% 4.25% 65% 4.8% 14.25%;
+                    grid-template-rows:  243px 104px 1564px 96px 545px;
                     grid-template-areas:"promocional"
                                         "logos_de_equipos"
                                         "carcasa"
@@ -27,7 +27,7 @@
                              height: 100%;
                         }
                     .logos_de_equipos{
-                        margin:.6%;
+                        padding: 18px;  
                         background-color: #FFFFFF;
                         display: flex; 
                         align-items: stretch; 
@@ -41,11 +41,31 @@
                         }
                     .carcasa{
                         grid-area:carcasa;
-                        padding: 20px;
                         display: grid;
-                        grid-template-columns:350px  auto;
-                        grid-template-rows:  1fr;
-                        grid-template-areas:"flitros contenedor_cartas";
+                        grid-template-columns:313px  auto;
+                        grid-template-rows:  53px auto;
+                        grid-template-areas:"titulo_filtro titulo_grupo_cartas"
+                                            "flitros contenedor_cartas ";
+                    }
+                    .carcasa.active{
+                        grid-template-columns:313px  auto;
+                        grid-template-areas:"titulo_filtro titulo_grupo_cartas"
+                                            "contenedor_cartas contenedor_cartas ";
+                    }
+                    .titulo_grupo_cartas{
+                        grid-area: titulo_grupo_cartas;
+                        border: 3px solid #f15d2a;
+                        color: #f15d2a;
+                        display: flex;
+                        justify-content: center;
+                    }
+                    .titulo_filtro{
+                        grid-area: titulo_filtro;
+                        border: 3px solid #f15d2a;
+                        color: #f15d2a;
+                        display: flex;
+                        justify-content: center;
+                        cursor: pointer;
                     }
                         .flitros{
                             grid-area: flitros;
@@ -70,6 +90,7 @@
                                
                             }
                                 .titulos_filtos{
+                                    cursor: pointer;
                                     color: #f15d2a;
                                     border-bottom: 2px solid #f15d2a;
 
@@ -144,7 +165,6 @@
                                 gap: 20px;
                             }
                                 .carta{
-                                    background-color: aquamarine;
                                     display: grid;
                                     grid-template-rows: 77% 23%;
                                     grid-template-areas:"img_carta"
@@ -158,7 +178,11 @@
                                     }
                                     .txt_carta{
                                         grid-area: txt_carta;
-                                        background-color: #6A00CD;
+                                        background-color: #f15d2a;
+                                    }
+                                    .txt_carta_2{
+                                        display: flex;
+                                        justify-content: space-between;
                                     }
                         .paginacion{
                             grid-area: paginacion;
@@ -202,32 +226,65 @@
                             display: block;  
                         }
                    
-    @media screen and (min-width:2000px){
-    .grupo_cartas{
-            grid-template-columns:repeat(6, 1fr);
-            }
-    }
-    @media screen and (max-width:1400px){
-    .grupo_cartas{
-            grid-template-columns:repeat(5, 1fr);
-            }
-    }
-
-    @media screen and (max-width:1200px){
-    .grupo_cartas{
-            grid-template-columns:repeat(3, 1fr);
-            }
-    }
-    @media screen and (max-width:1000px){
-    .grupo_cartas{
-            grid-template-columns:repeat(2, 1fr);
-            }
-    }
-    @media screen and (max-height:990px){
-    .grupo_cartas{
-            grid-template-rows: repeat(2, 1fr);
-            }
-    }
+                        @media screen and (min-width:880px){
+                            .grupo_cartas{
+                                    grid-template-columns:repeat(2, 270px);
+                                    }
+                               
+                            }
+                            @media screen and (min-width:1160px){
+                            .grupo_cartas{
+                                    grid-template-columns:repeat(3, 270px);
+                                    }
+                            }
+                            @media screen and (min-width:1440px){
+                            .grupo_cartas{
+                                    grid-template-columns:repeat(4, 270px);
+                                    }
+                            }
+                            @media screen and (min-width:1720px){
+                            .grupo_cartas{
+                                    grid-template-columns:repeat(5, 270px);
+                                    }
+                            }
+                            @media screen and (min-width:2000px){
+                            .grupo_cartas{
+                                    grid-template-columns:repeat(6, 270px);
+                                    }
+                            }
+                        .container input {
+                          position: absolute;
+                          opacity: 0;
+                          cursor: pointer;
+                          height: 0;
+                          width: 0;
+                        }
+                        
+                        .container {
+                          display: block;
+                          position: relative;
+                          cursor: pointer;
+                          user-select: none;
+                          width:0px;
+                        }
+                        
+                        .container svg {
+                          position: relative;
+                          top: 0;
+                          left: 0;
+                          height: 30px;
+                          width: 30px;
+                          transition: all 0.3s;
+                          fill: #666;
+                        }
+                        
+                        .container svg:hover {
+                          transform: scale(1.1);
+                        }
+                        
+                        .container input:checked ~ svg {
+                          fill: #E3474F;
+                        }
  
 
        
