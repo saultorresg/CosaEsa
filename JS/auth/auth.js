@@ -31,7 +31,7 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
 
-    const { email, password } = req.body;
+    const { email, password } =  req.body;
 
     console.log(email);
     console.log(password);
@@ -65,6 +65,7 @@ const login = async (req, res) => {
         res.status(200).json({ token });
     } catch (error) {
         
+        console.log(error);
         res.status(500).json({ message: error.message});
     }
 }

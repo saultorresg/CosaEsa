@@ -21,7 +21,7 @@ async function log(inputEmail, inputPassword) {
         console.log(email);
         console.log(password);
     
-        const response = await fetch('/auth/login', {
+        const response = await fetch('/auth/loginar', {
     
             method: 'POST',
             headers: {
