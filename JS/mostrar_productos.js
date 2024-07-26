@@ -5,6 +5,7 @@ function obtener_productis(tipos, equipos) {
     arrayPrincipal = []
     var contador = 0
     var arrauNuevo = []
+
     console.log(tipos);
     console.log(equipos);
 
@@ -21,8 +22,6 @@ function obtener_productis(tipos, equipos) {
             data.forEach((element, indice) => {
 
                 contador += 1
-                console.log(element);
-                console.log(contador);
 
                 const card = document.createElement('a')
                 card.href = '/canasta?id=' + element.id 
@@ -161,10 +160,21 @@ function FiltrarDatos(buton) {
     var arrayFiltrado = []
 
     const filtros = document.querySelectorAll('input[type="checkbox"]:checked')
+
+    console.log(buton.classList[1]);
+
+    if (buton.classList[1] == 'equipos') {
+        
+        console.log('Hola');
+        console.log(buton.value);
+        arrayEquipos.push(buton.getAttribute('value'))
+    }
     
     filtros.forEach(chk => {
+
+        let existe = arrayEquipos.filter(item => item == chk.value). length > 0
         
-        if (chk.classList == 'equipos') {
+        if (chk.classList == 'equipos' && !existe) {
             
             arrayEquipos.push(chk.value)
 
@@ -173,11 +183,6 @@ function FiltrarDatos(buton) {
             arrayTipos.push(chk.value)
         }
     })
-
-    
-
-    console.log(arrayEquipos);
-    console.log(arrayTipos);
 
     obtener_productis(arrayTipos, arrayEquipos)
 

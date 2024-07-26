@@ -64,7 +64,8 @@
                display: flex; 
               
            }
-               .nav_top_2 a{
+               .nav_top_2 a,
+               .nav_top_2 div a{
                 text-decoration: none;
                  margin: 0 20px;
                }

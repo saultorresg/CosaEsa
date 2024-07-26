@@ -42,7 +42,7 @@ async function reg(name, email, password ) {
             if (response.ok) {
                 
                 console.log('Respuesta del servidor: ', data);
-                response.redirect('/registro')
+                response.redirect('/login')
 
             } else {
                 
