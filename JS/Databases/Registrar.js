@@ -23,7 +23,7 @@ function RegistrarUsuarios(event) {
 
 }
 
-async function reg(name, email, password ,) {
+async function reg(name, email, password ) {
 
 
         try {

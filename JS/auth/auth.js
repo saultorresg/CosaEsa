@@ -10,19 +10,21 @@ const register = async (req, res) => {
     try {
         const [rows] = await db.query('SELECT email FROM usuarios WHERE email = ?', [email]);
 
+       
         if (rows.length > 0) {
             return res.status(400).json({ message: 'EL usuario ya existe'});
         }
 
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
-
-        await db.query('INSERT INTO usuarios (name, email, password)  (?,?,?)', [name,email, hashedPassword]);
+        console.log(salt);
+        console.log(hashedPassword);
+        await db.query('INSERT INTO usuarios (name, email, password) VALUES (?,?,?)', [name,email, hashedPassword]);
         
         res.status(201).json({ message: 'Usuario registrado'});
 
     } catch (error) {
-        
+        console.log(error);
         res.status(500).json({message: 'Server error'});
     }
 };  
