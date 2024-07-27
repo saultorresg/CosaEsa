@@ -62,30 +62,36 @@ app.post('/data', async (req, res) => {
     let values = [];
     let equiposCondition = '';
     let tiposCondition = '';
+    let queryWhere = ''
 
     try {
-        let query = "SELECT * FROM productos";
+        let query = "SELECT p.id, p.idTipo, p.descripcion, p.idEquipo, p.precio, p.numeroLikes FROM producto p ";
 
-        if (equipos.length > 0) {
-            equiposCondition = equipos.map(() => 'equipo LIKE ?').join(' OR ');
-            values.push(...equipos.map(equipo => `%${equipo}%`));
+        if (equipos.length > 0 ) {
+            //const fEquipos = equipos.map((equipo, index) => index === 0 ? `${equipo}` : `,${equipo}`)
+            let queryEquipo = ` JOIN equipo e ON p.idEquipo = e.id`
+            queryWhere += ` WHERE e.id IN (${equipos})`
+
+            if (tipos.length > 0) {
+                //const fTipos = tipos.map((tipo, index) => index === 0 ? `${tipo}` : `,${tipo}`) 
+                let queryTipos = ' JOIN tipoproducto t ON p.idTipo = t.id'
+                queryWhere += ` AND t.id IN (${tipos})`
+                query += queryEquipo + queryTipos + queryWhere
+            } else {
+                query += queryEquipo + queryWhere
+
+            }
+
+
+        } else if (tipos.length > 0 && equipos.length == 0) {
+            //const fTipos = tipos.map((tipo, index) => index === 0 ? `${tipo}` : `,${tipo}`) 
+            let queryTipos = ' JOIN tipoproducto t ON p.idTipo = t.id'
+
+            queryWhere += ` WHERE t.id IN (${tipos})`
+
+            query += queryTipos + queryWhere
+             
         }
-
-        if (tipos.length > 0) {
-            tiposCondition = tipos.map(() => 'tipo LIKE ?').join(' OR ');
-            values.push(...tipos.map(tipo => `%${tipo}%`));
-        }
-
-        if (equiposCondition && tiposCondition) {
-            query += ` WHERE (${equiposCondition}) AND (${tiposCondition})`;
-        } else if (equiposCondition) {
-            query += ` WHERE ${equiposCondition}`;
-        } else if (tiposCondition) {
-            query += ` WHERE ${tiposCondition}`;
-        }
-
-        console.log('SQL Query:', query);  // Imprime la consulta para depuración
-        console.log('Values:', values);    // Imprime los valores para depuración
 
         const [rows] = await db.query(query, values);
         res.json(rows);

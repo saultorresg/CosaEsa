@@ -7,23 +7,24 @@ function RegistrarUsuarios(event) {
     console.log(event.target[0].value);
     
     const nombreApellido = document.getElementById('validationCustom01').value
-    const email = document.getElementById('validationCustom011').value
-    const password = document.getElementById('validationCustom02').value
-    const password2 = document.getElementById('validationCustom022').value
+    const Apodo = document.getElementById('validationCustom02').value
+    const email = document.getElementById('validationCustom03').value
+    const fechaNa = document.getElementById('validationCustom04').value
+    const password = document.getElementById('validationCustom05').value
+    const password2 = document.getElementById('validationCustom06').value
 
-    console.log(nombreApellido);
-    console.log(email);
-    console.log(password);
-    console.log(password2);
+    console.log(fechaNa);
+    
+    const nombreSeparado = SepararNombrePila(nombreApellido)
 
     if(ValidarContrasenia(password, password2)) {
 
-        reg(nombreApellido, email, password)
+        reg(Apodo, nombreSeparado[0], nombreSeparado[1], nombreSeparado[2], email, password, fechaNa)
     }
 
 }
 
-async function reg(name, email, password ) {
+async function reg(apodo, nombre, apellidoP, apellidoM, email, password, fechaNa ) {
 
 
         try {
@@ -34,15 +35,17 @@ async function reg(name, email, password ) {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({name, email, password})
+                body: JSON.stringify({apodo, nombre, apellidoP, apellidoM, email, password, fechaNa})
             });
     
             const data = await response.json();
+
+            console.log(response);
     
             if (response.ok) {
                 
                 console.log('Respuesta del servidor: ', data);
-                response.redirect('/login')
+                window.location.href = '/login'
 
             } else {
                 
@@ -62,4 +65,18 @@ function ValidarContrasenia(contra, cotra2) {
 
         return false
     }
+}
+
+function FormatoFech(fecha) {
+    
+    const dia = fecha.getDate().toString().padStart(2, '0')
+    const mes = (fecha.getMonth() + 1).toString().padStart(2, '0')
+    const anio = fecha.getFullYear()
+}
+
+function SepararNombrePila(nombre) {
+    
+    const caracteres = nombre.split(' ')
+    console.log(caracteres);
+    return caracteres
 }

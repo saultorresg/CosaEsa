@@ -5,11 +5,11 @@ const db = require('../Databases/db');
 const { response } = require('express');
 
 const register = async (req, res) => {
-    const { name, email, password } = req.body;
+    const { apodo, nombre, apellidoP, apellidoM, email, password, fechaNa} = req.body;
 
 
     try {
-        const [rows] = await db.query('SELECT email FROM usuarios WHERE email = ?', [email]);
+        const [rows] = await db.query('SELECT email FROM usuario WHERE email = ?', [email]);
 
        
         if (rows.length > 0) {
@@ -20,7 +20,7 @@ const register = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, salt);
         console.log(salt);
         console.log(hashedPassword);
-        await db.query('INSERT INTO usuarios (name, email, password) VALUES (?,?,?)', [name,email, hashedPassword]);
+        await db.query('INSERT INTO usuario (name, email, password, Activo, Nombres, ApellidoPrimero, ApellidoSegundo, fechaNacimiento) VALUES (?,?,?,?,?,?,?,?)', [apodo, email, hashedPassword, 1, nombre, apellidoP, apellidoM, fechaNa]);
         
         res.status(201).json({ message: 'Usuario registrado'});
 
@@ -34,15 +34,20 @@ const login = async (req, res) => {
 
     const { email, password } =  req.body;
 
+    console.log(email);
+    console.log(password);
 
     try {
-        const [rows] = await db.query('SELECT * FROM usuarios WHERE email = ?', [email]);
+        const [rows] = await db.query('SELECT * FROM usuario WHERE email = ?', [email]);
+
+        console.log(rows);
 
         if (rows.length === 0) {
             return res.status(400).json({message: 'Credenciales invalidas'})
         } 
 
         const user = rows[0]
+        console.log(user);
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(400).json({ message: 'Crendenciales invalidas'});
@@ -59,6 +64,8 @@ const login = async (req, res) => {
         }
 
         const token = jwt.sign(payload, 'mysecretkey', {expiresIn: '1h'});
+
+        //await db.query('INSERT INTO sesion (idUsuario, fecha, horaInicio, horaTermino, IP, navegador) VALUES (?,?,?,?,?,?)', [user.id, ])
         
         const decode = jwt.decode(token)
         res.status(200).json({ token });

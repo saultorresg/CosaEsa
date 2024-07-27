@@ -82,6 +82,8 @@ async function CerrarSesion() {
         window.location.reload()
 }
 
+console.log(new Date().getFullYear() + '-' + new Date().getUTCMonth() + '-' + new Date().getDay());
+
 if (localStorage.getItem('authToken')) {
 
     

@@ -21,6 +21,7 @@ function obtener_productis(tipos, equipos) {
         .then(data => {
             data.forEach((element, indice) => {
 
+                console.log(element);
                 contador += 1
 
                 const card = document.createElement('a')
@@ -35,13 +36,13 @@ function obtener_productis(tipos, equipos) {
                 card_body.classList.add('txt_carta')
 
                 const label_name = document.createElement('h5')
-                label_name.innerText = element.nombre
+                label_name.innerText = element.descripcion
 
                 const card_footer = document.createElement('div')
                 card_footer.classList.add('txt_carta_2')
 
                 const label_costo = document.createElement('a')
-                label_costo.innerText = element.costo
+                label_costo.innerText = element.precio
 
                 const lbl = document.createElement('label')
                 lbl.classList.add('container')
@@ -66,8 +67,8 @@ function obtener_productis(tipos, equipos) {
 
                 card.appendChild(img)
                 card.appendChild(card_body)
-                card.setAttribute('tipo', element.tipo)
-                card.setAttribute('equipo', element.equipo)
+                card.setAttribute('tipo', element.idTipo)
+                card.setAttribute('equipo', element.idEquipo)
 
                 if (contador == 12) {
 
