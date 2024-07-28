@@ -16,6 +16,8 @@ async function log(inputEmail, inputPassword) {
     const email = inputEmail.value
     const password = inputPassword.value
 
+    const userAgent = navigator.userAgent
+
     try {
 
     
@@ -25,13 +27,14 @@ async function log(inputEmail, inputPassword) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ email , password})
+            body: JSON.stringify({ email , password, userAgent})
         });
     
         const data = await response.json();
-        const token = data.token
+        const idS = data.set.id
     
-        localStorage.setItem('authToken', data.token)
+        localStorage.setItem('sesion', idS)
+        localStorage.setItem('name', data.name)
     
         if (response.ok) {
             

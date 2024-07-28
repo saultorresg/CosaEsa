@@ -35,8 +35,7 @@ document.addEventListener('codigoTerminado',  function() {
 
 async function AgregarProducto() {
     
-    const token = localStorage.getItem('authToken');
-    const id_canasta = parseJwt(token)
+    const sesion = localStorage.getItem('sesion');
     const params = new URLSearchParams(window.location.search)
     const id = params.get('id')
 
@@ -50,7 +49,7 @@ async function AgregarProducto() {
                     },
                     body: JSON.stringify( {
                         cantidad: label_contador.innerText,
-                        id_canasta: id_canasta.canastaId,
+                        id: sesion,
                         id_producto: id
                     })
                 })

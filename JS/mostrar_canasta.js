@@ -7,9 +7,7 @@ async function inicio() {
         const columna = document.getElementById('columna')
         columna.innerHTML = ''
         
-        const token = localStorage.getItem('authToken')
-        const traduccion = parseJwt(token)
-        const id = parseInt(traduccion.canastaId)
+        const id = localStorage.getItem('sesion')
 
         try {
             
@@ -82,11 +80,11 @@ function Crear_card(producto, cantidad, idCanasta) {
 
     const card_title = document.createElement('h5')
     card_title.classList.add('card-title')
-    card_title.innerText = producto[0][0].nombre
+    card_title.innerText = producto[0][0].descripcion
 
     const precio = document.createElement('p')
     precio.classList.add('card-text')
-    precio.innerText = producto[0][0].costo
+    precio.innerText = producto[0][0].precio
 
     const btnBorrar = document.createElement('button')
     btnBorrar.id = 'btn-borrar'

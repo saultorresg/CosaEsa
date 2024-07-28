@@ -21,7 +21,6 @@ function obtener_productis(tipos, equipos) {
         .then(data => {
             data.forEach((element, indice) => {
 
-                console.log(element);
                 contador += 1
 
                 const card = document.createElement('a')
@@ -73,7 +72,6 @@ function obtener_productis(tipos, equipos) {
                 if (contador == 12) {
 
                     arrauNuevo.push(card)
-                    console.log(arrauNuevo);
                     arrayPrincipal.push(arrauNuevo)
                     contador = 0
                     arrauNuevo = []
@@ -139,8 +137,6 @@ function CambiarPagina(boton) {
         if (boton.childNodes[1].textContent === '»' && (arrayPrincipal.length - 1) != indice ) {
         
 
-            console.log(indice);
-            console.log(arrayPrincipal.length - 1);
             ImprimirProductos(arrayPrincipal, indice + 1 )
         } else if (boton.childNodes[1].textContent === '«' && indice != 0) {
             
@@ -166,8 +162,6 @@ function FiltrarDatos(buton) {
 
     if (buton.classList[1] == 'equipos') {
         
-        console.log('Hola');
-        console.log(buton.value);
         arrayEquipos.push(buton.getAttribute('value'))
     }
     

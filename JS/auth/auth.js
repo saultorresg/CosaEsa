@@ -32,22 +32,18 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
 
-    const { email, password } =  req.body;
+    const { email, password, userAgent } =  req.body;
 
-    console.log(email);
-    console.log(password);
 
     try {
         const [rows] = await db.query('SELECT * FROM usuario WHERE email = ?', [email]);
 
-        console.log(rows);
 
         if (rows.length === 0) {
             return res.status(400).json({message: 'Credenciales invalidas'})
         } 
 
         const user = rows[0]
-        console.log(user);
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(400).json({ message: 'Crendenciales invalidas'});
@@ -63,12 +59,20 @@ const login = async (req, res) => {
             pepe: 'pepe'
         }
 
+        const name = user.name
         const token = jwt.sign(payload, 'mysecretkey', {expiresIn: '1h'});
+    
+     
 
-        //await db.query('INSERT INTO sesion (idUsuario, fecha, horaInicio, horaTermino, IP, navegador) VALUES (?,?,?,?,?,?)', [user.id, ])
+        await db.query('INSERT INTO sesion (idUsuario, navegador) VALUES (?,?)', [user.id,userAgent])
+        const [sesion] = await db.query('SELECT id FROM sesion WHERE idUsuario = ? ORDER BY horaInicio DESC LIMIT 1', [user.id])
+        const set = sesion[0]
+        console.log(set.id);
+        const [tokens] = await db.query('INSERT INTO tokens (token, sesionid) VALUES (?,?)', [token, set.id] )
+       
         
         const decode = jwt.decode(token)
-        res.status(200).json({ token });
+        res.status(200).json({ set, name });
     } catch (error) {
         
         console.log(error);
@@ -78,12 +82,20 @@ const login = async (req, res) => {
 
 const ingresar_producto_canasta = async (req, res) => {
 
-    const { cantidad, id_canasta, id_producto } = req.body;
+    const { cantidad, id, id_producto } = req.body;
+
+    console.log(cantidad);
+    console.log(id);
+    console.log(id_producto);
 
     try {
-        
-        const row = await db.query('INSERT INTO canasta_productos (cantidad, id_producto, id_canasta)  (?, ?, ?)', [cantidad, id_producto, id_canasta] )
-        
+        const [sesion] = await db.query('SELECT idUsuario FROM sesion WHERE id = ?', [id])
+        console.log(sesion[0].idUsuario);
+        const [canasta] = await db.query('SELECT id FROM canasta WHERE client_id = ?', [sesion[0].idUsuario])
+        console.log(canasta[0].id);
+        const id_canasta = canasta[0].id
+        const row = await db.query('INSERT INTO canasta_productos (cantidad, id_producto, id_canasta) VALUES (?, ?, ?)', [cantidad, id_producto, id_canasta] )
+        console.log(row);
         res.status(200).json({row})
         
     } catch (error) {
@@ -94,9 +106,16 @@ const ingresar_producto_canasta = async (req, res) => {
 const mostrar_canasta = async (req, res) => {
 
     const { id } = req.body;
+    console.log(id);
 
     try {
-        const [rows, fields] = await db.query('SELECT * FROM canasta_productos WHERE id_canasta = ?', [id])
+
+        const [sesion] = await db.query('SELECT idUsuario FROM sesion WHERE id = ?', [id])
+        console.log(sesion[0].idUsuario);
+        const [canasta] = await db.query('SELECT id FROM canasta WHERE client_id = ?', [sesion[0].idUsuario])
+        console.log(canasta[0].id);
+        const [rows, fields] = await db.query('SELECT * FROM canasta_productos WHERE id_canasta = ?', [canasta[0].id])
+        console.log(rows);
         
         if (rows.length === 0) {
             return res.status(404).json({ message: 'No se encontraron productos en la canasta.' });
@@ -116,7 +135,7 @@ const obtener_producto = async (req, res) => {
 
     try {
         
-        const producto = await db.query('SELECT * FROM productos WHERE id = ?', [id] )
+        const producto = await db.query('SELECT * FROM producto WHERE id = ?', [id] )
         console.log(producto);
         res.status(200).json({producto})
 
@@ -168,6 +187,13 @@ const cerrar_sesion = async (req, res) => {
     })
 
     res.status(500).json({message: 'Se cerro'})
+}
+
+const obtener_nombre = async (req, res) => {
+
+    const { id } = req.body
+
+    const nombre = await db.query('SELECT token FROM tokens')
 }
 
 module.exports = { cerrar_sesion, eliminar_producto_canasta, modificar_cantidad, register, login, ingresar_producto_canasta, mostrar_canasta, obtener_producto };

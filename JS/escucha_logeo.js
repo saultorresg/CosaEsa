@@ -54,7 +54,7 @@ function CerrarSesion() {
 
 async function CerrarSesion() {
 
-    const token  = localStorage.getItem('authToken')
+    const token  = localStorage.getItem('name')
     console.log(token);
     
     /*try {
@@ -78,19 +78,14 @@ async function CerrarSesion() {
     } catch (error) {
         console.log(error);
     }*/
-        localStorage.removeItem('authToken')
+        localStorage.removeItem('name')
         window.location.reload()
 }
 
 console.log(new Date().getFullYear() + '-' + new Date().getUTCMonth() + '-' + new Date().getDay());
 
-if (localStorage.getItem('authToken')) {
+if (localStorage.getItem('name')) {
 
-    
-    
-    const token = localStorage.getItem('authToken')
-
-    const decode = parseJwts(token)
 
     const btnLogin = document.getElementById('btn-ingresar')
     btnLogin.remove()
@@ -117,8 +112,9 @@ if (localStorage.getItem('authToken')) {
     nav.innerHTML = dropdownHTML
 
     const btn = document.getElementById('nameUsuario')
+    const name = localStorage.getItem('name')
   
-   btn.innerHTML += decode.userName
+   btn.innerHTML += name
 
 }
 
