@@ -49,7 +49,7 @@ const login = async (req, res) => {
             return res.status(400).json({ message: 'Crendenciales invalidas'});
         } 
 
-        const [row] = await db.query('SELECT id FROM canasta WHERE client_id = ?', [user.id])
+        const [row] = await db.query('SELECT id FROM canasta WHERE usuario_id = ?', [user.id])
         const canasta = row[0]
 
         const payload = {
@@ -91,7 +91,7 @@ const ingresar_producto_canasta = async (req, res) => {
     try {
         const [sesion] = await db.query('SELECT idUsuario FROM sesion WHERE id = ?', [id])
         console.log(sesion[0].idUsuario);
-        const [canasta] = await db.query('SELECT id FROM canasta WHERE client_id = ?', [sesion[0].idUsuario])
+        const [canasta] = await db.query('SELECT id FROM canasta WHERE usuario_id = ?', [sesion[0].idUsuario])
         console.log(canasta[0].id);
         const id_canasta = canasta[0].id
         const row = await db.query('INSERT INTO canasta_productos (cantidad, id_producto, id_canasta) VALUES (?, ?, ?)', [cantidad, id_producto, id_canasta] )
@@ -112,7 +112,7 @@ const mostrar_canasta = async (req, res) => {
 
         const [sesion] = await db.query('SELECT idUsuario FROM sesion WHERE id = ?', [id])
         console.log(sesion[0].idUsuario);
-        const [canasta] = await db.query('SELECT id FROM canasta WHERE client_id = ?', [sesion[0].idUsuario])
+        const [canasta] = await db.query('SELECT id FROM canasta WHERE usuario_id = ?', [sesion[0].idUsuario])
         console.log(canasta[0].id);
         const [rows, fields] = await db.query('SELECT * FROM canasta_productos WHERE id_canasta = ?', [canasta[0].id])
         console.log(rows);
@@ -194,6 +194,13 @@ const obtener_nombre = async (req, res) => {
     const { id } = req.body
 
     const nombre = await db.query('SELECT token FROM tokens')
+}
+
+const dar_like = async (req, res) => {
+
+    const { idProducto, idUsuario } = req.body
+
+    let query = db.query('INSERT INTO productousuario (idProducto, idUsuario) VALUES (?,?)', [idProducto, idUsuario])
 }
 
 module.exports = { cerrar_sesion, eliminar_producto_canasta, modificar_cantidad, register, login, ingresar_producto_canasta, mostrar_canasta, obtener_producto };

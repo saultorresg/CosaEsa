@@ -23,18 +23,19 @@ function obtener_productis(tipos, equipos) {
 
                 contador += 1
 
-                const card = document.createElement('a')
+                const card = document.createElement('div')
                 card.href = '/canasta?id=' + element.id 
                 card.classList.add('carta')
 
                 const img = document.createElement('img')
                 img.classList.add('img_carta', 'img-fluid')
-                img.src = '../IMAGES/kirbo.png'
+                img.src = '../IMAGES/articulos/art' + element.idTipo + '.png'
 
                 const card_body = document.createElement('div')
                 card_body.classList.add('txt_carta')
 
-                const label_name = document.createElement('h5')
+                const label_name = document.createElement('a')
+                label_name.href = '/canasta?id=' + element.id
                 label_name.innerText = element.descripcion
 
                 const card_footer = document.createElement('div')
@@ -56,7 +57,7 @@ function obtener_productis(tipos, equipos) {
                 `;
 
                 lbl.appendChild(chkbox_deseo)
-                lbl.innerHTML = svgContent
+                lbl.innerHTML += svgContent
 
                 card_footer.appendChild(label_costo, chkbox_deseo)
                 card_footer.appendChild(lbl)
