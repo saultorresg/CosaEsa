@@ -49,6 +49,8 @@ function obtener_productis(tipos, equipos) {
 //dede
                 const chkbox_deseo = document.createElement('input')
                 chkbox_deseo.type = 'checkbox'
+                chkbox_deseo.setAttribute('number', element.id)
+                chkbox_deseo.setAttribute('onchange', 'DarLike(this)')
 
                 const svgContent = `
                     <svg id="Layer_1" version="1.0" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -183,6 +185,34 @@ function FiltrarDatos(buton) {
     obtener_productis(arrayTipos, arrayEquipos)
 
 }
+
+function DarLike(boton) {
+    
+    const number =  boton.getAttribute('number')
+    const sesion = localStorage.getItem('sesion')
+
+    try {
+        
+        const response = fetch('/auth/like', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ number,  sesion})
+        })
+
+        response = response.json()
+        const data = response.data
+
+        if (response.ok) {
+            console.log('To salio bien');
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 arrayTipo = []
 arrayEquipo = []
 

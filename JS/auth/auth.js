@@ -198,9 +198,36 @@ const obtener_nombre = async (req, res) => {
 
 const dar_like = async (req, res) => {
 
-    const { idProducto, idUsuario } = req.body
+    const { number, sesion } = req.body
 
-    let query = db.query('INSERT INTO productousuario (idProducto, idUsuario) VALUES (?,?)', [idProducto, idUsuario])
+    try {
+
+        const [idUsuario] = await db.query('SELECT idUsuario FROM sesion WHERE id = ?', [sesion])
+        console.log(idUsuario[0].idUsuario);
+        const [row] = await db.query('INSERT INTO productousuario (idProducto, idUsuario) VALUES (?,?)', [number, idUsuario[0].idUsuario])
+        res.status(500).json({row})
+    } catch (error) {
+        console.log(error);
+    }
+
 }
 
-module.exports = { cerrar_sesion, eliminar_producto_canasta, modificar_cantidad, register, login, ingresar_producto_canasta, mostrar_canasta, obtener_producto };
+const demostrar_like = async (req, res) => {
+
+    const { number, sesion } = req.body
+
+    try {
+        
+        const [idUsuario] = await db.query('SELECT idUsuario FROM sesion WHERE id = ?', [sesion])
+        console.log(idUsuario[0].idUsuario);
+        const [row] = await db.query('SELECT * FROM productousuario WHERE idUsuario = ? AND idProducto = ?', [idUsuario[0].idUsuario, number])
+
+        if (!row.length > 0) {
+            res.status(500).json({row})
+        }
+    } catch (error) {
+        
+    }
+}
+
+module.exports = { demostrar_like, dar_like, cerrar_sesion, eliminar_producto_canasta, modificar_cantidad, register, login, ingresar_producto_canasta, mostrar_canasta, obtener_producto };
