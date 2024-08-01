@@ -60,6 +60,8 @@ CREATE TABLE IF NOT EXISTS `canasta_productos` (
   CONSTRAINT `fk_canasta_productos_producto` FOREIGN KEY (`id_producto`) REFERENCES `producto` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+
+
 -- Volcando datos para la tabla ventaspeople.canasta_productos: ~8 rows (aproximadamente)
 DELETE FROM `canasta_productos`;
 INSERT INTO `canasta_productos` (`id`, `id_producto`, `id_canasta`, `cantidad`, `precio`, `iva`, `total`, `pagado`, `fechaAlta`, `porPagar`) VALUES
@@ -536,6 +538,39 @@ SELECT * FROM productomedidas p ;
 SELECT * FROM medida m ;
 SELECT * FROM productousuario p ;
 SELECT * FROM producto p ;
+SELECT * FROM canasta_productos cp ;
+SELECT * FROM playera_personalizada pp ;
+SELECT * FROM usuario u ;
+SELECT * FROM canasta c ;
+SELECT * FROM producto p ;
+SELECT * FROM sesion s ;
+SELECT * FROM productousuario p ;
+
+
+CREATE TABLE `playera_personalizada` (
+	
+	`id` int(11) NOT NULL AUTO_INCREMENT,
+	`numero` int(11) NOT NULL,
+	`nombre` varchar(150) NOT NULL,
+	`canastapid` int(11) NOT NULL,
+	PRIMARY KEY (`id`),
+	CONSTRAINT `fk_canastap` FOREIGN KEY (`canastapid`) REFERENCES `canasta_productos` (`id`) ON DELETE CASCADE
+);
+
+ALTER TABLE producto DROP COLUMN activo ;
+
+ALTER TABLE producto ADD COLUMN estado INT NOT NULL,
+ADD CONSTRAINT chk_estado CHECK (estado IN (0, 1, 11));
+
+UPDATE producto SET estado = 1 WHERE id IN (1,4,7,10,13,16);
+UPDATE producto SET estado = 11 WHERE id IN (2,5,8,11,14,17);
+
+SELECT * FROM producto p  WHERE p.id LIKE "%" 
+JOIN tipoproducto t ON p.idTipo = t.id
+AND t.id IN (1)
+
+SELECT p.id, p.idTipo, p.descripcion, p.idEquipo, p.precio, p.numeroLikes, p.estado FROM producto p  WHERE p.id LIKE "%" AND p.estado IN (0)
+
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
