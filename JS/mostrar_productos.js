@@ -1,24 +1,28 @@
 
 
 let arrayPrincipal = []
-function obtener_productis(tipos, equipos) {
+function obtener_productis(tipos, equipos, stock) {
 
     arrayPrincipal = []
     var contador = 0
     var arrauNuevo = []
+
+    console.log(stock);
     
     fetch('/data', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({tipos, equipos})
+        body: JSON.stringify({tipos, equipos, stock})
     })
         .then(response => response.json())
         .then(data => {
             data.forEach(async (element, indice) => {
 
                 contador += 1
+
+
 
                 const card = document.createElement('div')
                 card.href = '/canasta?id=' + element.id 
@@ -189,6 +193,7 @@ function FiltrarDatos(buton) {
 
     var arrayEquipos = []
     const arrayTipos = []
+    var arrayStocks = []
     var arrayFiltrado = []
 
     const filtros = document.querySelectorAll('input[type="checkbox"]:checked')
@@ -211,10 +216,16 @@ function FiltrarDatos(buton) {
         } else if (chk.classList == 'tipo') {
             
             arrayTipos.push(chk.value)
+
+        } 
+        
+        if (chk.classList == 'stock') {
+
+            arrayStocks.push(chk.value)
         }
     })
 
-    obtener_productis(arrayTipos, arrayEquipos)
+    obtener_productis(arrayTipos, arrayEquipos, arrayStocks)
 
 }
 
@@ -246,8 +257,8 @@ async function DarLike(boton) {
 
 arrayTipo = []
 arrayEquipo = []
-
+arrayStock = []
 
 window.addEventListener('DOMContentLoaded', (event) => {
-    obtener_productis(arrayTipo, arrayEquipo)
+    obtener_productis(arrayTipo, arrayEquipo, arrayStock)
 })

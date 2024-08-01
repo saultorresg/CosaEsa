@@ -25,7 +25,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/tienda', (req, res) => {
-    res.sendFile(path.join(__dirname, 'HTML', 'tienda.html'))
+    res.sendFile(path.join(__dirname, 'HTML', 'tiendaPlus.html'))
 })
 
 app.get('/canasta', (req, res) => {
@@ -53,7 +53,7 @@ app.get('/compras', (req, res) => {
 
 app.post('/data', async (req, res) => {
 
-    const { tipos, equipos } = req.body;
+    const { tipos, equipos, stock } = req.body;
 
     if (!Array.isArray(tipos) || !Array.isArray(equipos)) {
         return res.status(400).json({ error: 'Tipos y equipos deben ser arrays' });
@@ -65,11 +65,38 @@ app.post('/data', async (req, res) => {
     let queryWhere = ''
 
     try {
-        let query = "SELECT p.id, p.idTipo, p.descripcion, p.idEquipo, p.precio, p.numeroLikes FROM producto p ";
+        let query = "SELECT p.id, p.idTipo, p.descripcion, p.idEquipo, p.precio, p.numeroLikes, p.estado FROM producto p ";
 
-        if (equipos.length > 0 ) {
+        if (equipos.length > 0 || tipos.length > 0 || stock.length > 0) {
+
+            let queryEquipo = ''
+            let queryTipo = ''
+            
+            queryWhere += ' WHERE p.id LIKE "%"' 
+
+            if (equipos.length > 0) {
+                
+                queryEquipo = ` JOIN equipo e ON p.idEquipo = e.id`
+                queryWhere += ` AND e.id IN (${equipos})`
+            }
+
+            if (tipos.length > 0) {
+                
+                queryTipo = ' JOIN tipoproducto t ON p.idTipo = t.id'
+                queryWhere += ` AND t.id IN (${tipos})`
+            }
+
+            if (stock.length > 0) {
+                
+                queryWhere += ` AND p.estado IN (${stock})`
+            }
+
+            query += queryEquipo + queryTipo + queryWhere
+        }
+
+       /* if (equipos.length > 0 ) {
             //const fEquipos = equipos.map((equipo, index) => index === 0 ? `${equipo}` : `,${equipo}`)
-            let queryEquipo = ` JOIN equipo e ON p.idEquipo = e.id`
+            let queryEqzuipo = ` JOIN equipo e ON p.idEquipo = e.id`
             queryWhere += ` WHERE e.id IN (${equipos})`
 
             if (tipos.length > 0) {
@@ -91,9 +118,12 @@ app.post('/data', async (req, res) => {
 
             query += queryTipos + queryWhere
              
-        }
+        } */
 
+
+        console.log(query);
         const [rows] = await db.query(query, values);
+        console.log(rows);
         res.json(rows);
     } catch (err) {
         console.error('Error al hacer la consulta ', err);

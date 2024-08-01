@@ -82,20 +82,25 @@ const login = async (req, res) => {
 
 const ingresar_producto_canasta = async (req, res) => {
 
-    const { cantidad, id, id_producto } = req.body;
+    const { cantidad, id, id_producto, numero, nombre } = req.body;
 
-    console.log(cantidad);
-    console.log(id);
-    console.log(id_producto);
+    console.log(numero);
+    console.log(nombre);
 
     try {
         const [sesion] = await db.query('SELECT idUsuario FROM sesion WHERE id = ?', [id])
-        console.log(sesion[0].idUsuario);
+
         const [canasta] = await db.query('SELECT id FROM canasta WHERE usuario_id = ?', [sesion[0].idUsuario])
-        console.log(canasta[0].id);
+
         const id_canasta = canasta[0].id
         const row = await db.query('INSERT INTO canasta_productos (cantidad, id_producto, id_canasta) VALUES (?, ?, ?)', [cantidad, id_producto, id_canasta] )
         console.log(row);
+
+        if (numero.length > 0 && nombre.length > 0) {
+            
+            console.log(row[0].insertId);
+            const personalizda = await db.query('INSERT INTO playera_personalizada (numero, nombre, canastapid) VALUES (?,?,?)', [numero, nombre, row[0].insertId])
+        }
         res.status(200).json({row})
         
     } catch (error) {

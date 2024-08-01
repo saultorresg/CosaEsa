@@ -28,11 +28,12 @@ async function Obtener_producto() {
         console.log(data);
         console.log(data.medidas);
         Mostrar_Producto(data)
+        document.dispatchEvent(new Event('codigoTerminado'));
 
     } catch (error) {
         console.log(error);
     }
-    document.dispatchEvent(new Event('codigoTerminado'));
+    
 }
 
 function Mostrar_Producto(data) {
@@ -49,7 +50,6 @@ function Mostrar_Producto(data) {
     btn_agregar.innerText = 'Agregar al carrito - Total ' + producto.precio
 
     const images = document.querySelectorAll('.img-principal')
-    console.log(images);
 
     images.forEach(element => {
         element.src='../IMAGES/articulos/art' + producto.idTipo + '.png'
@@ -63,9 +63,11 @@ function Mostrar_Producto(data) {
         Mostrar_Medidas(data.medidas)
     }
 
-    if (producto.idTipo == 9) {
+    if (producto.idTipo != 9) {
         
-        document.getElementById('personalizar').style.display = 'block'
+        const divPersonalizar = document.getElementById('personalizar')
+        console.log(divPersonalizar);
+        divPersonalizar.remove()
     }
 }
 

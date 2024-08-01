@@ -1,6 +1,8 @@
 document.addEventListener('codigoTerminado',  function() {
     
-    const btn_agregar = document.getElementById('btn-agregar')
+    const btn_agregar = document.querySelector('.btn-agregar')
+
+    console.log(btn_agregar);
 
     btn_agregar.addEventListener('click', function () {
         
@@ -38,8 +40,28 @@ async function AgregarProducto() {
     const sesion = localStorage.getItem('sesion');
     const params = new URLSearchParams(window.location.search)
     const id = params.get('id')
-
     const label_contador = document.querySelector('.label-cantidad')
+    let numero = ""
+    let nombre = ""
+
+    if (document.getElementById('numero')) {
+        
+        numero = document.getElementById('numero').value
+    
+    } else {
+        numero = ""
+    }
+
+    if (document.getElementById('nombre')) {
+        
+        nombre = document.getElementById('nombre').value
+    } else {
+
+        nombre = ""
+    }
+
+    console.log(numero);
+    console.log(nombre);
         
             try {
                 const response = await fetch('/auth/agregar', {
@@ -50,7 +72,9 @@ async function AgregarProducto() {
                     body: JSON.stringify( {
                         cantidad: label_contador.innerText,
                         id: sesion,
-                        id_producto: id
+                        id_producto: id,
+                        numero: numero,
+                        nombre: nombre
                     })
                 })
         

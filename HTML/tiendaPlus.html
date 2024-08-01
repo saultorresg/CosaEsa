@@ -49,20 +49,21 @@
             <!-- 24.94% 8.96% 177.18% -->
         <div class="carcasa" id="carcasa">
 
-          <div class="titulo_filtro" onclick="cambiarClaseFlitro()"><h1 data-bs-toggle="collapse"  data-bs-target="#flitros_extended">Filtros</h1></div>
+          <div class="titulo_filtro" onclick="cambiarClaseFlitro()"><h1 data-bs-toggle="collapse"  data-bs-target="#flitros_extended">Filtros
+            <svg class="flecha_flitro"xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" >
+              <path d="M11.9999 15.0538L6.34619 9.4L7.39994 8.34625L11.9999 12.9463L16.5999 8.34625L17.6537 9.4L11.9999 15.0538Z" /> 
+          </svg>
+          </h1></div>
           <div class="titulo_grupo_cartas"><h1>Titulo sección</h1></div>    
 
             <div id="div_flitros" class="flitros" >
-                <p class="titulos_filtos" data-bs-toggle="collapse"  data-bs-target="#flitros_extended">Filtrar por
-                    <svg class="flecha_flitro"xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" >
-                        <path d="M11.9999 15.0538L6.34619 9.4L7.39994 8.34625L11.9999 12.9463L16.5999 8.34625L17.6537 9.4L11.9999 15.0538Z" /> 
-                    </svg></p>
+                
                 <div class="flitros_extended collapse show" id="flitros_extended">
                     <p class="titulos_filtos"data-bs-toggle="collapse"  data-bs-target="#Mostrar_Todo">Mostar Todo</p>
                         <ul class="collapse show " id="Mostrar_Todo">
-                            <li class="lista_checkbox">En Stock &nbsp<label class="checkBox_filtro"><input id="ch1" type="checkbox"><div class="transition_checkbox" ></div></label>&nbsp</li>
-                            <li class="lista_checkbox">Preventa &nbsp<label class="checkBox_filtro"><input id="ch1" type="checkbox"><div class="transition_checkbox"></div></label>&nbsp</li>
-                            <li class="lista_checkbox">Agotado &nbsp<label class="checkBox_filtro"><input id="ch1" type="checkbox"><div class="transition_checkbox"></div></label>&nbsp</li>
+                            <li class="lista_checkbox">En Stock &nbsp<label class="checkBox_filtro"><input id="ch1" type="checkbox" class="stock" value="0" onchange="FiltrarDatos(this)"><div class="transition_checkbox" ></div></label>&nbsp</li>
+                            <li class="lista_checkbox">Preventa &nbsp<label class="checkBox_filtro"><input id="ch1" type="checkbox" class="stock" value="1" onchange="FiltrarDatos(this)"><div class="transition_checkbox"></div></label>&nbsp</li>
+                            <li class="lista_checkbox">Agotado &nbsp<label class="checkBox_filtro"><input id="ch1" type="checkbox" class="stock" value="11" onchange="FiltrarDatos(this)"><div class="transition_checkbox"></div></label>&nbsp</li>
                         </ul>
                     <p class="titulos_filtos" data-bs-toggle="collapse"  data-bs-target="#Articulos">Articulos Officiales(flechita)</p>
                         <ul class="collapse show" id="Articulos">
