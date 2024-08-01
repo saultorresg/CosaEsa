@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <style>
+             *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family:Obviously;
+            }
+            @font-face{
+                font-family:Obviously;
+                src:url(../img/fonnts.com-Obviously.otf);
+            }   
+        body{
+
+             display: flex;
+             justify-content: flex-end;
+             overflow-x: hidden;
+             }
+            ::-webkit-scrollbar {
+                display: none; /* Chrome, Safari y Opera */
+            }
+         body:before{
+                z-index:  var(--before-z-index, 0);
+                content: '';
+                opacity: var(--before-z-index, 0);
+                position: absolute;
+                background: rgba(43, 43, 43, 0.6);
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                }
+        
+            .nav_top{
+                display:flex;
+                justify-content: center;
+                background-color: #FFFFFF;
+                width: 100%;
+                height: 94px;
+                z-index: 2;
+                position: fixed;
+            }   
+                .union_header{
+                     height: 180%;
+                     position: absolute;
+                }
+                .nav_top_links{
+                    margin-top: 30px;
+                    margin-left: 36px;
+                    margin-right:36px;
+                    width: 100%;
+                    display: flex; 
+                    position: relative;
+                    justify-content: space-between;
+                    height: 43.8%;
+                }
+                    .nav_top_1{
+                        display: flex;
+                    }
+                    .nav_top_1 a{
+                        color: #004789;
+                        font-size: 22px;
+                        font-style: normal;
+                        font-weight: 900;
+                        line-height: normal;
+                    }
+                    .nav_top_2{
+                        display:inline-flex;
+                        align-items: center;
+                        display: flex;
+                        gap: 24px ;
+
+                    }
+                        .nav_top_2 a{
+                            text-decoration: none;
+                            color: #004789;
+                            font-size: 16px;
+                            font-style: normal;
+                            font-weight: 600;
+                        }
+
+                            .buscador{
+                                cursor: pointer;
+                                width: 135px;
+                                padding: 10px 0px 10px 40px;
+                                border-radius: 9999px;
+                                border: solid rgba(0, 0, 0, 0);
+                                transition: all .2s ease-in-out;
+                                outline: none;
+                                opacity: 1;
+                                font-size: 17px;
+                                font-style: normal;
+                                font-weight: 900;
+                                line-height: normal;
+                                color: #004789;
+                                background-color: rgba(0, 0, 0, 0); 
+                              }
+                              .buscador::placeholder {
+                                color: #004789; /* Cambia este color por el que desees */
+                                opacity: 1; /* Para asegurar que el color no se vea transparente */
+                              }
+                               .container-buscador {
+                                position: relative;
+                              }
+                              .container-buscador svg {
+                                position: absolute;
+                                top: 50%;
+                                left: 10px;
+                                transform: translate(0, -50%);
+                              }
+
+                              .buscador:focus {
+                                border: solid 3px #f15d2a;
+                                opacity: 1;
+                                width: 450px;
+                                color: #1C1C1C;
+                              }
+
+
+                            .btn_carrito {
+                                display: inline-flex; 
+                                align-items: center; 
+                                justify-content: center;
+                                padding: 10px 18px;
+                                border: solid #f15d2a;
+                                border-radius: 10px;
+                                color: #f15d2a; 
+                                z-index: 1;
+                                gap: 8px;
+                                background: #FFFFFF;
+                                position: relative;
+                                transition: all 200ms;
+                                overflow: hidden;
+                               }
+
+                               .btn_carrito::before {
+                                content: "";
+                                position: absolute;
+                                top: 0;
+                                left: 0;
+                                height: 100%;
+                                width: 0;
+                                border-radius: 0 ;
+                                background-color: #f15d2a;
+                                z-index: -1;
+                                transition: all 250ms;
+                               }
+
+                               .btn_carrito:hover {
+                                color: #FFFFFF;
+                               }
+
+                               .svg_carrito{
+                                   width:24px; 
+                                   height:24px;
+                                   fill:#f15d2a;
+
+                               }
+                               .btn_carrito:hover .svg_carrito{
+                                     fill:#FFFFFF;
+                               }
+
+                              .btn_carrito:hover::before {
+                                width: 100%;
+                               }
+         .lista_carrito {
+            width: 500px;
+            height: 100%;
+            background-color: #FFFFFF;
+            position: fixed;
+            z-index: 3;
+            transition: all .3s ease;
+            display: grid;
+            grid-template-columns:1fr ;
+            grid-template-rows:  96px auto 160px;
+             grid-template-areas:"lista_carrito_titulo"
+                                 "lista_carrito_compras"
+                                 "lista_carrito_btn";
+        }
+            .lista_carrito.active{
+                width: 0px;
+
+            }
+                .lista_carrito_titulo{
+                   grid-area: lista_carrito_titulo;
+                   padding-left: 40px;
+                   padding-top: 50px;
+                   padding-right: 40px;
+                   display: flex; 
+                   justify-content: space-between;
+                   box-shadow: 0px 5px 5px #efefef;
+                }
+                .lista_carrito_titulo_a{
+                    color:  #004789;
+                    font-size: 18px;
+                    font-style: normal;
+                    font-weight: 900;
+                    line-height: normal;
+                    text-decoration: none;
+                    display: flex;
+                    gap: 8px;
+                    align-items: center;
+                    height: fit-content;
+
+                }
+                .lista_carrito_btn{
+                    box-shadow: 0px -5px 5px #efefef;
+                    grid-area: lista_carrito_btn;
+                    display: grid;
+                    padding:  20px;
+                    gap:20px;
+                    grid-template-columns:1fr ;
+                    grid-template-rows:  1fr 1fr;
+                }
+                    .btn_lista_carrito_1{
+                        background-color: #f15d2a;
+                        border-radius: 15px;
+                        border: 3px solid #f15d2a;
+                        color: #FFFFFF;
+                    }
+                    .btn_lista_carrito_2{
+                        border-radius: 15px;
+                        border: 3px solid #f15d2a;
+                        color: #f15d2a;
+                        background: #FFFFFF;
+                    }
+                .lista_carrito_compras{
+                    overflow-y: scroll;
+                    grid-area: lista_carrito_compras;
+
+                }
+                .div_scroll{
+                    width:  100%;
+                    height:fit-content;
+                }
+                .carta_carrito{
+                    height: 180px;
+                    width: 100%;
+                    display: grid;
+                    gap: 16px;
+                    padding: 20px 16px;
+                     box-shadow: 0px 2px 5px #efefef;/*#F09F82*/
+                    grid-template-columns:100px auto ;
+                    grid-template-areas: "img_carrito_cart txt_carta_carrito";
+                }
+                    .img_carrito_cart{
+                        grid-area: img_carrito_cart;
+                        display:flex;
+                        align-items: center;
+                    }
+                        .img_carrito_cart img{
+                            width: 100px;
+                        }
+                    .txt_carta_carrito{
+                        grid-area: txt_carta_carrito;
+                    }
+                        .txt_carta_carrito_titulo{
+                            display: -webkit-box;
+                            -webkit-line-clamp: 2;
+                            -webkit-box-orient: vertical;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                        }
+                            .txt_carta_carrito_titulo a{
+                                overflow: hidden;
+                                color:  #1C1C1C;
+                                font-size: 16px;
+                                font-style: normal;
+                                font-weight: 900;
+                                line-height: normal;
+                            }
+                        .txt_carta_carrito_precio{
+                            display: flex;
+                            justify-content: space-between;
+                        }
+                            .txt_carta_carrito_precio a{
+                                color:  #1C1C1C;
+                                font-size: 16px;
+                                font-style: normal;
+                                font-weight: 400;
+                                line-height: normal;
+                            }
+                        .contenedor_btn_precio{
+                            width: 140px;
+                            display: flex;
+                            justify-content: center;
+                        }
+
+                        .num_productos{
+                            display: flex;
+                            border-radius: 8px;
+                            border: 2px solid  #F15D2A;
+                            padding: 6px 8px;
+                            width: fit-content;
+                            align-items: center;
+                            gap: 7px;
+                        }
+                            .num_productos_input{
+                                border: none;
+                                width: 60px;
+                                height: 25px;
+                                text-align: center;
+                                font-size: 20px;
+                                font-style: normal;
+                                font-weight: 900;
+                            }
+                            .num_productos_input:focus {
+                                    outline: none;
+                            }
+        .contendor{
+            top: 94px;
+            position: absolute;
+            width: 100% ;
+            height: calc(100% - 94px);
+            display: flex;
+            background-image:url("../IMAGES/fondo_fav.png");
+            background-size: cover; 
+            background-repeat: no-repeat; 
+            background-position: center;
+            justify-content: center;
+            align-items:  center;
+        }   
+            .contenedor_regresar{
+                background: #e8e8e8;
+                top: 40px;
+                left: 12px;
+                position: absolute;
+                height: 32px;
+                padding-right: 12px;
+                color: #1C1C1C;
+                border-radius: 4px;
+            }
+                .contenedor_regresar a{
+                    font-size: 16px;
+                    font-style: normal;
+                    font-weight: 600;
+                    line-height: normal;
+                }
+            .div_scroll_contenedor{
+                height: 100% ;
+                overflow-y: scroll;
+                padding: 40px;
+                width: fit-content;
+            }
+            .contedor_cartas{
+                border-radius: 12px;
+                padding: 30px 20px;
+                height: fit-content;
+                background: #e8e8e8;
+                width: 1204px;
+                 color:  #004789;
+            }
+            .contedor_cartas h1{
+                font-size: 24px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: normal;
+                margin-bottom: 24px;
+            }
+            .grupo_cartas{
+                display: grid;
+                gap: 12px;
+                grid-template-columns: repeat(4,1fr);
+            }
+             .carta{
+                border-radius: 10px;
+                overflow: hidden;
+                display: grid;
+                position: relative;
+                grid-template-rows: 321px 146px;
+                grid-template-areas:"img_carta"
+                                    "txt_carta";
+            }   
+                .carta_estado{
+                    border-radius: 4px;
+                    background: #FFFFFF;
+                    height: 32px;
+                    width: 96px;
+                    top: 12px;
+                    right: 12px;
+                    position: absolute;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    color:  #004789;
+                    opacity: 1;/*para ocultar el estado en cundo no sea deseado poner en 0 */
+
+                }
+                .carta_estado a{
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 600;
+                    line-height: normal;
+                }
+                .img_carta{
+                    grid-area: img_carta;
+                     object-fit: cover;
+                     width: 100%;
+
+
+                }
+                .txt_carta{
+                    grid-area: txt_carta;
+                    background-color: #FCFCFC;
+                    padding: 10px 16px;
+                }
+                    .txt_carta_1{
+                        overflow: hidden;
+                        color:  #004789;
+                        text-overflow: ellipsis;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 2;
+                        -webkit-box-orient: vertical;
+                    }
+                        .txt_carta_1 a{
+                            font-size: 16px;
+                            font-style: normal;
+                            font-weight: 600;
+                            line-height: normal;
+                        }
+                    .txt_carta_2{
+                        display: flex;
+                        justify-content: space-between;
+                        color: #1C1C1C;
+                    }
+                        .txt_carta_2 a{
+
+                            text-align: center;
+                            font-size: 16px;
+                            font-style: normal;
+                            font-weight: 400;
+                            line-height: normal;
+                        }
+                    /*  corazon*/
+                        .container_corazon input {
+                            position: absolute;
+                            opacity: 0;
+                            cursor: pointer;
+                            height: 0;
+                            width: 0;
+                          }
+
+                          .container_corazon {
+                            display: block;
+                            position: relative;
+                            cursor: pointer;
+                            user-select: none;
+                            width:30px;
+                          }
+
+                          .container_corazon svg {
+                            position: relative;
+                            top: 0;
+                            left: 0;
+                            height: 30px;
+                            width: 30px;
+                            transition: all 0.3s;
+                            fill: #f5865f;
+                          }
+
+                          .container_corazon svg:hover {
+                            transform: scale(1.1);
+                          }
+
+                          .container_corazon input:checked ~ svg {
+                            fill: #ffffff;
+                          }
+                    /*corazon*/
+                    .contendror_btn_carta{
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+                    .btn_carta{
+                        padding:  4px 12px;
+                        background: #f15d2a;
+                        color: #FFFFFF;
+                        border-radius: 10px;
+                         border: 1px solid #f15d2a;
+                    }
+.btn_eliminar {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background-color: #f15d2a;
+  border: none;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.164);
+  cursor: pointer;
+  transition-duration: .3s;
+  overflow: hidden;
+  position: relative;
+}
+
+.svgIcon_eliminar {
+  width: 12px;
+  transition-duration: .3s;
+}
+
+.svgIcon_eliminar path {
+  fill: white;
+}
+
+.btn_eliminar:hover {
+  width: 100px;
+  border-radius: 50px;
+  transition-duration: .3s;
+  align-items: center;
+}
+
+.btn_eliminar:hover .svgIcon_eliminar {
+  width: 40px;
+  transition-duration: .3s;
+  transform: translateY(50%);
+}
+
+.btn_eliminar::before {
+  position: absolute;
+  top: -31px;
+  content: "Eliminar";
+  color: white;
+  transition-duration: .3s;
+  font-size: .5px;
+}
+
+.btn_eliminar:hover::before {
+  font-size: 13px;
+  opacity: 1;
+  transform: translateY(30px);
+  transition-duration: .3s;
+}
+
+    </style>
+            <script>
+            // funcion para activar el menu y desactivrlo
+            function cambiarClase() {
+                var div = document.getElementById("lista_carrito");
+                if (div.classList.contains("active")) {
+                    div.classList.remove("active");
+                     document.body.style.setProperty('--before-z-index', '3');
+                     document.contendor.style.overflowY = 'hidden';
+                    
+                } else {
+                    div.classList.add("active");
+                     document.body.style.setProperty('--before-z-index', '0');
+                      document.contendor.style.overflowY = 'auto';
+                     
+                }
+            }
+      
+            function validaNumericos(event) {
+                if(event.charCode >= 48 && event.charCode <= 57){
+                  return true;
+                 }
+                 return false;        
+            }
+        </script>
+    </head>
+    <body>
+        <div class="nav_top">
+             <img src="../IMAGES/prueba_header_2.png" class="union_header" alt="alt"/>
+             <div class="nav_top_links">
+                <div class="nav_top_1">
+                    <a href="#">TIENDA</a>
+                </div>
+                <div class="nav_top_2">
+                 <div class="container-buscador">
+                    <input type="text"  placeholder="BUSCAR" name="text"  class="buscador">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="23" fill="#235583" height="24"  viewBox="0 0 23 24" >
+                    <path d="M21.0068 23.5L13.0644 15.5573C12.4432 16.0384 11.7268 16.4201 10.9153 16.7023C10.1037 16.9845 9.23624 17.1256 8.3128 17.1256C5.99252 17.1256 4.02699 16.3202 2.41619 14.7094C0.805397 13.0984 0 11.1329 0 8.8128C0 6.49273 0.805397 4.52719 2.41619 2.91619C4.02699 1.3054 5.99252 0.5 8.3128 0.5C10.6329 0.5 12.5983 1.3054 14.2091 2.91619C15.8201 4.52719 16.6256 6.49273 16.6256 8.8128C16.6256 9.74125 16.4845 10.6087 16.2023 11.4153C15.9199 
+                          12.2218 15.5382 12.9332 15.0573 13.5494L23.0072 21.5068L21.0068 23.5ZM8.3128 14.2764C9.83321 14.2764 11.1239 13.7459 12.1849 12.6849C13.2459 11.6241 13.7764 10.3334 13.7764 8.8128C13.7764 7.29218 13.2459 6.00148 12.1849 4.94069C11.1239 3.8797 9.83321 3.34921 8.3128 3.34921C6.79218 3.34921 5.50137 3.8797 4.44038 4.94069C3.3796 6.00148 2.84921 7.29218 2.84921 8.8128C2.84921 10.3334 3.3796 11.6241 4.44038 12.6849C5.50137 13.7459 6.79218 14.2764 8.3128 14.2764Z" />
+                    </svg>
+                  </div>
+
+                 <a  href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="#235583" width="22" height="24" viewBox="0 0 22 24" >
+                        <path d="M11.0075 11.8644C9.46105 11.8644 8.14038 11.3169 7.04549 10.222C5.9506 9.12714 5.40316 7.80647 5.40316 6.26003C5.40316 4.71381 5.9506 3.39447 7.04549 2.30203C8.14038 1.20981 
+                              9.46105 0.663696 11.0075 0.663696C12.5539 0.663696 13.8746 1.20981 14.9695 2.30203C16.0644 3.39447 16.6118 4.71381 16.6118 6.26003C16.6118 7.80647 16.0644 9.12714 14.9695 10.222C13.8746 
+                              11.3169 12.5539 11.8644 11.0075 11.8644ZM0.0698242 23.0734V19.053C0.0698242 18.2479 0.278047 17.508 0.694491 16.8334C1.11094 16.1585 1.66427 15.6435 2.35449 15.2884C3.74827 14.5941 5.16682 14.0721 
+                              6.61016 13.7224C8.05327 13.3726 9.51904 13.1977 11.0075 13.1977C12.5059 13.1977 13.9769 13.3713 15.4205 13.7184C16.864 14.0655 18.2774 14.5861 19.6605 15.2804C20.3507 15.6348 20.904 16.1487 21.3205 
+                              16.822C21.7369 17.4954 21.9452 18.2388 21.9452 19.0524V23.0734H0.0698242ZM3.10316 20.04H18.9118V19.0927C18.9118 18.8534 18.8507 18.6358 18.7285 18.44C18.6063 18.2443 18.4452 18.092 18.2452 17.9834C17.0772 17.4047 15.8899 
+                              16.968 14.6835 16.6734C13.4773 16.3785 12.2519 16.231 11.0075 16.231C9.77371 16.231 8.54838 16.3785 7.33149 16.6734C6.1146 16.968 4.92738 17.4047 3.76982 17.9834C3.56982 18.092 3.40871 18.2443 3.28649 18.44C3.16427 18.6358 
+                              3.10316 18.8534 3.10316 19.0927V20.04ZM11.0072 8.83103C11.714 8.83103 12.3194 8.57936 12.8232 8.07603C13.3267 7.5727 13.5785 6.96748 13.5785 6.26036C13.5785 5.55347 13.3268 4.94959 12.8235 4.4487C12.3199 3.94759 11.7147 3.69703 
+                              11.0078 3.69703C10.3009 3.69703 9.6956 3.94803 9.19182 4.45003C8.68827 4.95203 8.43649 5.55536 8.43649 6.26003C8.43649 6.96714 8.68816 7.57248 9.19149 8.07603C9.69504 8.57936 10.3003 8.83103 11.0072 8.83103Z" />
+                    </svg>
+                    INGRESAR
+                 </a>
+                    <button class="btn_carrito"  onclick="cambiarClase()">
+                        <svg class="svg_carrito" xmlns="http://www.w3.org/2000/svg" fill="#f15d2a" viewBox="0 0 24 24" >
+                            <path d="M6.9999 22.0897C6.44991 22.0897 5.97907 21.8938 5.58741 21.5022C5.19574 21.1105 4.99991 20.6397 4.99991 20.0897C4.99991 19.5397 5.19574 19.0688 
+                                  5.58741 18.6772C5.97907 18.2855 6.44991 18.0897 6.9999 18.0897C7.5499 18.0897 8.02074 18.2855 8.41241 18.6772C8.80407 19.0688 8.99991 19.5397 8.99991 
+                                  20.0897C8.99991 20.6397 8.80407 21.1105 8.41241 21.5022C8.02074 21.8938 7.5499 22.0897 6.9999 22.0897ZM16.9999 22.0897C16.4499 22.0897 15.9791 21.8938 
+                                  15.5874 21.5022C15.1957 21.1105 14.9999 20.6397 14.9999 20.0897C14.9999 19.5397 15.1957 19.0688 15.5874 18.6772C15.9791 18.2855 16.4499 18.0897 16.9999 
+                                  18.0897C17.5499 18.0897 18.0207 18.2855 18.4124 18.6772C18.8041 19.0688 18.9999 19.5397 18.9999 20.0897C18.9999 20.6397 18.8041 21.1105 18.4124
+                                  21.5022C18.0207 21.8938 17.5499 22.0897 16.9999 22.0897ZM6.29941 6.08966L8.5619 10.8147H15.5379L18.1324 6.08966H6.29941ZM5.25366 
+                                  3.91016H19.7767C20.2302 3.91016 20.5752 4.11091 20.8119 4.51241C21.0484 4.91391 21.0571 5.32149 20.8379 5.73516L17.4254 11.9022C17.2341 12.2473 16.9774 
+                                  12.5166 16.6554 12.7099C16.3332 12.9032 15.9807 12.9999 15.5977 12.9999H8.20166L7.15541 14.9102H19.0897V17.0897H6.9999C6.20607 17.0897 5.60949 16.7445 
+                                  5.21016 16.0542C4.81099 15.364 4.79632 14.68 5.16616 14.0022L6.49816 11.5999L2.94616 4.08966H0.910156V1.91016H4.30366L5.25366 3.91016Z" />
+                        </svg>
+                    0</button>
+                </div>
+            </div>
+        </div>
+        <div class="lista_carrito active" id="lista_carrito">
+            <div class="lista_carrito_titulo">
+                <a class="lista_carrito_titulo_a">
+                    <svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#004789">
+                        <path d="M6.9999 22.0897C6.44991 22.0897 5.97907 21.8938 5.58741 21.5022C5.19574 21.1105 4.99991 20.6397 4.99991 20.0897C4.99991 19.5397 5.19574 19.0688 5.58741 18.6772C5.97907 18.2855 6.44991 18.0897 6.9999 18.0897C7.5499 18.0897 8.02074 18.2855 8.41241 18.6772C8.80407 19.0688 8.99991 19.5397 8.99991 20.0897C8.99991 20.6397 8.80407 21.1105 
+                              8.41241 21.5022C8.02074 21.8938 7.5499 22.0897 6.9999 22.0897ZM16.9999 22.0897C16.4499 22.0897 15.9791 21.8938 15.5874 21.5022C15.1957 21.1105 14.9999 20.6397 14.9999 20.0897C14.9999 19.5397 15.1957 19.0688 15.5874 18.6772C15.9791 18.2855 16.4499 18.0897 16.9999 18.0897C17.5499 18.0897 18.0207 18.2855 18.4124 18.6772C18.8041 19.0688 
+                              18.9999 19.5397 18.9999 20.0897C18.9999 20.6397 18.8041 21.1105 18.4124 21.5022C18.0207 21.8938 17.5499 22.0897 16.9999 22.0897ZM6.29941 6.08966L8.5619 10.8147H15.5379L18.1324 6.08966H6.29941ZM5.25366 3.91016H19.7767C20.2302 3.91016 20.5752 4.11091 20.8119 4.51241C21.0484 4.91391 21.0571 5.32149 20.8379 5.73516L17.4254 11.9022C17.2341 
+                              12.2473 16.9774 12.5166 16.6554 12.7099C16.3332 12.9032 15.9807 12.9999 15.5977 12.9999H8.20166L7.15541 14.9102H19.0897V17.0897H6.9999C6.20607 17.0897 5.60949 16.7445 5.21016 16.0542C4.81099 15.364 4.79632 14.68 5.16616 14.0022L6.49816 11.5999L2.94616 4.08966H0.910156V1.91016H4.30366L5.25366 3.91016Z" />
+                    </svg>Carrito
+                </a>
+                <a onclick="cambiarClase()" >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <mask id="mask0_1871_15981" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                          <rect width="24" height="24" fill="#D9D9D9"/>
+                        </mask>
+                        <g mask="url(#mask0_1871_15981)">
+                          <path d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z" fill="#1C1C1C"/>
+                        </g>
+                    </svg>
+                </a>
+            </div>
+            <div class="lista_carrito_compras">
+                <div class="div_scroll" >
+                    
+                    <div class="carta_carrito">
+                        <div class="img_carrito_cart">
+                            <img src="../IMAGES/prueba_cart.png"  alt="alt"/>
+                        </div>
+                        <div class="txt_carta_carrito">
+                            <div class="txt_carta_carrito_titulo">    
+                                <a>Camiseta Oficial Calvos 2024 Juvenil/ Talla M, Personalizado </a>
+                            </div>
+                            <div class="txt_carta_carrito_precio">
+                                <a>$1200.00 MXN</a>
+                                <div class="contenedor_btn_precio">
+                                    <button class="btn_eliminar">
+                                        <svg viewBox="0 0 448 512" class="svgIcon_eliminar"><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"></path></svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="num_productos">
+                                <a>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <mask id="mask0_1871_15957" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                                          <rect width="24" height="24" fill="#D9D9D9"/>
+                                        </mask>
+                                        <g mask="url(#mask0_1871_15957)">
+                                          <path d="M3.79688 13.1373V10.8623H20.2034V13.1373H3.79688Z" fill="#004789"/>
+                                        </g>
+                                    </svg>
+                                </a>
+                                <input type="text"  value="1230" name="numero" class="num_productos_input" onkeypress="return validaNumericos(event)" maxlength="4">
+                                <a>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <mask id="mask0_1871_15961" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                                          <rect width="24" height="24" fill="#D9D9D9"/>
+                                        </mask>
+                                        <g mask="url(#mask0_1871_15961)">
+                                          <path d="M10.8626 13.1376H4.79688V10.8626H10.8626V4.79688H13.1376V10.8626H19.2034V13.1376H13.1376V19.2034H10.8626V13.1376Z" fill="#004789"/>
+                                        </g>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- carta -->
+                  
+                </div>
+            </div>
+            <div class="lista_carrito_btn">
+                <button class="btn_lista_carrito_1">Pagar Pedido-Total: $dinero MXN</button>
+                <button class="btn_lista_carrito_2">Vaciar carrito</button>
+            </div>
+        </div>
+        <div class="contendor" id="contendor">
+            <div class="contenedor_regresar">
+                <a><svg xmlns="http://www.w3.org/2000/svg" width="31" height="32" viewBox="0 0 31 32" fill="none">
+                    <mask id="mask0_1950_14977" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="-1" y="0" width="32" height="32">
+                    <rect x="30.9238" width="32" height="30.9244" transform="rotate(90 30.9238 0)" fill="#D9D9D9"/>
+                    </mask>
+                    <g mask="url(#mask0_1950_14977)">
+                    <path d="M11.5272 16.0002L18.8121 8.46191L20.1699 9.86691L14.2427 16.0002L20.1699 22.1336L18.8121 23.5386L11.5272 16.0002Z" fill="#1C1C1C"/>
+                    </g>
+                    </svg>Atrás</a>
+            </div>
+            <div class="div_scroll_contenedor">
+                <div class="contedor_cartas">
+                    <h1>Mis favoritos (1234)</h1>
+                    <div class="grupo_cartas">
+                        <div class="carta" >
+                            <div class="carta_estado">
+                                <a>Preventa</a>
+                            </div>
+                            <img src="../img/prueba_cart.png"  class="img_carta" alt="...">
+                            <div class="txt_carta">
+                                <div class="txt_carta_1">
+                                    <a>Camiseta Oficial Cachorros 2024 Juvenil</a>
+                                </div>
+                                <div class="txt_carta_2">
+                                    <a>$1200.00 MX</a>
+                                      <label class="container_corazon">
+                                    <input type="checkbox">
+                                        <svg id="Layer_1" version="1.0" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <path d="M16.4,4C14.6,4,13,4.9,12,6.3C11,4.9,9.4,4,7.6,4C4.5,4,2,6.5,2,9.6C2,14,12,22,12,22s10-8,10-12.4C22,6.5,19.5,4,16.4,4z"></path></svg>
+                                  </label> 
+                                </div>
+                                <div class="contendror_btn_carta">
+                                    <button class="btn_carta">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                                            <mask id="mask0_1950_15788" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
+                                            <rect x="0.900391" width="24" height="24" fill="#D9D9D9"/>
+                                            </mask>
+                                            <g mask="url(#mask0_1950_15788)">
+                                            <path d="M7.90039 22C7.35039 22 6.87956 21.8042 6.48789 21.4125C6.09622 21.0208 5.90039 20.55 5.90039 20C5.90039 19.45 6.09622 18.9792 6.48789 18.5875C6.87956 18.1958 7.35039 18 7.90039 18C8.45039 18 8.92122 18.1958 9.31289 18.5875C9.70456 18.9792 9.90039 19.45 9.90039 20C9.90039 20.55 9.70456 21.0208 9.31289 21.4125C8.92122 21.8042 8.45039 22 7.90039 22ZM17.9004 22C17.3504 22 16.8796 21.8042 16.4879 21.4125C16.0962 21.0208 15.9004 20.55 15.9004 20C15.9004 19.45 16.0962 18.9792 16.4879 18.5875C16.8796 18.1958 17.3504 18 17.9004 18C18.4504 18 18.9212 18.1958 19.3129 18.5875C19.7046 18.9792 19.9004 19.45 19.9004 20C19.9004 20.55 19.7046 21.0208 19.3129 21.4125C18.9212 21.8042 18.4504 22 17.9004 22ZM7.05039 6L9.45039 11H16.4504L19.2004 6H7.05039ZM6.10039 4H20.8504C21.2337 4 21.5254 4.17083 21.7254 4.5125C21.9254 4.85417 21.9337 5.2 21.7504 5.55L18.2004 11.95C18.0171 12.2833 17.7712 12.5417 17.4629 12.725C17.1546 12.9083 16.8171 13 16.4504 13H9.00039L7.90039 15H19.9004V17H7.90039C7.15039 17 6.58372 16.6708 6.20039 16.0125C5.81706 15.3542 5.80039 14.7 6.15039 14.05L7.50039 11.6L3.90039 4H1.90039V2H5.15039L6.10039 4Z" fill="white"/>
+                                            </g>
+                                        </svg>Añadir carrito</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- carta 2 -->
+                        <div class="carta" >
+                            <div class="carta_estado">
+                                <a>Preventa</a>
+                            </div>
+                            <img src="../img/prueba_cart.png"  class="img_carta" alt="...">
+                            <div class="txt_carta">
+                                <div class="txt_carta_1">
+                                    <a>Camiseta Oficial Cachorros 2024 Juvenil</a>
+                                </div>
+                                <div class="txt_carta_2">
+                                    <a>$1200.00 MX</a>
+                                      <label class="container_corazon">
+                                    <input type="checkbox">
+                                        <svg id="Layer_1" version="1.0" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <path d="M16.4,4C14.6,4,13,4.9,12,6.3C11,4.9,9.4,4,7.6,4C4.5,4,2,6.5,2,9.6C2,14,12,22,12,22s10-8,10-12.4C22,6.5,19.5,4,16.4,4z"></path></svg>
+                                  </label> 
+                                </div>
+                                <div class="contendror_btn_carta">
+                                    <button class="btn_carta">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                                            <mask id="mask0_1950_15788" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
+                                            <rect x="0.900391" width="24" height="24" fill="#D9D9D9"/>
+                                            </mask>
+                                            <g mask="url(#mask0_1950_15788)">
+                                            <path d="M7.90039 22C7.35039 22 6.87956 21.8042 6.48789 21.4125C6.09622 21.0208 5.90039 20.55 5.90039 20C5.90039 19.45 6.09622 18.9792 6.48789 18.5875C6.87956 18.1958 7.35039 18 7.90039 18C8.45039 18 8.92122 18.1958 9.31289 18.5875C9.70456 18.9792 9.90039 19.45 9.90039 20C9.90039 20.55 9.70456 21.0208 9.31289 21.4125C8.92122 21.8042 8.45039 22 7.90039 22ZM17.9004 22C17.3504 22 16.8796 21.8042 16.4879 21.4125C16.0962 21.0208 15.9004 20.55 15.9004 20C15.9004 19.45 16.0962 18.9792 16.4879 18.5875C16.8796 18.1958 17.3504 18 17.9004 18C18.4504 18 18.9212 18.1958 19.3129 18.5875C19.7046 18.9792 19.9004 19.45 19.9004 20C19.9004 20.55 19.7046 21.0208 19.3129 21.4125C18.9212 21.8042 18.4504 22 17.9004 22ZM7.05039 6L9.45039 11H16.4504L19.2004 6H7.05039ZM6.10039 4H20.8504C21.2337 4 21.5254 4.17083 21.7254 4.5125C21.9254 4.85417 21.9337 5.2 21.7504 5.55L18.2004 11.95C18.0171 12.2833 17.7712 12.5417 17.4629 12.725C17.1546 12.9083 16.8171 13 16.4504 13H9.00039L7.90039 15H19.9004V17H7.90039C7.15039 17 6.58372 16.6708 6.20039 16.0125C5.81706 15.3542 5.80039 14.7 6.15039 14.05L7.50039 11.6L3.90039 4H1.90039V2H5.15039L6.10039 4Z" fill="white"/>
+                                            </g>
+                                        </svg>Añadir carrito</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- carta 2 -->
+                        <div class="carta" >
+                            <div class="carta_estado">
+                                <a>Preventa</a>
+                            </div>
+                            <img src="../img/prueba_cart.png"  class="img_carta" alt="...">
+                            <div class="txt_carta">
+                                <div class="txt_carta_1">
+                                    <a>Camiseta Oficial Cachorros 2024 Juvenil</a>
+                                </div>
+                                <div class="txt_carta_2">
+                                    <a>$1200.00 MX</a>
+                                      <label class="container_corazon">
+                                    <input type="checkbox">
+                                        <svg id="Layer_1" version="1.0" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <path d="M16.4,4C14.6,4,13,4.9,12,6.3C11,4.9,9.4,4,7.6,4C4.5,4,2,6.5,2,9.6C2,14,12,22,12,22s10-8,10-12.4C22,6.5,19.5,4,16.4,4z"></path></svg>
+                                  </label> 
+                                </div>
+                                <div class="contendror_btn_carta">
+                                    <button class="btn_carta">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                                            <mask id="mask0_1950_15788" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
+                                            <rect x="0.900391" width="24" height="24" fill="#D9D9D9"/>
+                                            </mask>
+                                            <g mask="url(#mask0_1950_15788)">
+                                            <path d="M7.90039 22C7.35039 22 6.87956 21.8042 6.48789 21.4125C6.09622 21.0208 5.90039 20.55 5.90039 20C5.90039 19.45 6.09622 18.9792 6.48789 18.5875C6.87956 18.1958 7.35039 18 7.90039 18C8.45039 18 8.92122 18.1958 9.31289 18.5875C9.70456 18.9792 9.90039 19.45 9.90039 20C9.90039 20.55 9.70456 21.0208 9.31289 21.4125C8.92122 21.8042 8.45039 22 7.90039 22ZM17.9004 22C17.3504 22 16.8796 21.8042 16.4879 21.4125C16.0962 21.0208 15.9004 20.55 15.9004 20C15.9004 19.45 16.0962 18.9792 16.4879 18.5875C16.8796 18.1958 17.3504 18 17.9004 18C18.4504 18 18.9212 18.1958 19.3129 18.5875C19.7046 18.9792 19.9004 19.45 19.9004 20C19.9004 20.55 19.7046 21.0208 19.3129 21.4125C18.9212 21.8042 18.4504 22 17.9004 22ZM7.05039 6L9.45039 11H16.4504L19.2004 6H7.05039ZM6.10039 4H20.8504C21.2337 4 21.5254 4.17083 21.7254 4.5125C21.9254 4.85417 21.9337 5.2 21.7504 5.55L18.2004 11.95C18.0171 12.2833 17.7712 12.5417 17.4629 12.725C17.1546 12.9083 16.8171 13 16.4504 13H9.00039L7.90039 15H19.9004V17H7.90039C7.15039 17 6.58372 16.6708 6.20039 16.0125C5.81706 15.3542 5.80039 14.7 6.15039 14.05L7.50039 11.6L3.90039 4H1.90039V2H5.15039L6.10039 4Z" fill="white"/>
+                                            </g>
+                                        </svg>Añadir carrito</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- carta 2 -->
+                        <div class="carta" >
+                            <div class="carta_estado">
+                                <a>Preventa</a>
+                            </div>
+                            <img src="../img/prueba_cart.png"  class="img_carta" alt="...">
+                            <div class="txt_carta">
+                                <div class="txt_carta_1">
+                                    <a>Camiseta Oficial Cachorros 2024 Juvenil</a>
+                                </div>
+                                <div class="txt_carta_2">
+                                    <a>$1200.00 MX</a>
+                                      <label class="container_corazon">
+                                    <input type="checkbox">
+                                        <svg id="Layer_1" version="1.0" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <path d="M16.4,4C14.6,4,13,4.9,12,6.3C11,4.9,9.4,4,7.6,4C4.5,4,2,6.5,2,9.6C2,14,12,22,12,22s10-8,10-12.4C22,6.5,19.5,4,16.4,4z"></path></svg>
+                                  </label> 
+                                </div>
+                                <div class="contendror_btn_carta">
+                                    <button class="btn_carta">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                                            <mask id="mask0_1950_15788" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
+                                            <rect x="0.900391" width="24" height="24" fill="#D9D9D9"/>
+                                            </mask>
+                                            <g mask="url(#mask0_1950_15788)">
+                                            <path d="M7.90039 22C7.35039 22 6.87956 21.8042 6.48789 21.4125C6.09622 21.0208 5.90039 20.55 5.90039 20C5.90039 19.45 6.09622 18.9792 6.48789 18.5875C6.87956 18.1958 7.35039 18 7.90039 18C8.45039 18 8.92122 18.1958 9.31289 18.5875C9.70456 18.9792 9.90039 19.45 9.90039 20C9.90039 20.55 9.70456 21.0208 9.31289 21.4125C8.92122 21.8042 8.45039 22 7.90039 22ZM17.9004 22C17.3504 22 16.8796 21.8042 16.4879 21.4125C16.0962 21.0208 15.9004 20.55 15.9004 20C15.9004 19.45 16.0962 18.9792 16.4879 18.5875C16.8796 18.1958 17.3504 18 17.9004 18C18.4504 18 18.9212 18.1958 19.3129 18.5875C19.7046 18.9792 19.9004 19.45 19.9004 20C19.9004 20.55 19.7046 21.0208 19.3129 21.4125C18.9212 21.8042 18.4504 22 17.9004 22ZM7.05039 6L9.45039 11H16.4504L19.2004 6H7.05039ZM6.10039 4H20.8504C21.2337 4 21.5254 4.17083 21.7254 4.5125C21.9254 4.85417 21.9337 5.2 21.7504 5.55L18.2004 11.95C18.0171 12.2833 17.7712 12.5417 17.4629 12.725C17.1546 12.9083 16.8171 13 16.4504 13H9.00039L7.90039 15H19.9004V17H7.90039C7.15039 17 6.58372 16.6708 6.20039 16.0125C5.81706 15.3542 5.80039 14.7 6.15039 14.05L7.50039 11.6L3.90039 4H1.90039V2H5.15039L6.10039 4Z" fill="white"/>
+                                            </g>
+                                        </svg>Añadir carrito</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- carta 2 -->
+                        <div class="carta" >
+                            <div class="carta_estado">
+                                <a>Preventa</a>
+                            </div>
+                            <img src="../img/prueba_cart.png"  class="img_carta" alt="...">
+                            <div class="txt_carta">
+                                <div class="txt_carta_1">
+                                    <a>Camiseta Oficial Cachorros 2024 Juvenil</a>
+                                </div>
+                                <div class="txt_carta_2">
+                                    <a>$1200.00 MX</a>
+                                      <label class="container_corazon">
+                                    <input type="checkbox">
+                                        <svg id="Layer_1" version="1.0" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <path d="M16.4,4C14.6,4,13,4.9,12,6.3C11,4.9,9.4,4,7.6,4C4.5,4,2,6.5,2,9.6C2,14,12,22,12,22s10-8,10-12.4C22,6.5,19.5,4,16.4,4z"></path></svg>
+                                  </label> 
+                                </div>
+                                <div class="contendror_btn_carta">
+                                    <button class="btn_carta">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                                            <mask id="mask0_1950_15788" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
+                                            <rect x="0.900391" width="24" height="24" fill="#D9D9D9"/>
+                                            </mask>
+                                            <g mask="url(#mask0_1950_15788)">
+                                            <path d="M7.90039 22C7.35039 22 6.87956 21.8042 6.48789 21.4125C6.09622 21.0208 5.90039 20.55 5.90039 20C5.90039 19.45 6.09622 18.9792 6.48789 18.5875C6.87956 18.1958 7.35039 18 7.90039 18C8.45039 18 8.92122 18.1958 9.31289 18.5875C9.70456 18.9792 9.90039 19.45 9.90039 20C9.90039 20.55 9.70456 21.0208 9.31289 21.4125C8.92122 21.8042 8.45039 22 7.90039 22ZM17.9004 22C17.3504 22 16.8796 21.8042 16.4879 21.4125C16.0962 21.0208 15.9004 20.55 15.9004 20C15.9004 19.45 16.0962 18.9792 16.4879 18.5875C16.8796 18.1958 17.3504 18 17.9004 18C18.4504 18 18.9212 18.1958 19.3129 18.5875C19.7046 18.9792 19.9004 19.45 19.9004 20C19.9004 20.55 19.7046 21.0208 19.3129 21.4125C18.9212 21.8042 18.4504 22 17.9004 22ZM7.05039 6L9.45039 11H16.4504L19.2004 6H7.05039ZM6.10039 4H20.8504C21.2337 4 21.5254 4.17083 21.7254 4.5125C21.9254 4.85417 21.9337 5.2 21.7504 5.55L18.2004 11.95C18.0171 12.2833 17.7712 12.5417 17.4629 12.725C17.1546 12.9083 16.8171 13 16.4504 13H9.00039L7.90039 15H19.9004V17H7.90039C7.15039 17 6.58372 16.6708 6.20039 16.0125C5.81706 15.3542 5.80039 14.7 6.15039 14.05L7.50039 11.6L3.90039 4H1.90039V2H5.15039L6.10039 4Z" fill="white"/>
+                                            </g>
+                                        </svg>Añadir carrito</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- carta 2 -->
+                        <div class="carta" >
+                            <div class="carta_estado">
+                                <a>Preventa</a>
+                            </div>
+                            <img src="../img/prueba_cart.png"  class="img_carta" alt="...">
+                            <div class="txt_carta">
+                                <div class="txt_carta_1">
+                                    <a>Camiseta Oficial Cachorros 2024 Juvenil</a>
+                                </div>
+                                <div class="txt_carta_2">
+                                    <a>$1200.00 MX</a>
+                                      <label class="container_corazon">
+                                    <input type="checkbox">
+                                        <svg id="Layer_1" version="1.0" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <path d="M16.4,4C14.6,4,13,4.9,12,6.3C11,4.9,9.4,4,7.6,4C4.5,4,2,6.5,2,9.6C2,14,12,22,12,22s10-8,10-12.4C22,6.5,19.5,4,16.4,4z"></path></svg>
+                                  </label> 
+                                </div>
+                                <div class="contendror_btn_carta">
+                                    <button class="btn_carta">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                                            <mask id="mask0_1950_15788" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
+                                            <rect x="0.900391" width="24" height="24" fill="#D9D9D9"/>
+                                            </mask>
+                                            <g mask="url(#mask0_1950_15788)">
+                                            <path d="M7.90039 22C7.35039 22 6.87956 21.8042 6.48789 21.4125C6.09622 21.0208 5.90039 20.55 5.90039 20C5.90039 19.45 6.09622 18.9792 6.48789 18.5875C6.87956 18.1958 7.35039 18 7.90039 18C8.45039 18 8.92122 18.1958 9.31289 18.5875C9.70456 18.9792 9.90039 19.45 9.90039 20C9.90039 20.55 9.70456 21.0208 9.31289 21.4125C8.92122 21.8042 8.45039 22 7.90039 22ZM17.9004 22C17.3504 22 16.8796 21.8042 16.4879 21.4125C16.0962 21.0208 15.9004 20.55 15.9004 20C15.9004 19.45 16.0962 18.9792 16.4879 18.5875C16.8796 18.1958 17.3504 18 17.9004 18C18.4504 18 18.9212 18.1958 19.3129 18.5875C19.7046 18.9792 19.9004 19.45 19.9004 20C19.9004 20.55 19.7046 21.0208 19.3129 21.4125C18.9212 21.8042 18.4504 22 17.9004 22ZM7.05039 6L9.45039 11H16.4504L19.2004 6H7.05039ZM6.10039 4H20.8504C21.2337 4 21.5254 4.17083 21.7254 4.5125C21.9254 4.85417 21.9337 5.2 21.7504 5.55L18.2004 11.95C18.0171 12.2833 17.7712 12.5417 17.4629 12.725C17.1546 12.9083 16.8171 13 16.4504 13H9.00039L7.90039 15H19.9004V17H7.90039C7.15039 17 6.58372 16.6708 6.20039 16.0125C5.81706 15.3542 5.80039 14.7 6.15039 14.05L7.50039 11.6L3.90039 4H1.90039V2H5.15039L6.10039 4Z" fill="white"/>
+                                            </g>
+                                        </svg>Añadir carrito</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- carta 2 -->
+                        <div class="carta" >
+                            <div class="carta_estado">
+                                <a>Preventa</a>
+                            </div>
+                            <img src="../img/prueba_cart.png"  class="img_carta" alt="...">
+                            <div class="txt_carta">
+                                <div class="txt_carta_1">
+                                    <a>Camiseta Oficial Cachorros 2024 Juvenil</a>
+                                </div>
+                                <div class="txt_carta_2">
+                                    <a>$1200.00 MX</a>
+                                      <label class="container_corazon">
+                                    <input type="checkbox">
+                                        <svg id="Layer_1" version="1.0" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <path d="M16.4,4C14.6,4,13,4.9,12,6.3C11,4.9,9.4,4,7.6,4C4.5,4,2,6.5,2,9.6C2,14,12,22,12,22s10-8,10-12.4C22,6.5,19.5,4,16.4,4z"></path></svg>
+                                  </label> 
+                                </div>
+                                <div class="contendror_btn_carta">
+                                    <button class="btn_carta">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                                            <mask id="mask0_1950_15788" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
+                                            <rect x="0.900391" width="24" height="24" fill="#D9D9D9"/>
+                                            </mask>
+                                            <g mask="url(#mask0_1950_15788)">
+                                            <path d="M7.90039 22C7.35039 22 6.87956 21.8042 6.48789 21.4125C6.09622 21.0208 5.90039 20.55 5.90039 20C5.90039 19.45 6.09622 18.9792 6.48789 18.5875C6.87956 18.1958 7.35039 18 7.90039 18C8.45039 18 8.92122 18.1958 9.31289 18.5875C9.70456 18.9792 9.90039 19.45 9.90039 20C9.90039 20.55 9.70456 21.0208 9.31289 21.4125C8.92122 21.8042 8.45039 22 7.90039 22ZM17.9004 22C17.3504 22 16.8796 21.8042 16.4879 21.4125C16.0962 21.0208 15.9004 20.55 15.9004 20C15.9004 19.45 16.0962 18.9792 16.4879 18.5875C16.8796 18.1958 17.3504 18 17.9004 18C18.4504 18 18.9212 18.1958 19.3129 18.5875C19.7046 18.9792 19.9004 19.45 19.9004 20C19.9004 20.55 19.7046 21.0208 19.3129 21.4125C18.9212 21.8042 18.4504 22 17.9004 22ZM7.05039 6L9.45039 11H16.4504L19.2004 6H7.05039ZM6.10039 4H20.8504C21.2337 4 21.5254 4.17083 21.7254 4.5125C21.9254 4.85417 21.9337 5.2 21.7504 5.55L18.2004 11.95C18.0171 12.2833 17.7712 12.5417 17.4629 12.725C17.1546 12.9083 16.8171 13 16.4504 13H9.00039L7.90039 15H19.9004V17H7.90039C7.15039 17 6.58372 16.6708 6.20039 16.0125C5.81706 15.3542 5.80039 14.7 6.15039 14.05L7.50039 11.6L3.90039 4H1.90039V2H5.15039L6.10039 4Z" fill="white"/>
+                                            </g>
+                                        </svg>Añadir carrito</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- carta 2 -->
+                        <div class="carta" >
+                            <div class="carta_estado">
+                                <a>Preventa</a>
+                            </div>
+                            <img src="../img/prueba_cart.png"  class="img_carta" alt="...">
+                            <div class="txt_carta">
+                                <div class="txt_carta_1">
+                                    <a>Camiseta Oficial Cachorros 2024 Juvenil</a>
+                                </div>
+                                <div class="txt_carta_2">
+                                    <a>$1200.00 MX</a>
+                                      <label class="container_corazon">
+                                    <input type="checkbox">
+                                        <svg id="Layer_1" version="1.0" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <path d="M16.4,4C14.6,4,13,4.9,12,6.3C11,4.9,9.4,4,7.6,4C4.5,4,2,6.5,2,9.6C2,14,12,22,12,22s10-8,10-12.4C22,6.5,19.5,4,16.4,4z"></path></svg>
+                                  </label> 
+                                </div>
+                                <div class="contendror_btn_carta">
+                                    <button class="btn_carta">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                                            <mask id="mask0_1950_15788" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
+                                            <rect x="0.900391" width="24" height="24" fill="#D9D9D9"/>
+                                            </mask>
+                                            <g mask="url(#mask0_1950_15788)">
+                                            <path d="M7.90039 22C7.35039 22 6.87956 21.8042 6.48789 21.4125C6.09622 21.0208 5.90039 20.55 5.90039 20C5.90039 19.45 6.09622 18.9792 6.48789 18.5875C6.87956 18.1958 7.35039 18 7.90039 18C8.45039 18 8.92122 18.1958 9.31289 18.5875C9.70456 18.9792 9.90039 19.45 9.90039 20C9.90039 20.55 9.70456 21.0208 9.31289 21.4125C8.92122 21.8042 8.45039 22 7.90039 22ZM17.9004 22C17.3504 22 16.8796 21.8042 16.4879 21.4125C16.0962 21.0208 15.9004 20.55 15.9004 20C15.9004 19.45 16.0962 18.9792 16.4879 18.5875C16.8796 18.1958 17.3504 18 17.9004 18C18.4504 18 18.9212 18.1958 19.3129 18.5875C19.7046 18.9792 19.9004 19.45 19.9004 20C19.9004 20.55 19.7046 21.0208 19.3129 21.4125C18.9212 21.8042 18.4504 22 17.9004 22ZM7.05039 6L9.45039 11H16.4504L19.2004 6H7.05039ZM6.10039 4H20.8504C21.2337 4 21.5254 4.17083 21.7254 4.5125C21.9254 4.85417 21.9337 5.2 21.7504 5.55L18.2004 11.95C18.0171 12.2833 17.7712 12.5417 17.4629 12.725C17.1546 12.9083 16.8171 13 16.4504 13H9.00039L7.90039 15H19.9004V17H7.90039C7.15039 17 6.58372 16.6708 6.20039 16.0125C5.81706 15.3542 5.80039 14.7 6.15039 14.05L7.50039 11.6L3.90039 4H1.90039V2H5.15039L6.10039 4Z" fill="white"/>
+                                            </g>
+                                        </svg>Añadir carrito</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- carta 2 -->
+                        <div class="carta" >
+                            <div class="carta_estado">
+                                <a>Preventa</a>
+                            </div>
+                            <img src="../img/prueba_cart.png"  class="img_carta" alt="...">
+                            <div class="txt_carta">
+                                <div class="txt_carta_1">
+                                    <a>Camiseta Oficial Cachorros 2024 Juvenil</a>
+                                </div>
+                                <div class="txt_carta_2">
+                                    <a>$1200.00 MX</a>
+                                      <label class="container_corazon">
+                                    <input type="checkbox">
+                                        <svg id="Layer_1" version="1.0" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <path d="M16.4,4C14.6,4,13,4.9,12,6.3C11,4.9,9.4,4,7.6,4C4.5,4,2,6.5,2,9.6C2,14,12,22,12,22s10-8,10-12.4C22,6.5,19.5,4,16.4,4z"></path></svg>
+                                  </label> 
+                                </div>
+                                <div class="contendror_btn_carta">
+                                    <button class="btn_carta">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                                            <mask id="mask0_1950_15788" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
+                                            <rect x="0.900391" width="24" height="24" fill="#D9D9D9"/>
+                                            </mask>
+                                            <g mask="url(#mask0_1950_15788)">
+                                            <path d="M7.90039 22C7.35039 22 6.87956 21.8042 6.48789 21.4125C6.09622 21.0208 5.90039 20.55 5.90039 20C5.90039 19.45 6.09622 18.9792 6.48789 18.5875C6.87956 18.1958 7.35039 18 7.90039 18C8.45039 18 8.92122 18.1958 9.31289 18.5875C9.70456 18.9792 9.90039 19.45 9.90039 20C9.90039 20.55 9.70456 21.0208 9.31289 21.4125C8.92122 21.8042 8.45039 22 7.90039 22ZM17.9004 22C17.3504 22 16.8796 21.8042 16.4879 21.4125C16.0962 21.0208 15.9004 20.55 15.9004 20C15.9004 19.45 16.0962 18.9792 16.4879 18.5875C16.8796 18.1958 17.3504 18 17.9004 18C18.4504 18 18.9212 18.1958 19.3129 18.5875C19.7046 18.9792 19.9004 19.45 19.9004 20C19.9004 20.55 19.7046 21.0208 19.3129 21.4125C18.9212 21.8042 18.4504 22 17.9004 22ZM7.05039 6L9.45039 11H16.4504L19.2004 6H7.05039ZM6.10039 4H20.8504C21.2337 4 21.5254 4.17083 21.7254 4.5125C21.9254 4.85417 21.9337 5.2 21.7504 5.55L18.2004 11.95C18.0171 12.2833 17.7712 12.5417 17.4629 12.725C17.1546 12.9083 16.8171 13 16.4504 13H9.00039L7.90039 15H19.9004V17H7.90039C7.15039 17 6.58372 16.6708 6.20039 16.0125C5.81706 15.3542 5.80039 14.7 6.15039 14.05L7.50039 11.6L3.90039 4H1.90039V2H5.15039L6.10039 4Z" fill="white"/>
+                                            </g>
+                                        </svg>Añadir carrito</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- carta 2 -->
+                    </div>
+                </div>
+                </div>
+        </div>
+    </body>
+</html>

@@ -136,8 +136,35 @@ const obtener_producto = async (req, res) => {
     try {
         
         const producto = await db.query('SELECT * FROM producto WHERE id = ?', [id] )
-        console.log(producto);
-        res.status(200).json({producto})
+        console.log(producto[0][0].idTipo);
+
+        switch (producto[0][0].idTipo) {
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 9:
+                const [pMedidas] = await db.query('SELECT * FROM productomedidas WHERE idProducto = ? ', [id])
+                console.log('Medidas');
+                let idMedidas = []
+
+                pMedidas.forEach(element => {
+
+                    idMedidas.push(element.idMedida)
+                })
+
+                const [medidas] = await db.query('SELECT * FROM medida WHERE id IN (?)', [idMedidas])
+                res.status(200).json({producto, medidas})
+                break;
+        
+            default:
+
+                res.status(200).json({producto})
+
+                break;
+        }
+
+        
 
     } catch (error) {
         console.log(error);        
@@ -203,7 +230,7 @@ const dar_like = async (req, res) => {
     try {
 
         const [idUsuario] = await db.query('SELECT idUsuario FROM sesion WHERE id = ?', [sesion])
-        console.log(idUsuario[0].idUsuario);
+       
         const [row] = await db.query('INSERT INTO productousuario (idProducto, idUsuario) VALUES (?,?)', [number, idUsuario[0].idUsuario])
         res.status(500).json({row})
     } catch (error) {
@@ -219,14 +246,16 @@ const demostrar_like = async (req, res) => {
     try {
         
         const [idUsuario] = await db.query('SELECT idUsuario FROM sesion WHERE id = ?', [sesion])
-        console.log(idUsuario[0].idUsuario);
         const [row] = await db.query('SELECT * FROM productousuario WHERE idUsuario = ? AND idProducto = ?', [idUsuario[0].idUsuario, number])
-
-        if (!row.length > 0) {
+        
+        if (row.length > 0) {
+            
             res.status(500).json({row})
+        } else {
+            res.status(500).json({message: 'No tiene like, podre tonto'})
         }
     } catch (error) {
-        
+        console.log(error);
     }
 }
 

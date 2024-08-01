@@ -101,7 +101,7 @@ if (localStorage.getItem('name')) {
             </a>
             <ul class="dropdown-menu" aria-labelledby="nameUsuario">
                 <li><a class="dropdown-item" href="#">Mis Compras</a></li>
-                <li><a class="dropdown-item" href="#">Mis Favoritos</a></li>
+                <li><a class="dropdown-item" href="../HTML/Favoritos.html">Mis Favoritos</a></li>
                 <li><a class="dropdown-item" href="#">Mis Datos</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#" onClick="CerrarSesion(this)">Cerrar Sesion</a></li>

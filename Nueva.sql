@@ -13,8 +13,7 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-use plasheras;
-SELECT * FROM usuarios;
+
 
 -- Volcando estructura de base de datos para ventaspeople
 DROP DATABASE IF EXISTS `ventaspeople`;
@@ -25,37 +24,53 @@ USE `ventaspeople`;
 DROP TABLE IF EXISTS `canasta`;
 CREATE TABLE IF NOT EXISTS `canasta` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `client_id` int(11) NOT NULL,
-  `subtotal` decimal(10,2) DEFAULT NULL,
+  `usuario_id` int(11) NOT NULL,
   `iva` decimal(10,2) DEFAULT NULL,
+  `subtotal` decimal(10,2) DEFAULT NULL,
   `total` decimal(20,6) DEFAULT NULL,
   `fechaAlta` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
-  KEY `client_id` (`client_id`),
-  CONSTRAINT `canasta_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `usuario` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  KEY `client_id` (`usuario_id`) USING BTREE,
+  CONSTRAINT `canasta_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla ventaspeople.canasta: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla ventaspeople.canasta: ~2 rows (aproximadamente)
 DELETE FROM `canasta`;
+INSERT INTO `canasta` (`id`, `usuario_id`, `iva`, `subtotal`, `total`, `fechaAlta`) VALUES
+	(1, 14, 0.00, 0.00, 0.000000, '2024-07-28 18:47:24'),
+	(2, 15, 0.00, 0.00, 0.000000, '2024-07-28 21:17:27');
 
 -- Volcando estructura para tabla ventaspeople.canasta_productos
 DROP TABLE IF EXISTS `canasta_productos`;
 CREATE TABLE IF NOT EXISTS `canasta_productos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `cantidad` int(11) NOT NULL,
   `id_producto` int(11) DEFAULT NULL,
   `id_canasta` int(11) NOT NULL,
-  `precio` int(11) DEFAULT NULL,
+  `cantidad` int(11) NOT NULL,
+  `precio` decimal(20,6) DEFAULT NULL,
+  `iva` decimal(20,6) DEFAULT NULL,
+  `total` decimal(20,6) DEFAULT NULL,
+  `pagado` bit(1) DEFAULT b'0',
   `fechaAlta` datetime DEFAULT current_timestamp(),
+  `porPagar` bit(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_canasta_productos_producto` (`id_producto`),
   KEY `fk_canasta_productos_canasta` (`id_canasta`),
   CONSTRAINT `fk_canasta_productos_canasta` FOREIGN KEY (`id_canasta`) REFERENCES `canasta` (`id`),
   CONSTRAINT `fk_canasta_productos_producto` FOREIGN KEY (`id_producto`) REFERENCES `producto` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla ventaspeople.canasta_productos: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla ventaspeople.canasta_productos: ~8 rows (aproximadamente)
 DELETE FROM `canasta_productos`;
+INSERT INTO `canasta_productos` (`id`, `id_producto`, `id_canasta`, `cantidad`, `precio`, `iva`, `total`, `pagado`, `fechaAlta`, `porPagar`) VALUES
+	(2, 1, 1, 1, NULL, NULL, NULL, b'0', '2024-07-28 19:02:28', NULL),
+	(4, 4, 1, 1, NULL, NULL, NULL, b'0', '2024-07-28 19:15:30', NULL),
+	(5, 6, 1, 1, NULL, NULL, NULL, b'0', '2024-07-28 19:18:18', NULL),
+	(6, 5, 1, 1, NULL, NULL, NULL, b'0', '2024-07-28 21:16:00', NULL),
+	(7, 2, 2, 3, NULL, NULL, NULL, b'0', '2024-07-28 21:22:06', NULL),
+	(8, 17, 2, 3, NULL, NULL, NULL, b'0', '2024-07-28 21:22:30', NULL),
+	(9, 10, 2, 47, NULL, NULL, NULL, b'0', '2024-07-28 21:23:33', NULL),
+	(10, 9, 2, 20, NULL, NULL, NULL, b'0', '2024-07-28 21:25:26', NULL);
 
 -- Volcando estructura para tabla ventaspeople.catalogotramite
 DROP TABLE IF EXISTS `catalogotramite`;
@@ -131,6 +146,28 @@ INSERT INTO `equipo` (`id`, `nombre`, `activo`, `orden`, `fechaAlta`, `fechaModi
 	(9, 'La Gloria FC', b'1', 9, '2024-07-24 00:15:58', '2024-07-24 08:10:48'),
 	(10, 'Emperors FC', b'1', 2, '2024-07-24 00:16:33', '2024-07-24 08:10:48'),
 	(18, 'La Gloria FC2', b'1', 11, '2024-07-25 19:41:55', '2024-07-25 19:41:51');
+
+-- Volcando estructura para procedimiento ventaspeople.ingresar_producto_canasta
+DROP PROCEDURE IF EXISTS `ingresar_producto_canasta`;
+DELIMITER //
+CREATE PROCEDURE `ingresar_producto_canasta`(
+	IN `pid_canasta` INT,
+	IN `pid_producto` INT,
+	IN `pcantidad` INT
+)
+    DETERMINISTIC
+BEGIN
+
+	INSERT INTO canasta_productos (cantidad, id_producto, id_canasta
+	        , precio, iva, total) 
+	VALUES (pcantidad, pid_producto, pid_canasta
+	        , IFNULL(( SELECT precio 	   FROM   Producto	WHERE  id = id_producto), 123)
+			  , IFNULL(( SELECT precio*0.16 	FROM   Producto	WHERE  id = id_producto), 123)
+			  , IFNULL(( SELECT precio*1.16 	FROM   Producto	WHERE  id = id_producto), 123)
+			  );
+	
+END//
+DELIMITER ;
 
 -- Volcando estructura para tabla ventaspeople.jugador
 DROP TABLE IF EXISTS `jugador`;
@@ -358,9 +395,9 @@ CREATE TABLE IF NOT EXISTS `sesion` (
   `navegador` varchar(1024) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idUsuario` (`idUsuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla ventaspeople.sesion: ~12 rows (aproximadamente)
+-- Volcando datos para la tabla ventaspeople.sesion: ~15 rows (aproximadamente)
 DELETE FROM `sesion`;
 INSERT INTO `sesion` (`id`, `idUsuario`, `fecha`, `horaInicio`, `horaTermino`, `IP`, `navegador`) VALUES
 	(1, 3, '2024-07-25', '2024-07-25 08:34:13', NULL, '127.0.0.1', 'Nose el navigador'),
@@ -374,7 +411,10 @@ INSERT INTO `sesion` (`id`, `idUsuario`, `fecha`, `horaInicio`, `horaTermino`, `
 	(9, 5, '2024-07-25', '2024-07-25 13:01:50', NULL, '127.0.0.1', 'Nose el navigador'),
 	(10, 5, '2024-07-25', '2024-07-25 13:02:19', NULL, '127.0.0.1', 'Nose el navigador'),
 	(11, 5, '2024-07-25', '2024-07-25 13:03:41', NULL, '127.0.0.1', 'Nose el navigador'),
-	(12, 5, '2024-07-25', '2024-07-25 13:04:20', NULL, '127.0.0.1', 'Nose el navigador');
+	(12, 5, '2024-07-25', '2024-07-25 13:04:20', NULL, '127.0.0.1', 'Nose el navigador'),
+	(13, 14, '2024-07-28', '2024-07-28 18:50:31', NULL, NULL, 'Mozilla/5.0 (X11; Linux aarch64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.188 Safari/537.36 CrKey/1.54.250320'),
+	(14, 14, '2024-07-28', '2024-07-28 18:53:48', NULL, NULL, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36'),
+	(15, 15, '2024-07-28', '2024-07-28 21:17:34', NULL, NULL, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36');
 
 -- Volcando estructura para tabla ventaspeople.tipoproducto
 DROP TABLE IF EXISTS `tipoproducto`;
@@ -402,6 +442,25 @@ INSERT INTO `tipoproducto` (`id`, `nombre`, `activo`, `Orden`, `fechaAlta`, `fec
 	(8, 'Tennis', b'1', 8, '2024-07-25 19:58:32', NULL),
 	(9, 'Camiseta Oficial Juvenil', b'1', 0, '2024-07-25 20:07:50', NULL);
 
+-- Volcando estructura para tabla ventaspeople.tokens
+DROP TABLE IF EXISTS `tokens`;
+CREATE TABLE IF NOT EXISTS `tokens` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `token` varchar(255) NOT NULL,
+  `sesionid` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `token` (`token`),
+  KEY `fk_sesion` (`sesionid`),
+  CONSTRAINT `fk_sesion` FOREIGN KEY (`sesionid`) REFERENCES `sesion` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Volcando datos para la tabla ventaspeople.tokens: ~3 rows (aproximadamente)
+DELETE FROM `tokens`;
+INSERT INTO `tokens` (`id`, `token`, `sesionid`) VALUES
+	(1, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE0LCJ1c2VyTmFtZSI6InN0b3JyZXMiLCJjYW5hc3RhSWQiOjEsInBlcGUiOiJwZXBlIiwiaWF0IjoxNzIyMjE0MjMxLCJleHAiOjE3MjIyMTc4MzF9._19VRu37aX5i576LIA_H77OX2ix58CWK0rFuDBeRfVc', 13),
+	(2, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE0LCJ1c2VyTmFtZSI6InN0b3JyZXMiLCJjYW5hc3RhSWQiOjEsInBlcGUiOiJwZXBlIiwiaWF0IjoxNzIyMjE0NDI4LCJleHAiOjE3MjIyMTgwMjh9.kWC6B32HhgPZ_Rwga0CLxWQhwQs0Z0INpmwJ3Oxaatg', 14),
+	(3, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE1LCJ1c2VyTmFtZSI6Im1hamVzdXMiLCJjYW5hc3RhSWQiOjIsInBlcGUiOiJwZXBlIiwiaWF0IjoxNzIyMjIzMDU0LCJleHAiOjE3MjIyMjY2NTR9.LkOZYvoEllrjv8kBOuMY9gyZKKA2GCK0DERxHkktXt4', 15);
+
 -- Volcando estructura para tabla ventaspeople.usuario
 DROP TABLE IF EXISTS `usuario`;
 CREATE TABLE IF NOT EXISTS `usuario` (
@@ -417,16 +476,15 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   `fechaAlta` datetime DEFAULT current_timestamp(),
   `fechaModificacion` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla ventaspeople.usuario: ~5 rows (aproximadamente)
+-- Volcando datos para la tabla ventaspeople.usuario: ~4 rows (aproximadamente)
 DELETE FROM `usuario`;
 INSERT INTO `usuario` (`id`, `name`, `email`, `password`, `Activo`, `Nombres`, `ApellidoPrimero`, `ApellidoSegundo`, `fechaNacimiento`, `fechaAlta`, `fechaModificacion`) VALUES
 	(1, 'storres', 'storres', '123', b'1', 'Saul Torres Garcia', '', '', NULL, '2024-07-25 07:42:03', NULL),
 	(2, 'jorge_tp@hotmail.com', 'jorge_tp@hotmail.com', '12345', b'1', 'Jorge tellez', '', '', NULL, '2024-07-25 07:53:32', NULL),
-	(3, 'matoga@hotmail.com', 'matoga@hotmail.com', '123', b'1', 'Maria Torres Garcia', '', '', NULL, '2024-07-25 07:57:16', '2024-07-25 08:34:03'),
-	(4, '', '', '', b'1', '', '', '', NULL, '2024-07-25 07:58:01', NULL),
-	(5, 'jegogo@gmail.com', 'jegogo@gmail.com', '123', b'1', 'Jesus Gomez Gomez', '', '', NULL, '2024-07-25 12:59:08', NULL);
+	(14, 'storres', 'saultorresg@gmail.com', '$2a$10$q.2pZOvIrp6bQ8.xE3OQ4u0AaBM6CGfdi6Du3SNmcWwrWgYOGUMuy', b'1', 'Saul', 'Torres', 'García', '1993-02-01', '2024-07-28 18:47:24', NULL),
+	(15, 'majesus', 'matoga@hotmail.com', '$2a$10$o48RDG57nM2Mvihm9zMu7uzvp9ab4SRPhN/iiYIVaPNsNRPCcL11G', b'1', 'Maria', 'de', 'Jesus', '1994-03-02', '2024-07-28 21:17:27', NULL);
 
 -- Volcando estructura para tabla ventaspeople.venta
 DROP TABLE IF EXISTS `venta`;
@@ -462,8 +520,22 @@ CREATE TABLE IF NOT EXISTS `ventadetalle` (
 -- Volcando datos para la tabla ventaspeople.ventadetalle: ~0 rows (aproximadamente)
 DELETE FROM `ventadetalle`;
 
-SELECT * FROM producto;
+-- Volcando estructura para disparador ventaspeople.crear_canasta_usuario
+DROP TRIGGER IF EXISTS `crear_canasta_usuario`;
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO';
+DELIMITER //
+CREATE TRIGGER `crear_canasta_usuario` AFTER INSERT ON `usuario` FOR EACH ROW BEGIN
+    INSERT INTO canasta (usuario_id, subtotal, iva, total)
+    VALUES (NEW.id, 0.00, 0.00, 0.00);
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
+
 SELECT * FROM tipoproducto t ;
+SELECT * FROM productomedidas p ;
+SELECT * FROM medida m ;
+SELECT * FROM productousuario p ;
+SELECT * FROM producto p ;
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

@@ -1,14 +1,11 @@
 
+
 let arrayPrincipal = []
 function obtener_productis(tipos, equipos) {
 
     arrayPrincipal = []
     var contador = 0
     var arrauNuevo = []
-
-    console.log(tipos);
-    console.log(equipos);
-
     
     fetch('/data', {
         method: 'POST',
@@ -19,7 +16,7 @@ function obtener_productis(tipos, equipos) {
     })
         .then(response => response.json())
         .then(data => {
-            data.forEach((element, indice) => {
+            data.forEach(async (element, indice) => {
 
                 contador += 1
 
@@ -51,6 +48,34 @@ function obtener_productis(tipos, equipos) {
                 chkbox_deseo.type = 'checkbox'
                 chkbox_deseo.setAttribute('number', element.id)
                 chkbox_deseo.setAttribute('onchange', 'DarLike(this)')
+                chkbox_deseo.classList.add('productos')
+
+                /*if (localStorage.getItem('sesion')) {
+
+                    const sesion = localStorage.getItem('sesion')
+                    const number = element.id
+
+                    console.log(number);
+                    console.log(sesion);
+
+                    try {
+                        
+                        const response = await fetch('/auth/getLike', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ number, sesion })
+                        })
+
+                        const data = await response.json()
+
+                        console.log(data);
+
+                    } catch (error) {
+                        console.log(error);
+                    }
+                }*/
 
                 const svgContent = `
                     <svg id="Layer_1" version="1.0" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -126,7 +151,14 @@ function ImprimirProductos(array, numero) {
         pagination.appendChild(lista)
 
         localStorage.setItem('indice', numero)
+
+        EjecutarScripts()
     })
+}
+
+async function EjecutarScripts() {
+    
+    await Poner_Likes('../JS/Poner_Likes.js')
 }
 
 function CambiarPagina(boton) {
@@ -186,14 +218,14 @@ function FiltrarDatos(buton) {
 
 }
 
-function DarLike(boton) {
+async function DarLike(boton) {
     
     const number =  boton.getAttribute('number')
     const sesion = localStorage.getItem('sesion')
 
     try {
         
-        const response = fetch('/auth/like', {
+        const response = await fetch('/auth/like', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -201,10 +233,9 @@ function DarLike(boton) {
             body: JSON.stringify({ number,  sesion})
         })
 
-        response = response.json()
-        const data = response.data
-
-        if (response.ok) {
+        const data = await response.json()
+        
+        if (data.ok) {
             console.log('To salio bien');
         }
 
@@ -216,4 +247,7 @@ function DarLike(boton) {
 arrayTipo = []
 arrayEquipo = []
 
-obtener_productis(arrayTipo, arrayEquipo)
+
+window.addEventListener('DOMContentLoaded', (event) => {
+    obtener_productis(arrayTipo, arrayEquipo)
+})
