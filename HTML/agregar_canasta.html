@@ -46,7 +46,7 @@
                           <img src="../IMAGES/prueba_cart.png" class="img-principal" alt="alt"/>
                       </div>
                   </div>
-                  <div class="contendor_descripcion_producto">
+                  <div class="contendor_descripcion_producto ">
                       <div class="contendor_descripcion_producto_nombre">
                           <div class="contendor_descripcion_producto_titulo"> 
                            <h2 id="label-nombre">Camiseta Oficial Amor 2024 Juvenila ofical de niño y palabra</h2>
@@ -55,31 +55,39 @@
                               <h3 id="label-precio">$1,200.00 MXN></h3>
                           </div>
                       </div>
-                      <div class="contendor_descripcion_producto_pedido">
+                      <div data-bs-spy="scroll" class="contendor_descripcion_producto_pedido card">
                         <label for="">Cantidad</label>
                         <div class="border rounded border-warning border-2">
                           <input class="btn-menos" type="button" value="-" onclick="Contador(this)">
                           <label class="label-cantidad" for=""></label>
                           <input class="btn-mas" type="button" value="+" onclick="Contador(this)">
                         </div>
-                        <div id="tallas" class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                         
-                        </div>
-                        <div id="personalizar" >
-                            <p class="d-inline-flex gap-1">
-                                <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                  Personalizar camiseta
-                                </a>
-                              </p>
-                              <div class="collapse" id="collapseExample">
-                                <div class="card card-body">
-                                    Numero
-                                  <input type="number" name="Numero" id="numero">
-                                  Nombre
-                                  <input type="text" name="Nombre" id="nombre">
+                        
+                        <div id="contenedor_personalizar" style="overflow-y: auto; ">
+                            <div  class="sectProducto ">
+                                <div id="tallas" class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                             
                                 </div>
-                              </div>
-                         </div>
+                                <div id="personalizar" >
+                                    <p class="d-inline-flex gap-1">
+                                        <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                          Personalizar camiseta
+                                        </a>
+                                      </p>
+                                      <div class="collapse" id="collapseExample">
+                                        <div class="card card-body">
+                                            Numero
+                                          <input type="number" name="Numero" id="numero">
+                                          Nombre
+                                          <input type="text" name="Nombre" id="nombre">
+                                        </div>
+                                      </div>
+                                 </div>
+                            </div>
+                        </div>
+                        
+
+                       
                       </div>
                       <div class="contendor_descripcion_producto_pago">
                            <button class="btn_pedido btn-agregar">Agregar al carrito - Total: $1,200.00 MXN</button>

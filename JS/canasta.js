@@ -66,7 +66,6 @@ function Mostrar_Producto(data) {
     if (producto.idTipo != 9) {
         
         const divPersonalizar = document.getElementById('personalizar')
-        console.log(divPersonalizar);
         divPersonalizar.remove()
     }
 }
@@ -83,6 +82,7 @@ function Contador(boton) {
     }
 
     label_contador.textContent = contador
+    AgregarCollapse(contador)
 }
 
 function parseJwts (token) {
@@ -122,6 +122,43 @@ function Mostrar_Medidas(medidas) {
     
 }
 
+function AgregarCollapse(contador) {
+
+    if (contador != 1) {
+        
+        const seccion = document.querySelector('.sectProducto')
+        const conte = document.querySelector('#contenedor_personalizar')
+        const nuevo = seccion.cloneNode(true)
+
+        console.log(nuevo);
+
+        const a = nuevo.querySelector('.btn-primary')
+        a.setAttribute('href' , '#collapseExample' + contador)
+
+        const collapse = nuevo.querySelector('#collapseExample')
+        collapse.id = "collapseExample" + contador
+
+        btns = nuevo.querySelectorAll('input')
+        lbls = nuevo.querySelectorAll('label')
+
+        btns.forEach((element, indice) => {
+
+            element.name = "tallas" + contador
+            element.id += contador
+            try {
+                
+                lbls[indice].setAttribute('for', '' + element.id)
+            } catch (error) {
+                
+            }
+            console.log(lbls[indice]);
+            console.log(element);
+        })
+
+        conte.appendChild(nuevo)
+    }
+}
+
 Obtener_producto()
 
 
@@ -134,3 +171,4 @@ const token = sessionStorage.getItem('authToken')
 const btn_ingresar = document.getElementById('btn-ingresar')
 
 //btn_ingresar.innerText = traduccion.user.name
+
