@@ -2,37 +2,12 @@ document.addEventListener('codigoTerminado',  function() {
     
     const btn_agregar = document.querySelector('.btn-agregar')
 
-    console.log(btn_agregar);
-
     btn_agregar.addEventListener('click', function () {
         
         AgregarProducto()
     })
 
-    /*const equipos = document.querySelectorAll('.equipo')
-    equipos.forEach(equipo => {
-
-        const btn = equipo.querySelector('.btn')
-
-        equipo.addEventListener('mouseenter', function() {
-            
-            btn.style.visibility = "visible"
-            btn.disable = true
-
-            
-
-            this.style.backgroundColor = 'lightgray'; // Ejemplo: Cambia el color de fondo
-        });
-
-        equipo.addEventListener('mouseleave', function() {
-
-            btn.style.visibility = 'hidden'
-            btn.disable = false
-            
-            this.style.backgroundColor = ''; // Ejemplo: Restaura el color de fondo
-        });
-        
-    });*/
+   
 });
 
 async function AgregarProducto() {
@@ -43,6 +18,9 @@ async function AgregarProducto() {
     const label_contador = document.querySelector('.label-cantidad')
     let numero = ""
     let nombre = ""
+    const precio = document.getElementById('label-precio').textContent
+   
+    const talla = DeterminarTallas()
 
     if (document.getElementById('numero')) {
         
@@ -59,9 +37,6 @@ async function AgregarProducto() {
 
         nombre = ""
     }
-
-    console.log(numero);
-    console.log(nombre);
         
             try {
                 const response = await fetch('/auth/agregar', {
@@ -74,7 +49,9 @@ async function AgregarProducto() {
                         id: sesion,
                         id_producto: id,
                         numero: numero,
-                        nombre: nombre
+                        nombre: nombre,
+                        precio: precio,
+                        talla: talla
                     })
                 })
         
@@ -100,5 +77,22 @@ function parseJwt(token) {
         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
     }).join(''));
     return JSON.parse(jsonPayload);
+}
+
+function DeterminarTallas() {
+    
+
+    const radio = document.getElementsByName('tallas')
+
+    const radiorray = Array.from(radio)
+
+
+        for (const element of radiorray) {
+            if (element.checked) {
+                return element.id.charAt(element.id.length - 1)
+            }
+        }
+
+        return 1
 }
 

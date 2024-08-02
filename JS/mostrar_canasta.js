@@ -73,7 +73,7 @@ function Crear_card(producto, cantidad, idCanasta) {
     column_img.appendChild(img)
 
     const columna_datos = document.createElement('div')
-    columna_datos.classList.add('col-md-8')
+    columna_datos.classList.add('col-md-7')
 
     const card_body = document.createElement('div')
     card_body.classList.add('card-body', 'txt_carta_carrito')
@@ -86,11 +86,20 @@ function Crear_card(producto, cantidad, idCanasta) {
     precio.classList.add('card-text')
     precio.innerText = producto[0][0].precio
 
+    const div_acciones = document.createElement('div')
+
     const btnBorrar = document.createElement('button')
     btnBorrar.id = 'btn-borrar'
     btnBorrar.innerText = 'Borrar'
     btnBorrar.setAttribute('onclick','BorrarProducto(this)')
     btnBorrar.setAttribute('elej', idCanasta)
+
+    div_acciones.appendChild(btnBorrar)
+
+    if (producto[0][0].id_medida != 7) {
+        
+        
+    }
 
     const div_buttons = document.createElement('div')
     div_buttons.classList.add('border', 'rounded', 'border-warning', 'border-2')
@@ -121,16 +130,25 @@ function Crear_card(producto, cantidad, idCanasta) {
 
     card_body.appendChild(card_title)
     card_body.appendChild(precio)
-    card_body.appendChild(btnBorrar)
+    card_body.appendChild(div_acciones)
     card_body.appendChild(div_buttons)
 
     columna_datos.appendChild(card_body)
+
+    columna_check = document.createElement('div')
+    columna_check.classList.add('col-md-1')
+
+    chk = document.createElement('input')
+    chk.type = 'checkbox'
+
+    columna_check.appendChild(chk)
 
     const orientacion = document.createElement('div')
     orientacion.classList.add('row', 'g-0')
 
     orientacion.appendChild(column_img)
     orientacion.appendChild(columna_datos)
+    orientacion.appendChild(columna_check)
 
     const card = document.createElement('div')
     card.classList.add('card')

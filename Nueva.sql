@@ -545,7 +545,9 @@ SELECT * FROM canasta c ;
 SELECT * FROM producto p ;
 SELECT * FROM sesion s ;
 SELECT * FROM productousuario p ;
+SELECT * FROM medida m 
 
+DELETE FROM canasta_productos;
 
 CREATE TABLE `playera_personalizada` (
 	
@@ -570,6 +572,12 @@ JOIN tipoproducto t ON p.idTipo = t.id
 AND t.id IN (1)
 
 SELECT p.id, p.idTipo, p.descripcion, p.idEquipo, p.precio, p.numeroLikes, p.estado FROM producto p  WHERE p.id LIKE "%" AND p.estado IN (0)
+
+DELETE FROM productousuario WHERE idUsuario = 12 AND idProducto = 6
+DELETE FROM canasta_productos 
+
+ALTER TABLE canasta_productos ADD COLUMN id_medida INT NOT NULL,
+ADD CONSTRAINT `fk_medida` FOREIGN KEY (`id_medida`) REFERENCES `medida` (`id`) ON DELETE CASCADE 
 
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;

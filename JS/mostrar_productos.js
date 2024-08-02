@@ -233,6 +233,13 @@ async function DarLike(boton) {
     
     const number =  boton.getAttribute('number')
     const sesion = localStorage.getItem('sesion')
+    let estado 
+
+    if (boton.checked) {
+        estado = 0
+    } else {
+        estado = 1
+    }
 
     try {
         
@@ -241,7 +248,7 @@ async function DarLike(boton) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ number,  sesion})
+            body: JSON.stringify({ number,  sesion, estado})
         })
 
         const data = await response.json()

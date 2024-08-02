@@ -82,10 +82,9 @@ const login = async (req, res) => {
 
 const ingresar_producto_canasta = async (req, res) => {
 
-    const { cantidad, id, id_producto, numero, nombre } = req.body;
+    const { cantidad, id, id_producto, numero, nombre, precio, talla } = req.body;
 
-    console.log(numero);
-    console.log(nombre);
+    const total = parseFloat(precio) - parseFloat((precio / 1.16))
 
     try {
         const [sesion] = await db.query('SELECT idUsuario FROM sesion WHERE id = ?', [id])
@@ -93,10 +92,11 @@ const ingresar_producto_canasta = async (req, res) => {
         const [canasta] = await db.query('SELECT id FROM canasta WHERE usuario_id = ?', [sesion[0].idUsuario])
 
         const id_canasta = canasta[0].id
-        const row = await db.query('INSERT INTO canasta_productos (cantidad, id_producto, id_canasta) VALUES (?, ?, ?)', [cantidad, id_producto, id_canasta] )
+        const row = await db.query('INSERT INTO canasta_productos (cantidad, id_producto, id_canasta, precio, total, iva, id_medida) VALUES (?, ?, ?, ?, ?, ?, ?)', 
+            [cantidad, id_producto, id_canasta, precio / 1.16, precio ,  total, talla] )
         console.log(row);
 
-        if (numero.length > 0 && nombre.length > 0) {
+        if (numero.length > 0 && nombre.length > 0) {   
             
             console.log(row[0].insertId);
             const personalizda = await db.query('INSERT INTO playera_personalizada (numero, nombre, canastapid) VALUES (?,?,?)', [numero, nombre, row[0].insertId])
@@ -230,13 +230,19 @@ const obtener_nombre = async (req, res) => {
 
 const dar_like = async (req, res) => {
 
-    const { number, sesion } = req.body
+    const { number, sesion, estado } = req.body
 
     try {
 
         const [idUsuario] = await db.query('SELECT idUsuario FROM sesion WHERE id = ?', [sesion])
-       
-        const [row] = await db.query('INSERT INTO productousuario (idProducto, idUsuario) VALUES (?,?)', [number, idUsuario[0].idUsuario])
+        
+
+        if (estado == 0) {
+            const [row] = await db.query('INSERT INTO productousuario (idProducto, idUsuario) VALUES (?,?)', [number, idUsuario[0].idUsuario])
+        } else {
+            const [row] = await db.query('DELETE FROM productousuario WHERE idUsuario = ? AND idProducto = ?', [idUsuario[0].idUsuario, number])
+        }
+        console.log(row);
         res.status(500).json({row})
     } catch (error) {
         console.log(error);
