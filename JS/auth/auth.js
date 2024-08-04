@@ -182,6 +182,7 @@ const modificar_cantidad = async (req, res) => {
 
     try {
         
+        console.log(cantidad, id);
         const modifcacion = await db.query('UPDATE canasta_productos SET cantidad = ? WHERE id = ?', [cantidad, id])
         res.status(200).json({modifcacion})
     } catch (error) {
@@ -260,10 +261,10 @@ const demostrar_like = async (req, res) => {
         const [row] = await db.query('SELECT * FROM productousuario WHERE idUsuario = ? AND idProducto = ?', [idUsuario[0].idUsuario, number])
         
         if (row.length > 0) {
-            
+            console.log(row);
             res.status(500).json({row})
         } else {
-            res.status(500).json({message: 'No tiene like, podre tonto'})
+            res.status(500).json({})
         }
     } catch (error) {
         console.log(error);

@@ -3,20 +3,25 @@ function AumentarDisminuir(boton) {
     const tipo = boton.getAttribute('tipo')
     const label = document.querySelector('[tipos="' + tipo + '"]')
 
-    var cantidad = parseInt(label.textContent)
+    console.log(boton);
+    console.log(tipo);
+    console.log(label);
 
-   if (boton.textContent === '+') {
+    var cantidad = parseInt(label.value)
+
+   if (boton.getAttribute('signo') === '+') {
     cantidad += 1
-   } else if (boton.textContent === '-' && cantidad != '0') {
+   } else if (boton.getAttribute('signo') === '-' && cantidad != '0') {
     cantidad -= 1
    }
 
-   ModificarBase(cantidad, boton.getAttribute('elej'))
-   label.textContent = cantidad
+   ModificarBase(cantidad, parseInt(boton.getAttribute('elej')))
+   label.value = cantidad
 }
 
 async function ModificarBase(cantidad, id) {
     
+    console.log(cantidad, id);
 
     try {
         

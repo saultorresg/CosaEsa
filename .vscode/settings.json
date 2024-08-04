@@ -1,4 +1,7 @@
 {
+    "editor.tokenColorCustomizations": {
+        "comments": "#4fff3f"       
+    },
     "sqltools.connections": [
         {
             "mysqlOptions": {

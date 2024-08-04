@@ -51,6 +51,14 @@ app.get('/compras', (req, res) => {
     res.sendFile(path.join(__dirname, 'HTML', 'Compras.html'))
 })
 
+app.get('/favoritos', (req, res) => {
+    res.sendFile(path.join(__dirname, 'HTML', 'Favoritos.html'))
+})
+
+app.get('/compras', (req, res) => {
+    res.sendFile(path.join(__dirname, 'HTML', 'Compras.html'))
+})
+
 app.post('/data', async (req, res) => {
 
     const { tipos, equipos, stock } = req.body;
@@ -121,9 +129,8 @@ app.post('/data', async (req, res) => {
         } */
 
 
-        console.log(query);
         const [rows] = await db.query(query, values);
-        console.log(rows);
+        
         res.json(rows);
     } catch (err) {
         console.error('Error al hacer la consulta ', err);

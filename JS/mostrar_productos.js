@@ -23,31 +23,41 @@ function obtener_productis(tipos, equipos, stock) {
                 contador += 1
 
 
-
+                //Carta para mostrar los productos
                 const card = document.createElement('div')
                 card.href = '/canasta?id=' + element.id 
                 card.classList.add('carta')
 
+                //Imagen del producto
                 const img = document.createElement('img')
-                img.classList.add('img_carta', 'img-fluid')
+                img.classList.add('img_carta')
                 img.src = '../IMAGES/articulos/art' + element.idTipo + '.png'
 
+                //Parte texto de la carta
                 const card_body = document.createElement('div')
                 card_body.classList.add('txt_carta')
+
+                //Contenedor del nombre
+                const contenedor_nombre = document.createElement('div')
+                contenedor_nombre.classList.add('txt_carta_1')
 
                 const label_name = document.createElement('a')
                 label_name.href = '/canasta?id=' + element.id
                 label_name.innerText = element.descripcion
 
+                contenedor_nombre.appendChild(label_name)
+
+                //Contenedor del precio y like
                 const card_footer = document.createElement('div')
                 card_footer.classList.add('txt_carta_2')
 
                 const label_costo = document.createElement('a')
                 label_costo.innerText = element.precio
 
+                //Like en forma  de corazon
                 const lbl = document.createElement('label')
-                lbl.classList.add('container')
-//dede
+                lbl.classList.add('container_corazon')
+
                 const chkbox_deseo = document.createElement('input')
                 chkbox_deseo.type = 'checkbox'
                 chkbox_deseo.setAttribute('number', element.id)
@@ -90,7 +100,7 @@ function obtener_productis(tipos, equipos, stock) {
                 lbl.appendChild(chkbox_deseo)
                 lbl.innerHTML += svgContent
 
-                card_footer.appendChild(label_costo, chkbox_deseo)
+                card_footer.appendChild(label_costo)
                 card_footer.appendChild(lbl)
 
                 card_body.appendChild(label_name)

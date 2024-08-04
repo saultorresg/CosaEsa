@@ -1,5 +1,6 @@
 
 
+
 (function() {
     const originalSetItem = sessionStorage.setItem;
     sessionStorage.setItem = function(key, value) {
@@ -80,6 +81,8 @@ async function CerrarSesion() {
     }*/
         localStorage.removeItem('name')
         window.location.reload()
+        localStorage.removeItem('sesion')
+        window.location.reload()
 }
 
 console.log(new Date().getFullYear() + '-' + new Date().getUTCMonth() + '-' + new Date().getDay());
@@ -100,9 +103,9 @@ if (localStorage.getItem('name')) {
                 </svg>
             </a>
             <ul class="dropdown-menu" aria-labelledby="nameUsuario">
-                <li><a class="dropdown-item" href="#">Mis Compras</a></li>
-                <li><a class="dropdown-item" href="../HTML/Favoritos.html">Mis Favoritos</a></li>
-                <li><a class="dropdown-item" href="#">Mis Datos</a></li>
+                <li><a class="dropdown-item" onclick="CambiarFrame(this)" jual="1">Mis Compras</a></li>
+                <li><a class="dropdown-item" onclick="CambiarFrame(this)" jual="2">Mis Favoritos</a></li>
+                <li><a class="dropdown-item" onclick="CambiarFrame(this)" jual="3">Mis Datos</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#" onClick="CerrarSesion(this)">Cerrar Sesion</a></li>
             </ul>
@@ -118,7 +121,31 @@ if (localStorage.getItem('name')) {
 
 }
 
+function CambiarFrame(link) {
 
+    const frame = document.querySelector('iframe')
+
+    console.log(frame);
+    
+    if (link.getAttribute('jual') == 1) {
+        sessionStorage.setItem('pag', '/compras')
+         frame.src = '/compras'
+    } else if (link.getAttribute('jual') == 2) {
+        sessionStorage.setItem('pag', '/favoritos')
+        frame.src = '/favoritos'
+    } else if (link.getAttribute('jual') == 0) {
+        sessionStorage.setItem('pag', '/tienda')
+        frame.src = '/tienda'
+
+    }
+}
+
+if (sessionStorage.getItem('pag')) {
+        
+    const frame = document.querySelector('iframe')
+
+    frame.src = sessionStorage.getItem('pag')
+}
 
         
 
