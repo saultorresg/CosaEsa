@@ -87,7 +87,7 @@ function Crear_card(producto, cantidad, idCanasta, columna) {
     img_carrito_cart.classList.add('img_carrito_cart')
 
     const img = document.createElement('img')
-    img.src = '../IMAGES/articulos/art' + producto[0][0].id + '.png'
+    img.src = '../IMAGES/articulos/' + producto[0][0].id + '.png'
 
     img_carrito_cart.appendChild(img)
 
@@ -176,6 +176,21 @@ function Crear_card(producto, cantidad, idCanasta, columna) {
     carta_carrito.appendChild(img_carrito_cart)
     carta_carrito.appendChild(txt_carta)
 
+    const btn_desplegar = `
+    <p class="d-inline-flex gap-1">
+        <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            Link with href
+        </a>
+    </p>
+    <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+            <h6>Nombre: </h6>
+            <h6>Numero: </h6>
+        </div>
+    </div>`
+
+    txt_carta.innerHTML += btn_desplegar
+
     columna.appendChild(carta_carrito)
 
     const btnBorrar = document.createElement('button')
@@ -189,7 +204,7 @@ function Crear_card(producto, cantidad, idCanasta, columna) {
             <path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"></path></svg>
     `
    
-
+   
    
 
    

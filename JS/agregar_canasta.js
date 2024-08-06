@@ -3,6 +3,8 @@ document.addEventListener('codigoTerminado',  function() {
     const btn_agregar = document.querySelector('.btn-agregar')
 
     btn_agregar.addEventListener('click', function () {
+
+        
         
         AgregarProducto()
     })
@@ -16,28 +18,39 @@ async function AgregarProducto() {
     const params = new URLSearchParams(window.location.search)
     const id = params.get('id')
     const label_contador = document.querySelector('.label-cantidad')
-    let numero = ""
-    let nombre = ""
+    let numero = []
+    let nombre = []
+    const talla = []
     const precio = document.getElementById('label-precio').textContent
-   
-    const talla = DeterminarTallas()
 
-    if (document.getElementById('numero')) {
+    const cantidad_perso = DeterminarPersonalizados()
+
+    console.log(cantidad_perso);
+
+    cantidad_perso.forEach(element => {
+
+        talla.push(DeterminarTallas(element, label_contador.value))
+        console.log(element.querySelector('#numero'));
+
+        if (element.querySelector('[type="number"]')) {
+            
+            numero.push(element.querySelector('[type="number"]').value)
         
-        numero = document.getElementById('numero').value
+        } else {
+            numero.push('')
+        }
     
-    } else {
-        numero = ""
-    }
-
-    if (document.getElementById('nombre')) {
-        
-        nombre = document.getElementById('nombre').value
-    } else {
-
-        nombre = ""
-    }
-        
+        if (element.querySelector('[type="text"]')) {
+            
+            nombre.push(element.querySelector('[type="text"]').value)
+        } else {
+    
+            nombre.push('')
+        }
+    })
+   
+    console.log(numero);
+    console.log(nombre);
             try {
                 const response = await fetch('/auth/agregar', {
                     method: 'POST',
@@ -56,8 +69,10 @@ async function AgregarProducto() {
                 })
         
                 const data = await response.json();
+
+                console.log(data.message);
                 
-                if (response.ok) {
+                if (data.message === 'ok') {
                     
                     location.reload()
                     window.location.href = '/tienda'
@@ -79,10 +94,12 @@ function parseJwt(token) {
     return JSON.parse(jsonPayload);
 }
 
-function DeterminarTallas() {
+function DeterminarTallas(element, contador) {
     
+    console.log(contador);
+    const radio = element.querySelectorAll('[name="tallas' + contador + '"]')
 
-    const radio = document.getElementsByName('tallas')
+    console.log(radio);
 
     const radiorray = Array.from(radio)
 
@@ -92,7 +109,13 @@ function DeterminarTallas() {
                 return element.id.charAt(element.id.length - 1)
             }
         }
-
+ 
         return 1
 }
 
+function DeterminarPersonalizados() {
+    
+    const contenedores_personalizadas = document.querySelectorAll('.sectProducto')
+    console.log();
+    return contenedores_personalizadas
+}

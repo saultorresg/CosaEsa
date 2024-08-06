@@ -3,10 +3,6 @@ function AumentarDisminuir(boton) {
     const tipo = boton.getAttribute('tipo')
     const label = document.querySelector('[tipos="' + tipo + '"]')
 
-    console.log(boton);
-    console.log(tipo);
-    console.log(label);
-
     var cantidad = parseInt(label.value)
 
    if (boton.getAttribute('signo') === '+') {
@@ -34,7 +30,6 @@ async function ModificarBase(cantidad, id) {
         }) 
 
         const data = await response.json()
-        console.log(data);
 
     } catch (error) {
         console.log(error);

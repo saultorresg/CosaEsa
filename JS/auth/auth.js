@@ -84,24 +84,43 @@ const ingresar_producto_canasta = async (req, res) => {
 
     const { cantidad, id, id_producto, numero, nombre, precio, talla } = req.body;
 
+    console.log('numero: ' + numero);
+    console.log('nombre: ' + nombre);
+    console.log('talla: ' + talla);
+
     const total = parseFloat(precio) - parseFloat((precio / 1.16))
+    let message = ''
 
     try {
-        const [sesion] = await db.query('SELECT idUsuario FROM sesion WHERE id = ?', [id])
 
-        const [canasta] = await db.query('SELECT id FROM canasta WHERE usuario_id = ?', [sesion[0].idUsuario])
+        numero.forEach(async (element, indice) => {
 
-        const id_canasta = canasta[0].id
-        const row = await db.query('INSERT INTO canasta_productos (cantidad, id_producto, id_canasta, precio, total, iva, id_medida) VALUES (?, ?, ?, ?, ?, ?, ?)', 
-            [cantidad, id_producto, id_canasta, precio / 1.16, precio ,  total, talla] )
-        console.log(row);
+            console.log(element);
+            console.log(nombre[indice]);
+            console.log(talla[indice]);
 
-        if (numero.length > 0 && nombre.length > 0) {   
+            const [sesion] = await db.query('SELECT idUsuario FROM sesion WHERE id = ?', [id])
+
+            const [canasta] = await db.query('SELECT id FROM canasta WHERE usuario_id = ?', [sesion[0].idUsuario])
+
+            const id_canasta = canasta[0].id
+            const [row] = await db.query('INSERT INTO canasta_productos (cantidad, id_producto, id_canasta, precio, total, iva, id_medida, numero, etiqueta) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', 
+                [cantidad / numero.length, id_producto, id_canasta, precio / 1.16, precio ,  total, talla[indice], element, nombre[indice]] )
             
-            console.log(row[0].insertId);
-            const personalizda = await db.query('INSERT INTO playera_personalizada (numero, nombre, canastapid) VALUES (?,?,?)', [numero, nombre, row[0].insertId])
-        }
-        res.status(200).json({row})
+                console.log('Pedro');
+                console.log(row.affectedRows);
+                if (row.affectedRows == 1) {
+                    message = 'ok'
+                } 
+
+            /*if (element.length > 0 && nombre.length > 0) {   
+                
+                const personalizda = await db.query('INSERT INTO playera_personalizada (numero, nombre, canastapid) VALUES (?,?,?)', [element, nombre[indice], row.insertId])
+            }*/
+        })
+
+       
+        res.status(200).json({message: message})
         
     } catch (error) {
         res.status(500).json({message: error.message})
@@ -132,6 +151,22 @@ const mostrar_canasta = async (req, res) => {
         console.log(error);
         res.status(500).json({ message: 'Error interno del servidor.' });
     }
+}
+
+const obtener_tipoProducto = async(req, res)=>{
+    const { idProducto } = req.body;
+    console.log("auth.js-obtener_tipoProducto-idProducto:" + idProducto);
+
+    try{
+        const [tipoProducto] = await db.query('SELECT p1.* FROM producto p1 inner join  producto p2 On p2.idtipo = p1.idTipo And p2.id <> p1.id  And p2.id = ? Order by p1.precio asc limit 5', [idProducto] )
+
+        console.log(tipoProducto);
+        res.status(200).json({tipoProducto})
+
+    } catch (error) {
+        console.log(error);        
+    }
+
 }
 
 const obtener_producto = async (req, res) => {
@@ -240,10 +275,11 @@ const dar_like = async (req, res) => {
 
         if (estado == 0) {
             const [row] = await db.query('INSERT INTO productousuario (idProducto, idUsuario) VALUES (?,?)', [number, idUsuario[0].idUsuario])
+            console.log(row);
         } else {
             const [row] = await db.query('DELETE FROM productousuario WHERE idUsuario = ? AND idProducto = ?', [idUsuario[0].idUsuario, number])
+            console.log(row);
         }
-        console.log(row);
         res.status(500).json({row})
     } catch (error) {
         console.log(error);
@@ -271,4 +307,26 @@ const demostrar_like = async (req, res) => {
     }
 }
 
-module.exports = { demostrar_like, dar_like, cerrar_sesion, eliminar_producto_canasta, modificar_cantidad, register, login, ingresar_producto_canasta, mostrar_canasta, obtener_producto };
+const obtener_Compras = async(req, res)=>{
+    const { idSesion } = req.body;
+    console.log("auth.js-obtener_Compras-idSesion:" + idSesion);
+
+    try{
+        const [compraProducto] = await db.query(`SELECT p.id, v2.noPedido, v.fechaAlta, p.descripcion, v.total, v.estadoEnvio FROM ventadetalle v 
+            JOIN producto p ON p.id = v.idProducto 
+            JOIN venta v2 ON v.idVenta = v2.id 
+            JOIN cliente c ON c.id = v2.idCliente 
+            JOIN usuario u ON u.id = c.idUsuario 
+            JOIN sesion s ON s.idUsuario = u.id
+            WHERE  s.id = ?`, [idSesion] )
+
+            console.log(compraProducto);
+        res.status(200).json({compraProducto})
+
+    } catch (error) {
+        console.log(error);        
+    }
+
+}
+
+module.exports = { obtener_tipoProducto, obtener_Compras, demostrar_like, dar_like, cerrar_sesion, eliminar_producto_canasta, modificar_cantidad, register, login, ingresar_producto_canasta, mostrar_canasta, obtener_producto };

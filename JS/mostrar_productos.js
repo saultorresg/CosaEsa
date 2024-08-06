@@ -31,7 +31,7 @@ function obtener_productis(tipos, equipos, stock) {
                 //Imagen del producto
                 const img = document.createElement('img')
                 img.classList.add('img_carta')
-                img.src = '../IMAGES/articulos/art' + element.idTipo + '.png'
+                img.src = '../IMAGES/articulos/' + element.id + '.png'
 
                 //Parte texto de la carta
                 const card_body = document.createElement('div')

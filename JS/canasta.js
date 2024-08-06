@@ -10,6 +10,7 @@ var  contador = 1
 const label_contador = document.querySelector('.label-cantidad')
 label_contador.innerText = contador
 
+
 async function Obtener_producto() {
     
     try {
@@ -36,6 +37,79 @@ async function Obtener_producto() {
     
 }
 
+async function addProductoRelacionado(idProducto){
+
+    try{
+        const response = await fetch('/auth/tipoProducto', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ idProducto })
+        })
+
+        const data = await response.json()
+        console.log(data.tipoProducto);
+
+        const cont_prodRelacionados = document.querySelector('.contenedor_recomendados')
+        cont_prodRelacionados.innerHTML = ""
+
+        data.tipoProducto.forEach(element=>{
+            console.log(element.descripcion)
+
+             //Carta para mostrar los productos
+             const card = document.createElement('div')
+             card.href = '/canasta?id=' + element.id 
+             card.classList.add('cart_recomendados')
+
+             //Imagen del producto
+             const img = document.createElement('img')
+             img.classList.add('img-principal')
+             img.src = '../IMAGES/articulos/' + element.id + '.png'
+
+             console.log(img.src)
+
+             //Parte texto de la carta
+             const card_body = document.createElement('div')
+             card_body.classList.add('txt_carta_recomendados')
+
+             const label_name = document.createElement('h5')
+             label_name.href = '/canasta?id=' + element.id
+             label_name.innerText = element.descripcion
+
+             card_body.appendChild(label_name)
+
+             //Contenedor del precio y like
+             const card_footer = document.createElement('div')
+             card_footer.classList.add('txt_carta_2')
+
+             const label_costo = document.createElement('a')
+             label_costo.innerText = "$"+element.precio+" MX"
+
+             card_footer.appendChild(label_costo)
+
+             card_body.appendChild(label_name)
+             card_body.appendChild(card_footer)
+
+             card.appendChild(img)
+             card.appendChild(card_body)
+             card.setAttribute('tipo', element.idTipo)
+             card.setAttribute('equipo', element.idEquipo)
+
+             cont_prodRelacionados.appendChild(card)
+
+        })
+        
+//        if (data.ok) {
+            console.log('addProductoRelacionado:' + data.tipoProducto.length);
+ //       }
+
+    }
+    catch(error){
+        console.log(error);
+    }
+}
+
 function Mostrar_Producto(data) {
 
     const producto = data.producto[0][0]
@@ -52,7 +126,7 @@ function Mostrar_Producto(data) {
     const images = document.querySelectorAll('.img-principal')
 
     images.forEach(element => {
-        element.src='../IMAGES/articulos/art' + producto.idTipo + '.png'
+        element.src='../IMAGES/articulos/' + producto.id + '.png'
     })
 
     /*const label_descripcion = document.getElementById('label-descripcion')
@@ -76,13 +150,14 @@ function Contador(boton) {
     if (boton.value == '+') {
         
         contador+=1
+        AgregarCollapse(contador)
     } else if (boton.value == '-' && contador != 1) {
         
         contador-=1
+        QuitarCollapse(contador)
     }
 
     label_contador.textContent = contador
-    AgregarCollapse(contador)
 }
 
 function parseJwts (token) {
@@ -159,7 +234,19 @@ function AgregarCollapse(contador) {
     }
 }
 
+function QuitarCollapse(contador) {
+    
+    const contendor = document.getElementById('contenedor_personalizar')
+
+    const hijos = contendor.childNodes
+
+    const ultimo_hijo = hijos[hijos.length - 1]
+    
+    ultimo_hijo.remove()
+}
+
 Obtener_producto()
+addProductoRelacionado(id)
 
 
 const token = sessionStorage.getItem('authToken')
