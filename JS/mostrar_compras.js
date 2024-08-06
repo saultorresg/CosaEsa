@@ -37,6 +37,13 @@ function ImprimirProductos(compras) {
 
         console.log(element.fechaAlta);
 
+        if (element.estadoEnvio === null) {
+            
+            element.estadoEnvio = 'En camino'
+        }
+
+        
+
         const carta = `
         <div class="carta" >
                                 <div class="carta_img">
