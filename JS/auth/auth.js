@@ -329,4 +329,33 @@ const obtener_Compras = async(req, res)=>{
 
 }
 
-module.exports = { obtener_tipoProducto, obtener_Compras, demostrar_like, dar_like, cerrar_sesion, eliminar_producto_canasta, modificar_cantidad, register, login, ingresar_producto_canasta, mostrar_canasta, obtener_producto };
+const registrar_cliente = async (req, res) => {
+
+    const {
+        sesion,
+        nombre,
+        primerApellido,
+        segundoApellido,
+        calle,
+        numExterior,
+        numInterior,
+        colonia,
+        codigo,
+        municipio,
+        entidad,
+        pais
+    } = req.body
+
+    try {
+        const [idUsuario] = await db.query('SELECT idUsuario FROM sesion WHERE id = ?', [sesion])
+        const [row] = await db.query('INSERT INTO cliente (idUsuario, nombre, primerApellido, segundoApellido, calle, numeroExterior, numeroInterior, colonia, codigoPostal, municipio, entidadFederativa, pais) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)', 
+        [idUsuario[0].idUsuario, nombre, primerApellido, segundoApellido, calle, numExterior, numInterior, colonia, codigo, municipio, entidad, pais])
+
+        console.log(row);
+        res.status(200).json({row})
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+module.exports = { registrar_cliente, obtener_tipoProducto, obtener_Compras, demostrar_like, dar_like, cerrar_sesion, eliminar_producto_canasta, modificar_cantidad, register, login, ingresar_producto_canasta, mostrar_canasta, obtener_producto };

@@ -38,7 +38,7 @@ async function inicio() {
             const data = await response.json()
             data.rows.forEach(element => {
                 console.log(element);
-                Obtener_datos(element.id_producto, element.cantidad, element.id, columna)
+                Obtener_datos(element.id_producto, element.cantidad, element.id, columna, element.etiqueta, element.numero)
             });
             console.log(data.rows);
             //Obtener_datos(data.rows[0].id_producto ,data.rows[0].cantidad)
@@ -51,7 +51,7 @@ async function inicio() {
     
 }
 
-async function Obtener_datos(id, cantidad, idCanasta, columna) {
+async function Obtener_datos(id, cantidad, idCanasta, columna, etiqueta, numero) {
     
 
     try {
@@ -67,17 +67,17 @@ async function Obtener_datos(id, cantidad, idCanasta, columna) {
 
         const data = await response.json();
         console.log(data.producto[0][0]);
-        Crear_card(data.producto, cantidad, idCanasta, columna)
+        Crear_card(data.producto, cantidad, idCanasta, columna, etiqueta, numero)
 
     } catch (error) {
         console.log(error);
     }
 }
 
-function Crear_card(producto, cantidad, idCanasta, columna) {
+function Crear_card(producto, cantidad, idCanasta, columna, etiqueta, numero) {
 
-    console.log(producto[0][0]);
 
+    
     //card que mostrara el producto que el usuario elijio
     const carta_carrito = document.createElement('div')
     carta_carrito.classList.add('carta_carrito')
@@ -178,14 +178,14 @@ function Crear_card(producto, cantidad, idCanasta, columna) {
 
     const btn_desplegar = `
     <p class="d-inline-flex gap-1">
-        <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+        <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample${idCanasta}" role="button" aria-expanded="false" aria-controls="collapseExample">
             Link with href
         </a>
     </p>
-    <div class="collapse" id="collapseExample">
+    <div class="collapse" id="collapseExample${idCanasta}">
         <div class="card card-body">
-            <h6>Nombre: </h6>
-            <h6>Numero: </h6>
+            <h6>Nombre: ${etiqueta}</h6>
+            <h6>Numero: ${numero}</h6>
         </div>
     </div>`
 

@@ -136,7 +136,9 @@ function CambiarFrame(link) {
     } else if (link.getAttribute('jual') == 0) {
         sessionStorage.setItem('pag', '/tienda')
         frame.src = '/tienda'
-
+    } else if (link.getAttribute('jual') == 3) {
+        sessionStorage.setItem('pag', '/datos')
+        frame.src = '/datos'
     }
 }
 

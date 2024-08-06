@@ -59,6 +59,10 @@ app.get('/compras', (req, res) => {
     res.sendFile(path.join(__dirname, 'HTML', 'Compras.html'))
 })
 
+app.get('/datos', (req, res) => {
+    res.sendFile(path.join(__dirname, 'HTML', 'Datos.html'))
+})
+
 app.post('/data', async (req, res) => {
 
     const { tipos, equipos, stock } = req.body;

@@ -21,12 +21,30 @@ function obtener_productis(tipos, equipos, stock) {
             data.forEach(async (element, indice) => {
 
                 contador += 1
-
+                console.log(element);
 
                 //Carta para mostrar los productos
                 const card = document.createElement('div')
                 card.href = '/canasta?id=' + element.id 
                 card.classList.add('carta')
+
+                //Contenedor estado del producto
+                const div_estado = document.createElement('div')
+                div_estado.classList.add('carta_estado')
+
+                const linea = document.createElement('a')
+
+                if (element.estado == 0) {
+                     linea.innerText = 'Preventa'
+                } else if (element.estado  == 1) {
+                    
+                     linea.innerText = 'En Stock'
+                } else {
+
+                     linea.innerText = 'Agotdo'
+                }
+
+                div_estado.appendChild(linea)
 
                 //Imagen del producto
                 const img = document.createElement('img')
@@ -106,6 +124,7 @@ function obtener_productis(tipos, equipos, stock) {
                 card_body.appendChild(label_name)
                 card_body.appendChild(card_footer)
 
+                card.appendChild(div_estado)
                 card.appendChild(img)
                 card.appendChild(card_body)
                 card.setAttribute('tipo', element.idTipo)
