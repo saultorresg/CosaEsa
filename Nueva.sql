@@ -580,6 +580,29 @@ ALTER TABLE canasta_productos ADD COLUMN id_medida INT NOT NULL,
 ADD CONSTRAINT `fk_medida` FOREIGN KEY (`id_medida`) REFERENCES `medida` (`id`) ON DELETE CASCADE 
 
 
+CREATE TABLE `metodos_pago` (
+
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`idUsuario` INT(11) NOT NULL,
+	`cardNumber` VARCHAR(150) NOT NULL,
+	`fechaExpiracion` datetime NOT NULL,
+	`CVV` VARCHAR(150) NOT NULL
+	PRIMARY KEY (`id`),
+	KEY (`idUsuario`),
+	CONSTRAINT `fk_usuario` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`id`) ON DELETE CASCADE
+);
+
+CREATE TABLE `metodos_pago` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `idUsuario` INT(11) NOT NULL,
+    `cardNumber` VARCHAR(150) NOT NULL,
+    `fechaExpiracion` DATE NOT NULL,  -- Cambié datetime a DATE para la fecha de expiración
+    `CVV` VARCHAR(150) NOT NULL,        -- Cambié VARCHAR(150) a VARCHAR(4) para el CVV
+    PRIMARY KEY (`id`),
+    KEY (`idUsuario`),
+    CONSTRAINT `fk_usuario` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`id`) ON DELETE CASCADE
+);
+
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;

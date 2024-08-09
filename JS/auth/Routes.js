@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { registrar_cliente, obtener_tipoProducto, obtener_Compras, demostrar_like,dar_like,cerrar_sesion,eliminar_producto_canasta, modificar_cantidad, register, login, ingresar_producto_canasta, mostrar_canasta, 
+const { guardar_metodos, registrar_cliente, obtener_tipoProducto, obtener_Compras, demostrar_like,dar_like,cerrar_sesion,eliminar_producto_canasta, modificar_cantidad, register, login, ingresar_producto_canasta, mostrar_canasta, 
     obtener_producto } = require('./auth');
 
 router.post('/register', register);
@@ -16,6 +16,7 @@ router.post('/getLike', demostrar_like)
 router.post('/compras', obtener_Compras)
 router.post('/tipoProducto', obtener_tipoProducto)
 router.post('/regcliente', registrar_cliente)
+router.post('/guardar', guardar_metodos)
 
 
 

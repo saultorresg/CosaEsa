@@ -343,19 +343,48 @@ const registrar_cliente = async (req, res) => {
         codigo,
         municipio,
         entidad,
-        pais
+        pais,
+        card,
+        fecha
     } = req.body
 
     try {
         const [idUsuario] = await db.query('SELECT idUsuario FROM sesion WHERE id = ?', [sesion])
+        console.log(idUsuario[0]?.idUsuario);
+        
         const [row] = await db.query('INSERT INTO cliente (idUsuario, nombre, primerApellido, segundoApellido, calle, numeroExterior, numeroInterior, colonia, codigoPostal, municipio, entidadFederativa, pais) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)', 
-        [idUsuario[0].idUsuario, nombre, primerApellido, segundoApellido, calle, numExterior, numInterior, colonia, codigo, municipio, entidad, pais])
+        [idUsuario[0]?.idUsuario, nombre, primerApellido, segundoApellido, calle, numExterior, numInterior, colonia, codigo, municipio, entidad, pais])
+       
+        console.log(fecha);
+        
+        const [raw] = await db.query('INSERT INTO metodos_pago (idUsuario, cardNumber, fechaExpiracion) VALUES (?,?,?)', [idUsuario[0]?.idUsuario, card, fecha])
 
         console.log(row);
-        res.status(200).json({row})
+        console.log(raw);
+        
+        res.status(200).json({row, raw})
     } catch (error) {
         console.log(error);
     }
 }
 
-module.exports = { registrar_cliente, obtener_tipoProducto, obtener_Compras, demostrar_like, dar_like, cerrar_sesion, eliminar_producto_canasta, modificar_cantidad, register, login, ingresar_producto_canasta, mostrar_canasta, obtener_producto };
+const guardar_metodos = async (req, res) => {
+
+    const { numbers, dateE, cod, name, sesion } = res.body
+
+    try {
+        
+        const idUsuario = db.query('SELECT idUsuario FROM sesion WHERE id = ?', [sesion])
+        const [row] = db.query('INSERT INTO metodos_pago (idUsuario, cardNumber, fechaExpiracion)')
+
+        console.log(row);
+
+        res.status(200).json({row})
+        
+
+    } catch (error) {
+        
+    }
+}
+
+module.exports = { guardar_metodos, registrar_cliente, obtener_tipoProducto, obtener_Compras, demostrar_like, dar_like, cerrar_sesion, eliminar_producto_canasta, modificar_cantidad, register, login, ingresar_producto_canasta, mostrar_canasta, obtener_producto };

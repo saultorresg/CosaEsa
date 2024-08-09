@@ -1,16 +1,16 @@
 async function ObtenerDatos(params) {
     
-    const numExterior = document.getElementsByName('numExterior')[0].value
-    const numInterior = document.getElementsByName('numInterior')[0].value
-    const colonia = document.getElementsByName('colonia')[0].value
-    const codigo = document.getElementsByName('codigo')[0].value
-    const municipio = document.getElementsByName('municipio')[0].value
-    const entidad = document.getElementsByName('entidad')[0].value
-    const pais = document.getElementsByName('pais')[0].value
+    const anio = document.getElementsByName('fecha')
+    const mes = document.getElementById('mes')
 
-    console.log(municipio);
-    console.log(entidad);
-    console.log(pais);
+    console.log(anio[0].value);
+    console.log(mes.value);
+    
+    
+
+    const fecha = anio[0].value + '-' + mes.value + '-' + '01'
+
+    console.log(fecha);
 
     try {
         
@@ -31,7 +31,9 @@ async function ObtenerDatos(params) {
                 codigo: document.getElementsByName('codigo')[0].value,
                 municipio: document.getElementsByName('municipio')[0].value,
                 entidad: document.getElementsByName('entidad')[0].value,
-                pais: document.getElementsByName('pais')[0].value
+                pais: document.getElementsByName('pais')[0].value,
+                card: document.getElementsByName('card')[0].value,
+                fecha: fecha
 
             })
         })
