@@ -7,6 +7,7 @@ const db = require('./JS/Databases/db');
 const bodyParser = require('body-parser');
 const authRoutes = require('./JS/auth/Routes')
 const protectedR = require('./JS/auth/proy');
+const adminRoutes = require('./Admministrador/JS/auth/Routes')
 const { log } = require('console');
 
 app.use(bodyParser.json());
@@ -15,6 +16,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/auth', authRoutes);
 app.use('/protected', protectedR)
+app.use('/admin', adminRoutes)
 
 // Servir archivos estáticos desde la carpeta "public"
 app.use(express.static(path.join(__dirname)));
@@ -26,6 +28,10 @@ app.get('/', (req, res) => {
 
 app.get('/tienda', (req, res) => {
     res.sendFile(path.join(__dirname, 'HTML', 'tiendaPlus.html'))
+})
+
+app.get('/bienvenido', (req, res) => {
+    res.sendFile(path.join(__dirname, 'Admministrador', 'HTML', 'Bienvenido.html'))
 })
 
 app.get('/canasta', (req, res) => {

@@ -6,8 +6,6 @@
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="../CSS/mostrar_producto.css">
-    <link rel="stylesheet" href="../CSS/agregar_canasta.css">
-    <link rel="stylesheet" href="../CSS/index.css">
 </head>
 <body id="body">
   
@@ -46,54 +44,98 @@
                           <img src="../IMAGES/prueba_cart.png" class="img-principal" alt="alt"/>
                       </div>
                   </div>
-                  <div class="contendor_descripcion_producto ">
-                      <div class="contendor_descripcion_producto_nombre">
-                          <div class="contendor_descripcion_producto_titulo"> 
-                           <h2 id="label-nombre">Camiseta Oficial Amor 2024 Juvenila ofical de niño y palabra</h2>
-                          </div>
-                          <div class="contendor_descripcion_producto_precio">
-                              <h3 id="label-precio">$1,200.00 MXN></h3>
-                          </div>
-                      </div>
-                      <div data-bs-spy="scroll" class="contendor_descripcion_producto_pedido card">
-                        <label for="">Cantidad</label>
-                        <div class="border rounded border-warning border-2">
-                          <input class="btn-menos" type="button" value="-" onclick="Contador(this)">
-                          <label class="label-cantidad" for=""></label>
-                          <input class="btn-mas" type="button" value="+" onclick="Contador(this)">
+                  <div class="contendor_descripcion_producto">
+                    <div class="contendor_descripcion_producto_nombre">
+                        <div class="contendor_descripcion_producto_titulo"> 
+                         <h2 id="label-nombre">Camiseta Oficial Amor 2024 Juvenila ofical de niño y palabra</h2>
                         </div>
-                        
-                        <div id="contenedor_personalizar" style="overflow-y: auto; ">
-                            <div  class="sectProducto ">
-                                <div id="tallas" class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                             
+                        <div class="contendor_descripcion_producto_precio">
+                            <h3 id="label-precio">$1,200.00 MXN></h3>
+                        </div>
+                    </div>
+                    <div class="contendor_descripcion_producto_pedido">
+                        <div class="contendor_descripcion_producto_pedido_scroll">
+                            <div class="contendor_descripcion_producto_pedido_cantidad">
+                                <h2>Cantidad</h2>
+                                <div class="num_productos">
+                                    <a onclick="Contador(this)" value="-">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                            <mask id="mask0_1871_15957" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                                              <rect width="24" height="24" fill="#D9D9D9"/>
+                                            </mask>
+                                            <g mask="url(#mask0_1871_15957)">
+                                              <path d="M3.79688 13.1373V10.8623H20.2034V13.1373H3.79688Z" fill="#004789"/>
+                                            </g>
+                                        </svg>
+                                    </a>
+                                    <input type="text"  value="1230" name="numero" class="num_productos_input label-cantidad" onkeypress="return validaNumericos(event)" maxlength="4">
+                                    <a onclick="Contador(this)" value="+">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                            <mask id="mask0_1871_15961" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                                              <rect width="24" height="24" fill="#D9D9D9"/>
+                                            </mask>
+                                            <g mask="url(#mask0_1871_15961)">
+                                              <path d="M10.8626 13.1376H4.79688V10.8626H10.8626V4.79688H13.1376V10.8626H19.2034V13.1376H13.1376V19.2034H10.8626V13.1376Z" fill="#004789"/>
+                                            </g>
+                                        </svg>
+                                    </a>
                                 </div>
-                                <div id="personalizar" >
-                                    <p class="d-inline-flex gap-1">
-                                        <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                          Personalizar camiseta
-                                        </a>
-                                      </p>
-                                      <div class="collapse" id="collapseExample">
-                                        <div class="card card-body">
-                                            Numero
-                                          <input type="number" name="Numero" id="numero">
-                                          Nombre
-                                          <input type="text" name="Nombre" id="nombre">
-                                        </div>
-                                      </div>
-                                 </div>
                             </div>
-                        </div>
-                        
+                            <div class="contendor_descripcion_producto_pedido_talla">
+                                  <h2>Size/Talla </h2>
+                                  <div>
+                                      <div class="radio-tile-group">
+                                       
+                                      </div>
+                                  </div>
+                                <div class="contendeor_guia_tallas">
+                                    <h1  class="guia_tallas">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                            <mask id="mask0_2050_14411" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                                            <rect width="24" height="24" fill="#D9D9D9"/>
+                                            </mask>
+                                            <g mask="url(#mask0_2050_14411)">
+                                            <path d="M3.66588 18.1496C3.05814 18.1496 2.54039 17.9278 2.11261 17.4843C1.68467 17.0408 1.4707 16.5043 1.4707 15.8746V8.12559C1.4707 7.49592 1.68467 6.95934 2.11261 6.51584C2.54039 6.07234 3.05814 5.85059 3.66588 5.85059H18.9313C19.539 5.85059 20.0568 6.07234 20.4845 6.51584C20.9125 6.95934 21.1264 7.49592 21.1264 8.12559V15.8746C21.1264 16.5043 20.9125 17.0408 20.4845 17.4843C20.0568 17.9278 19.539 18.1496 18.9313 18.1496H3.66588ZM3.66588 15.8746H18.9313V8.12559H16.1231V12.0001H14.1933V8.12559H12.2635V12.0001H10.3337V8.12559H8.40384V12.0001H6.47401V8.12559H3.66588V15.8746Z" fill="#235583"/>
+                                            </g>
+                                        </svg> Guia de tallas
+                                    </h1>
+                                </div>  
+                            </div>  
+                            <div class="contenedor_descripcion_producto_pedido_personalizacion">
+                                <button class="btn_personalizacion" data-bs-toggle="collapse"  data-bs-target="#contenedor_personalizacion">Personalizar Camisata &nbsp&nbsp
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <mask id="mask0_2134_9663" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                                        <rect y="24" width="24" height="24" transform="rotate(-90 0 24)" fill="#D9D9D9"/>
+                                        </mask>
+                                        <g mask="url(#mask0_2134_9663)">
+                                        <path d="M15.0542 11.9996L9.40043 17.6533L8.34668 16.5996L12.9467 11.9996L8.34668 7.39957L9.40043 6.34582L15.0542 11.9996Z" fill="#F15D2A"/>
+                                        </g>
+                                    </svg>
+                                </button>
 
-                       
-                      </div>
-                      <div class="contendor_descripcion_producto_pago">
-                           <button class="btn_pedido btn-agregar">Agregar al carrito - Total: $1,200.00 MXN</button>
-                      </div>
-                      
-                  </div>
+                                <div class="contenedor_personalizacion collapse show" id="contenedor_personalizacion">
+                                    <div class="contenedor_input_personalizacion">
+                                        <div class="subcontenedor_input_personalizacion"><h1>Numero</h1><a>2 carácteres</a></div>
+                                            <input type="text" class="input_personalizacion" onkeypress="return validaNumericos(event)" maxlength="2" >
+                                    </div>
+                                    <div class="contenedor_input_personalizacion">
+                                        <div class="subcontenedor_input_personalizacion"><h1>Nombre</h1><a>10 carácteres</a></div>
+                                            <input type="text" class="input_personalizacion" maxlength="10">
+                                    </div>
+                                    <div class="contenedor_txt_personalizacion">
+                                        <h1>Costo Adicional: $250.00 MXN</h1>
+                                        <h2>Playeras con personalización no cuentan con cambios ni devoluciones**</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="contendor_descripcion_producto_pago">
+                         <button class="btn_pedido">Agregar al carrito - Total: $1,200.00 MXN</button>
+                    </div>
+                    
+                </div>
               </div>
           </div>
           <div class="recomendados"> 

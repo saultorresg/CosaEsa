@@ -98,7 +98,7 @@ INSERT INTO `catalogotramite` (`id`, `nombre`, `orden`, `activo`, `fechaAlta`) V
 -- Volcando estructura para tabla ventaspeople.cliente
 DROP TABLE IF EXISTS `cliente`;
 CREATE TABLE IF NOT EXISTS `cliente` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idUsuario` int(11) NOT NULL,
   `nombre` varchar(50) DEFAULT NULL,
   `primerApellido` varchar(50) DEFAULT NULL,
@@ -119,7 +119,7 @@ CREATE TABLE IF NOT EXISTS `cliente` (
 
 -- Volcando datos para la tabla ventaspeople.cliente: ~0 rows (aproximadamente)
 DELETE FROM `cliente`;
-
+DROP TABLE cliente;
 -- Volcando estructura para tabla ventaspeople.equipo
 DROP TABLE IF EXISTS `equipo`;
 CREATE TABLE IF NOT EXISTS `equipo` (
@@ -546,6 +546,13 @@ SELECT * FROM producto p ;
 SELECT * FROM sesion s ;
 SELECT * FROM productousuario p ;
 SELECT * FROM medida m 
+SELECT * FROM cliente c;
+SELECT * FROM metodos_pago mp ;
+SELECT * FROM venta v;
+SELECT * FROM ventadetalle v ;
+DROP TABLE cliente ;
+
+SELECT COUNT(id) AS total FROM usuario WHERE fechaAlta >= CURDATE() - INTERVAL 0 DAY
 
 DELETE FROM canasta_productos;
 
@@ -597,11 +604,12 @@ CREATE TABLE `metodos_pago` (
     `idUsuario` INT(11) NOT NULL,
     `cardNumber` VARCHAR(150) NOT NULL,
     `fechaExpiracion` DATE NOT NULL,  -- Cambié datetime a DATE para la fecha de expiración
-    `CVV` VARCHAR(150) NOT NULL,        -- Cambié VARCHAR(150) a VARCHAR(4) para el CVV
     PRIMARY KEY (`id`),
     KEY (`idUsuario`),
     CONSTRAINT `fk_usuario` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`id`) ON DELETE CASCADE
 );
+
+ALTER TABLE usuario ADD COLUMN role VARCHAR(100) NOT NULL DEFAULT 'cliente';
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

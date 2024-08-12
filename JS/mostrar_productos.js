@@ -82,33 +82,6 @@ function obtener_productis(tipos, equipos, stock) {
                 chkbox_deseo.setAttribute('onchange', 'DarLike(this)')
                 chkbox_deseo.classList.add('productos')
 
-                /*if (localStorage.getItem('sesion')) {
-
-                    const sesion = localStorage.getItem('sesion')
-                    const number = element.id
-
-                    console.log(number);
-                    console.log(sesion);
-
-                    try {
-                        
-                        const response = await fetch('/auth/getLike', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({ number, sesion })
-                        })
-
-                        const data = await response.json()
-
-                        console.log(data);
-
-                    } catch (error) {
-                        console.log(error);
-                    }
-                }*/
-
                 const svgContent = `
                     <svg id="Layer_1" version="1.0" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                         <path d="M16.4,4C14.6,4,13,4.9,12,6.3C11,4.9,9.4,4,7.6,4C4.5,4,2,6.5,2,9.6C2,14,12,22,12,22s10-8,10-12.4C22,6.5,19.5,4,16.4,4z"></path>

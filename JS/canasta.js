@@ -8,7 +8,7 @@ console.log(id);
 
 var  contador = 1
 const label_contador = document.querySelector('.label-cantidad')
-label_contador.innerText = contador
+label_contador.value = contador
 
 
 async function Obtener_producto() {
@@ -60,18 +60,40 @@ async function addProductoRelacionado(idProducto){
              //Carta para mostrar los productos
              const card = document.createElement('div')
              card.href = '/canasta?id=' + element.id 
-             card.classList.add('cart_recomendados')
+             card.classList.add('carta')
+
+             //Contenedor estado del producto
+             const div_estado = document.createElement('div')
+             div_estado.classList.add('carta_estado')
+
+             const linea = document.createElement('a')
+
+             if (element.estado == 0) {
+                  linea.innerText = 'Preventa'
+             } else if (element.estado  == 1) {
+                 
+                  linea.innerText = 'En Stock'
+             } else {
+
+                  linea.innerText = 'Agotdo'
+             }
+
+             div_estado.appendChild(linea)
 
              //Imagen del producto
              const img = document.createElement('img')
-             img.classList.add('img-principal')
+             img.classList.add('img_carta')
              img.src = '../IMAGES/articulos/' + element.id + '.png'
 
              console.log(img.src)
 
              //Parte texto de la carta
+             const card_text = document.createElement('div')
+             card_text.classList.add('txt_carta')
+
+
              const card_body = document.createElement('div')
-             card_body.classList.add('txt_carta_recomendados')
+             card_body.classList.add('txt_carta_1')
 
              const label_name = document.createElement('h5')
              label_name.href = '/canasta?id=' + element.id
@@ -86,13 +108,35 @@ async function addProductoRelacionado(idProducto){
              const label_costo = document.createElement('a')
              label_costo.innerText = "$"+element.precio+" MX"
 
-             card_footer.appendChild(label_costo)
+             //Like en forma  de corazon
+            const lbl = document.createElement('label')
+            lbl.classList.add('container_corazon')
+
+            const chkbox_deseo = document.createElement('input')
+            chkbox_deseo.type = 'checkbox'
+            chkbox_deseo.setAttribute('number', element.id)
+            chkbox_deseo.setAttribute('onchange', 'DarLike(this)')
+
+            const svgContent = `
+                            <svg id="Layer_1" version="1.0" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <path d="M16.4,4C14.6,4,13,4.9,12,6.3C11,4.9,9.4,4,7.6,4C4.5,4,2,6.5,2,9.6C2,14,12,22,12,22s10-8,10-12.4C22,6.5,19.5,4,16.4,4z"></path>
+                            </svg>
+                        `;
+
+            lbl.appendChild(chkbox_deseo)
+            lbl.innerHTML += svgContent
+
+             card_footer.appendChild(label_costo, chkbox_deseo)
+             card_footer.appendChild(lbl)
 
              card_body.appendChild(label_name)
-             card_body.appendChild(card_footer)
 
+            card_text.appendChild(card_body)
+            card_text.appendChild(card_footer)
+
+             card.appendChild(div_estado)
              card.appendChild(img)
-             card.appendChild(card_body)
+             card.appendChild(card_text)
              card.setAttribute('tipo', element.idTipo)
              card.setAttribute('equipo', element.idEquipo)
 
@@ -118,7 +162,7 @@ function Mostrar_Producto(data) {
     const label_precio = document.getElementById('label-precio')
 
     label_nombre.innerText = producto.descripcion
-    label_precio.innerText = producto.precio;
+    label_precio.innerText = "$" + producto.precio + " MXN"
 
     const btn_agregar = document.querySelector('.btn_pedido')
     btn_agregar.innerText = 'Agregar al carrito - Total ' + producto.precio
@@ -139,25 +183,27 @@ function Mostrar_Producto(data) {
 
     if (producto.idTipo != 9) {
         
-        const divPersonalizar = document.getElementById('personalizar')
+        const divPersonalizar = document.querySelector('.contendor_descripcion_producto_pedido_scroll')
         divPersonalizar.remove()
     }
 }
 
 function Contador(boton) {
 
+    console.log(boton.getAttribute('value'));
     
-    if (boton.value == '+') {
+    
+    if (boton.getAttribute('value') == '+') {
         
         contador+=1
         AgregarCollapse(contador)
-    } else if (boton.value == '-' && contador != 1) {
+    } else if (boton.getAttribute('value') == '-' && contador != 1) {
         
         contador-=1
         QuitarCollapse(contador)
     }
-
-    label_contador.textContent = contador
+    
+    label_contador.setAttribute('value', contador)
 }
 
 function parseJwts (token) {
@@ -171,16 +217,19 @@ function parseJwts (token) {
 
 function Mostrar_Medidas(medidas) {
     
-    console.log(medidas);
-    const contenedor_tallas = document.getElementById('tallas')
-
-    console.log(contenedor_tallas);
-
+    const contenedor_tallas = document.querySelector('.radio-tile-group')
 
     medidas.forEach(element => {
 
-        console.log(element);
-        const btn = document.createElement('input')
+        const talla = `
+        <div class="input-container">
+            <input id="${element.id}" class="radio-button" type="radio" name="radio">
+            <div class="radio-tile">
+                <label for="btnradio${element.id}" class="radio-tile-label">${element.nombre}</label>
+            </div>
+        </div> `
+
+        /*const btn = document.createElement('input')
         btn.type = 'radio'
         btn.name = 'tallas'
         btn.id = 'btnradio' + element.id
@@ -189,10 +238,9 @@ function Mostrar_Medidas(medidas) {
         const lbl = document.createElement('label')
         lbl.innerText = element.nombre
         lbl.setAttribute('for', 'btnradio' + element.id)
-        lbl.classList.add('btn', 'btn-outline-primary')
-
-        contenedor_tallas.appendChild(btn)
-        contenedor_tallas.appendChild(lbl)
+        lbl.classList.add('btn', 'btn-outline-primary')*/
+        
+        contenedor_tallas.innerHTML += talla
     })
     
 }
@@ -201,33 +249,35 @@ function AgregarCollapse(contador) {
 
     if (contador != 1) {
         
-        const seccion = document.querySelector('.sectProducto')
-        const conte = document.querySelector('#contenedor_personalizar')
+        const secTallas = document.querySelector('.contendor_descripcion_producto_pedido_talla')
+        const seccion = document.querySelector('.contenedor_descripcion_producto_pedido_personalizacion')
+        const conte = document.querySelector('.contendor_descripcion_producto_pedido_scroll')
+        const nuevoTallas = seccion.cloneNode(true)
         const nuevo = seccion.cloneNode(true)
 
         console.log(nuevo);
 
-        const a = nuevo.querySelector('.btn-primary')
-        a.setAttribute('href' , '#collapseExample' + contador)
+        const a = nuevo.querySelector('.btn_personalizacion')
+        a.setAttribute('data-bs-target' , '#contenedor_personalizacion' + contador)
 
-        const collapse = nuevo.querySelector('#collapseExample')
-        collapse.id = "collapseExample" + contador
+        const collapse = nuevo.querySelector('#contenedor_personalizacion')
+        collapse.id = "contenedor_personalizacion" + contador
 
         btns = nuevo.querySelectorAll('input')
-        lbls = nuevo.querySelectorAll('label')
+        //lbls = nuevo.querySelectorAll('label')
 
         btns.forEach((element, indice) => {
 
             element.name = "tallas" + contador
             element.id += contador
-            try {
+            /*try {
                 
                 lbls[indice].setAttribute('for', '' + element.id)
             } catch (error) {
                 
             }
             console.log(lbls[indice]);
-            console.log(element);
+            console.log(element);*/
         })
 
         conte.appendChild(nuevo)

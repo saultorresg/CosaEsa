@@ -55,6 +55,24 @@ function  CrearCards(element) {
     card.href = '/canasta?id=' + element.id 
     card.classList.add('carta')
 
+    //Contenedor estado del producto
+    const div_estado = document.createElement('div')
+    div_estado.classList.add('carta_estado')
+
+    const linea = document.createElement('a')
+
+    if (element.estado == 0) {
+        inea.innerText = 'Preventa'
+    } else if (element.estado  == 1) {
+                    
+        linea.innerText = 'En Stock'
+    } else {
+
+        linea.innerText = 'Agotdo'
+    }
+
+    div_estado.appendChild(linea)
+
     //Imagen del producto
     const img = document.createElement('img')
     img.classList.add('img_carta')
@@ -127,6 +145,7 @@ function  CrearCards(element) {
                 card_body.appendChild(card_footer)
                 card_body.appendChild(contenedor_btn_agregar)
 
+                card.appendChild(div_estado)
                 card.appendChild(img)
                 card.appendChild(card_body)
                 card.setAttribute('tipo', element.idTipo)
@@ -140,6 +159,41 @@ function ImprimirProductos(card) {
     const contenedor = document.querySelector('.grupo_cartas')
     contenedor.appendChild(card)
     
+}
+
+async function DarLike(boton) {
+    
+    const number =  boton.getAttribute('number')
+    const sesion = localStorage.getItem('sesion')
+    let estado 
+    console.log(boton.checked);
+    
+
+    if (boton.checked) {
+        estado = 1
+    } else {
+        estado = 0
+    }
+
+    try {
+        
+        const response = await fetch('/auth/like', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ number,  sesion, estado})
+        })
+
+        const data = await response.json()
+        
+        if (data.ok) {
+            console.log('To salio bien');
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 ObtenerFavoritos()
