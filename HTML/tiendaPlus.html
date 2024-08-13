@@ -154,23 +154,24 @@
                    
                     
                 </div>
-                <div class="pagination paginacion"> 
-                    <nav aria-label="Page navigation example">
-                      <ul class="pagination">
-                        <li class="page-item">
-                          <a class="page-link" href="#" aria-label="Previous" onclick="CambiarPagina(this)">
-                            <span aria-hidden="true">&laquo;</span>
-                          </a>
-                        </li>
-                        <div id="pag" class="pagination">
+                <div class="contenedor_paginacion"> 
+                    <div class="paginacion">
+                        <a class="page-link" aria-label="Previous" onclick="CambiarPagina(this)">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#D9D9D9">
+                              <path d="M8.94582 11.9999L14.5996 6.34619L15.6533 7.39994L11.0533 11.9999L15.6533 16.5999L14.5996 17.6537L8.94582 11.9999Z" fill="#2D2C2C" />
+                          </svg>
+                        </a>
+                        <div id="pag" class="pagination paginacion_num">
                         </div>
-                         <li class="page-item">
-                          <a class="page-link" href="#" aria-label="Next" onclick="CambiarPagina(this)">
-                            <span aria-hidden="true">&raquo;</span>
-                          </a>
-                        </li>
-                      </ul>
-                    </nav>
+                        <a class="page-link" href="#" aria-label="Next" onclick="CambiarPagina(this)">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#D9D9D9">
+                              <mask id="mask0_3114_10595" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                              <rect y="24" width="24" height="24" transform="rotate(-90 0 24)" />
+                              </mask>
+                              <path d="M15.0542 12.0001L9.40043 17.6538L8.34668 16.6001L12.9467 12.0001L8.34668 7.40006L9.40043 6.34631L15.0542 12.0001Z" fill="#2D2C2C"/>
+                          </svg>
+                      </a>
+                    </div>
                 </div>
               </div>
           </div>

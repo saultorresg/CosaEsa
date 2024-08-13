@@ -87,6 +87,13 @@ const ingresar_producto_canasta = async (req, res) => {
     console.log('numero: ' + numero);
     console.log('nombre: ' + nombre);
     console.log('talla: ' + talla);
+    console.log('cantidad: ' + cantidad);
+    console.log('idSesion: ' + id);
+    console.log('precio: ' + precio);
+    console.log('idProducto: ' + id_producto);
+    
+    
+    
 
     const total = parseFloat(precio) - parseFloat((precio / 1.16))
     let message = ''
@@ -102,12 +109,13 @@ const ingresar_producto_canasta = async (req, res) => {
             const [sesion] = await db.query('SELECT idUsuario FROM sesion WHERE id = ?', [id])
 
             const [canasta] = await db.query('SELECT id FROM canasta WHERE usuario_id = ?', [sesion[0].idUsuario])
-
+            console.log('id canasta: ' + canasta[0].id);
+            
             const id_canasta = canasta[0].id
             const [row] = await db.query('INSERT INTO canasta_productos (cantidad, id_producto, id_canasta, precio, total, iva, id_medida, numero, etiqueta) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', 
                 [cantidad / numero.length, id_producto, id_canasta, precio / 1.16, precio ,  total, talla[indice], element, nombre[indice]] )
             
-                console.log('Pedro');
+                console.log(row);
                 console.log(row.affectedRows);
                 if (row.affectedRows == 1) {
                     message = 'ok'
@@ -139,13 +147,14 @@ const mostrar_canasta = async (req, res) => {
         const [canasta] = await db.query('SELECT id FROM canasta WHERE usuario_id = ?', [sesion[0].idUsuario])
         console.log(canasta[0].id);
         const [rows, fields] = await db.query('SELECT * FROM canasta_productos WHERE id_canasta = ?', [canasta[0].id])
+        console.log('canasta');
+        
         console.log(rows);
         
         if (rows.length === 0) {
             return res.status(404).json({ message: 'No se encontraron productos en la canasta.' });
         }
         
-        console.log(rows);
         res.status(200).json({rows})
     } catch (error) {
         console.log(error);
@@ -191,10 +200,12 @@ const obtener_producto = async (req, res) => {
                 pMedidas.forEach(element => {
 
                     idMedidas.push(element.idMedida)
+                    console.log(element);
+                    
                 })
 
-                const [medidas] = await db.query('SELECT * FROM medida WHERE id IN (?)', [idMedidas])
-                res.status(200).json({producto, medidas})
+                //const [medidas] = await db.query('SELECT * FROM medida WHERE id IN (?)', [idMedidas])
+                res.status(200).json({producto})
                 break;
         
             default:

@@ -1,6 +1,6 @@
 document.addEventListener('codigoTerminado',  function() {
     
-    const btn_agregar = document.querySelector('.btn-agregar')
+    const btn_agregar = document.querySelector('.btn_pedido')
 
     btn_agregar.addEventListener('click', function () {
 
@@ -21,7 +21,7 @@ async function AgregarProducto() {
     let numero = []
     let nombre = []
     const talla = []
-    const precio = document.getElementById('label-precio').textContent
+    const precio = document.getElementById('label-precio').getAttribute('precio')
 
     const cantidad_perso = DeterminarPersonalizados()
 
@@ -58,7 +58,7 @@ async function AgregarProducto() {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify( {
-                        cantidad: label_contador.innerText,
+                        cantidad: label_contador.value,
                         id: sesion,
                         id_producto: id,
                         numero: numero,
@@ -97,7 +97,7 @@ function parseJwt(token) {
 function DeterminarTallas(element, contador) {
     
     console.log(contador);
-    const radio = element.querySelectorAll('[name="tallas' + contador + '"]')
+    const radio = element.querySelectorAll('[name="radio' + contador + '"]')
 
     console.log(radio);
 
@@ -115,7 +115,7 @@ function DeterminarTallas(element, contador) {
 
 function DeterminarPersonalizados() {
     
-    const contenedores_personalizadas = document.querySelectorAll('.sectProducto')
+    const contenedores_personalizadas = document.querySelectorAll('.contenedor_descripcion_producto_pedido_personalizacion')
     console.log();
     return contenedores_personalizadas
 }

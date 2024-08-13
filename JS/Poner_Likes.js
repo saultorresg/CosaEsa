@@ -1,5 +1,8 @@
 function Poner_Likes() {
 
+    console.log('Hola');
+    
+
     return new Promise((resolve) => {
         console.log('Ejecutando script 2');
         if (localStorage.getItem('sesion')) {
@@ -18,7 +21,7 @@ function Poner_Likes() {
         
                 try {
                 
-                    const response = await fetch('/auth/getLike', {
+                    const response = await fetch('/auth/getLike', { 
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'

@@ -21,6 +21,9 @@ async function ObtenerFavoritos() {
 
         const data = await response.json()
 
+        console.log(data);
+        
+
         data.forEach(async element => {
 
             const number = element.id
@@ -34,6 +37,9 @@ async function ObtenerFavoritos() {
             })
 
             const favoritos = await fResponse.json()
+
+            console.log(favoritos);
+            
             
             if (favoritos.row) {
                 CrearCards(element)
@@ -42,7 +48,6 @@ async function ObtenerFavoritos() {
 
         
     } catch (error) {
-        console.log(error);
     }
 }
 
@@ -62,7 +67,7 @@ function  CrearCards(element) {
     const linea = document.createElement('a')
 
     if (element.estado == 0) {
-        inea.innerText = 'Preventa'
+        linea.innerText = 'Preventa'
     } else if (element.estado  == 1) {
                     
         linea.innerText = 'En Stock'
@@ -118,15 +123,15 @@ function  CrearCards(element) {
     lbl.appendChild(chkbox_deseo)
     lbl.innerHTML += svgContent
 
-    card_footer.appendChild(label_costo, chkbox_deseo)
+    card_footer.appendChild(label_costo)
     card_footer.appendChild(lbl)
 
     //contenedor btn agregar carrito
     const contenedor_btn_agregar = document.createElement('div')
-    contenedor_btn_agregar.classList.add('.contenedor_btn_carta')
+    contenedor_btn_agregar.classList.add('.contendror_btn_carta')
 
     const btn_agregar = document.createElement('button')
-    btn_agregar.classList.add('btn_carta')
+    btn_agregar.classList.add('btn_carta', 'btn_pedido')
 
     const img_btn = `
         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
@@ -138,10 +143,13 @@ function  CrearCards(element) {
                                             </g>
                                         </svg>Añadir carrito `
     btn_agregar.innerHTML += img_btn
+    btn_agregar.setAttribute('el', element.id)
+    btn_agregar.setAttribute('precio', element.precio)
+    btn_agregar.setAttribute('onclick', 'AgregarCanasta(this)')
 
     contenedor_btn_agregar.appendChild(btn_agregar)
 
-                card_body.appendChild(label_name)
+                card_body.appendChild(contenedor_nombre)
                 card_body.appendChild(card_footer)
                 card_body.appendChild(contenedor_btn_agregar)
 
@@ -157,6 +165,8 @@ function  CrearCards(element) {
 function ImprimirProductos(card) {
 
     const contenedor = document.querySelector('.grupo_cartas')
+    console.log(card);
+    
     contenedor.appendChild(card)
     
 }

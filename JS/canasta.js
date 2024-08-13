@@ -95,7 +95,7 @@ async function addProductoRelacionado(idProducto){
              const card_body = document.createElement('div')
              card_body.classList.add('txt_carta_1')
 
-             const label_name = document.createElement('h5')
+             const label_name = document.createElement('a')
              label_name.href = '/canasta?id=' + element.id
              label_name.innerText = element.descripcion
 
@@ -116,6 +116,7 @@ async function addProductoRelacionado(idProducto){
             chkbox_deseo.type = 'checkbox'
             chkbox_deseo.setAttribute('number', element.id)
             chkbox_deseo.setAttribute('onchange', 'DarLike(this)')
+            chkbox_deseo.classList.add('productos')
 
             const svgContent = `
                             <svg id="Layer_1" version="1.0" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -148,6 +149,9 @@ async function addProductoRelacionado(idProducto){
             console.log('addProductoRelacionado:' + data.tipoProducto.length);
  //       }
 
+
+        EjecutarScripts()
+
     }
     catch(error){
         console.log(error);
@@ -163,6 +167,7 @@ function Mostrar_Producto(data) {
 
     label_nombre.innerText = producto.descripcion
     label_precio.innerText = "$" + producto.precio + " MXN"
+    label_precio.setAttribute('precio', producto.precio)
 
     const btn_agregar = document.querySelector('.btn_pedido')
     btn_agregar.innerText = 'Agregar al carrito - Total ' + producto.precio
@@ -177,6 +182,8 @@ function Mostrar_Producto(data) {
     label_descripcion.innerHTML = producto.descripcion*/
 
     if (data.medidas) {
+        
+        console.log(data);
         
         Mostrar_Medidas(data.medidas)
     }
@@ -202,6 +209,7 @@ function Contador(boton) {
         contador-=1
         QuitarCollapse(contador)
     }
+    console.log(contador);
     
     label_contador.setAttribute('value', contador)
 }
@@ -221,9 +229,12 @@ function Mostrar_Medidas(medidas) {
 
     medidas.forEach(element => {
 
+        console.log(element);
+        
+
         const talla = `
         <div class="input-container">
-            <input id="${element.id}" class="radio-button" type="radio" name="radio">
+            <input id="${element.id}" class="radio-button" type="radio" name="radio${contador}">
             <div class="radio-tile">
                 <label for="btnradio${element.id}" class="radio-tile-label">${element.nombre}</label>
             </div>
@@ -252,10 +263,8 @@ function AgregarCollapse(contador) {
         const secTallas = document.querySelector('.contendor_descripcion_producto_pedido_talla')
         const seccion = document.querySelector('.contenedor_descripcion_producto_pedido_personalizacion')
         const conte = document.querySelector('.contendor_descripcion_producto_pedido_scroll')
-        const nuevoTallas = seccion.cloneNode(true)
+        const nuevoTallas = secTallas.cloneNode(true)
         const nuevo = seccion.cloneNode(true)
-
-        console.log(nuevo);
 
         const a = nuevo.querySelector('.btn_personalizacion')
         a.setAttribute('data-bs-target' , '#contenedor_personalizacion' + contador)
@@ -263,23 +272,16 @@ function AgregarCollapse(contador) {
         const collapse = nuevo.querySelector('#contenedor_personalizacion')
         collapse.id = "contenedor_personalizacion" + contador
 
-        btns = nuevo.querySelectorAll('input')
-        //lbls = nuevo.querySelectorAll('label')
+        const inputTallas = nuevoTallas.querySelectorAll('input')
 
-        btns.forEach((element, indice) => {
+        inputTallas.forEach(element => {
 
-            element.name = "tallas" + contador
-            element.id += contador
-            /*try {
-                
-                lbls[indice].setAttribute('for', '' + element.id)
-            } catch (error) {
-                
-            }
-            console.log(lbls[indice]);
-            console.log(element);*/
+            element.name = 'radio' + contador
         })
 
+        
+
+        conte.appendChild(nuevoTallas)
         conte.appendChild(nuevo)
     }
 }
@@ -295,8 +297,47 @@ function QuitarCollapse(contador) {
     ultimo_hijo.remove()
 }
 
+async function DarLike(boton) {
+    
+    const number =  boton.getAttribute('number')
+    const sesion = localStorage.getItem('sesion')
+    let estado 
+
+    if (boton.checked) {
+        estado = 0
+    } else {
+        estado = 1
+    }
+
+    try {
+        
+        const response = await fetch('/auth/like', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ number,  sesion, estado})
+        })
+
+        const data = await response.json()
+        
+        if (data.ok) {
+            console.log('To salio bien');
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 Obtener_producto()
 addProductoRelacionado(id)
+async function EjecutarScripts() {
+    
+    console.log('Se va a ejecutar');
+    
+    await Poner_Likes('./Poner_Likes.js')
+}
 
 
 const token = sessionStorage.getItem('authToken')

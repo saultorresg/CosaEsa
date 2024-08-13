@@ -142,24 +142,25 @@ function ImprimirProductos(array, numero) {
             })
         }
 
-        const lista = document.createElement('li')
-        lista.classList.add('page-item')
-
-        const button = document.createElement('button')
-        button.classList.add('page-link')
+        const button = document.createElement('a')
+        button.classList.add('pag_num')
         button.textContent = indice + 1
+        if (indice == numero) {
+            button.classList.add('selected')
+        }
         button.onclick = function () {
             
             CambiarPagina(this)
         }
-        lista.appendChild(button)
-
-        pagination.appendChild(lista)
+        pagination.appendChild(button)
 
         localStorage.setItem('indice', numero)
+        button.classList.add
 
         EjecutarScripts()
     })
+
+
 }
 
 async function EjecutarScripts() {
@@ -169,17 +170,29 @@ async function EjecutarScripts() {
 
 function CambiarPagina(boton) {
     
+    console.log(boton.childNodes);
+    const paginas = document.querySelectorAll('.pag_num')
+    const paginasArray = Array.from(paginas)
+    console.log(paginas);
+    console.log(paginasArray);
     
+    const pagina = document.querySelector('.selected')
+    console.log(pagina);
+    
+    const indi = paginasArray.indexOf(pagina)
     
     if (boton.childNodes.length != 1) {
 
+        console.log('Hola');
+        
         const indice = parseInt(localStorage.getItem('indice'))
         
-        if (boton.childNodes[1].textContent === '»' && (arrayPrincipal.length - 1) != indice ) {
+        if (boton.getAttribute('aria-label') == 'Next' && (arrayPrincipal.length - 1) != indice ) {
         
-
+            paginas
             ImprimirProductos(arrayPrincipal, indice + 1 )
-        } else if (boton.childNodes[1].textContent === '«' && indice != 0) {
+            
+        } else if (boton.getAttribute('aria-label') == 'Previous' && indice != 0) {
             
             ImprimirProductos(arrayPrincipal, indice - 1 )          
         } 
@@ -236,6 +249,7 @@ async function DarLike(boton) {
     const number =  boton.getAttribute('number')
     const sesion = localStorage.getItem('sesion')
     let estado 
+    
 
     if (boton.checked) {
         estado = 0
