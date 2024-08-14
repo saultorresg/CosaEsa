@@ -279,19 +279,24 @@ const dar_like = async (req, res) => {
 
     const { number, sesion, estado } = req.body
 
+    console.log("dar_like:", number, sesion, estado);
+
     try {
 
-        const [idUsuario] = await db.query('SELECT idUsuario FROM sesion WHERE id = ?', [sesion])
         
-
-        if (estado == 0) {
-            const [row] = await db.query('INSERT INTO productousuario (idProducto, idUsuario) VALUES (?,?)', [number, idUsuario[0].idUsuario])
-            console.log(row);
+        if(sesion!=null){
+            const [idUsuario] = await db.query('SELECT idUsuario FROM sesion WHERE id = ?', [sesion])
+            if (estado == 0) {
+                const [row] = await db.query('INSERT INTO productousuario (idProducto, idUsuario) VALUES (?,?)', [number, idUsuario[0].idUsuario])
+                console.log(row);
+            } else {
+                const [row] = await db.query('DELETE FROM productousuario WHERE idUsuario = ? AND idProducto = ?', [idUsuario[0].idUsuario, number])
+                console.log(row);
+            }
+            res.status(500).json({row})
         } else {
-            const [row] = await db.query('DELETE FROM productousuario WHERE idUsuario = ? AND idProducto = ?', [idUsuario[0].idUsuario, number])
-            console.log(row);
+            res.status(200).json({message:'¡No esta registrado!'})
         }
-        res.status(500).json({row})
     } catch (error) {
         console.log(error);
     }
