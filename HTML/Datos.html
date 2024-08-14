@@ -11,7 +11,12 @@
 
     <div class=" contenedor " >
         <div style="overflow-y: auto">
-            <form class="row g-3 needs-validation form" onsubmit="ObtenerDatos(this)" novalidate>
+            <form class="row g-3 needs-validation form" onsubmit="ObtenerDatos(1)" novalidate>
+                <div id="div-solicitud">
+                    <label for="validationCustom01" class="form-label">Modificar Datos</label>
+                    <input type="checkbox" name="solicitud" id="solicitud" onchange="ActivarDesactivar(this)">
+                </div>
+                
                 <label for="validationCustom01" class="form-label">Nombre</label>
                 <input type="text" class="form-control input_naranja" name="nombre">
                 <div class="valid-feedback">
@@ -49,7 +54,7 @@
                     <option value="Argentina">Argentina</option>
                 </select>
                 <label for="validationCustom01" class="form-label">Numero de tarjeta</label>
-                <input type="number" name="card" class="form-control input_naranja" id="card" minlength="16" maxlength="16" oninput="Luhn(this)">
+                <input type="text" name="card" class="form-control input_naranja" id="card" minlength="16" maxlength="19" oninput="Luhn(this)">
                 <label for="validationCustom01" class="form-label">Fecha de expiracion</label>
                 <input type="number" name="fecha" class="form-control input_naranja" id="fecha" minlength="4" maxlength="4" oninput="ComprobarExpiracion(this)">
                 <select for="validationCustom01" class="form-control input_naranja" name="mes" id="mes">
@@ -69,6 +74,7 @@
                 <label for="validationCustom01" class="form-label" >CVV</label>
                 <input type="number" name="code" class="form-control input_naranja" id="code" maxlength="3">
                  <input type="submit" class="btn_inciarSesion"  value="">
+                 
             </form>
         </div>
     </div>

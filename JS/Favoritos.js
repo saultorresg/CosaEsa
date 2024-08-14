@@ -1,6 +1,9 @@
 async function ObtenerFavoritos() {
 
+    const cantidad = document.querySelector('#cantidad')
+
     const sesion = localStorage.getItem('sesion')
+    let contador = 0
 
     const contenedor = document.querySelector('.grupo_cartas')
     contenedor.innerHTML = ''
@@ -21,9 +24,6 @@ async function ObtenerFavoritos() {
 
         const data = await response.json()
 
-        console.log(data);
-        
-
         data.forEach(async element => {
 
             const number = element.id
@@ -37,15 +37,17 @@ async function ObtenerFavoritos() {
             })
 
             const favoritos = await fResponse.json()
-
-            console.log(favoritos);
-            
             
             if (favoritos.row) {
                 CrearCards(element)
+                contador += 1
+                console.log(contador);
+                
+                cantidad.innerText = 'Mis favoritos (' + contador + ')'
             }
         });
-
+        
+        console.log(contador);
         
     } catch (error) {
     }
@@ -165,8 +167,6 @@ function  CrearCards(element) {
 function ImprimirProductos(card) {
 
     const contenedor = document.querySelector('.grupo_cartas')
-    console.log(card);
-    
     contenedor.appendChild(card)
     
 }
@@ -176,8 +176,6 @@ async function DarLike(boton) {
     const number =  boton.getAttribute('number')
     const sesion = localStorage.getItem('sesion')
     let estado 
-    console.log(boton.checked);
-    
 
     if (boton.checked) {
         estado = 1
@@ -198,7 +196,6 @@ async function DarLike(boton) {
         const data = await response.json()
         
         if (data.ok) {
-            console.log('To salio bien');
         }
 
     } catch (error) {
@@ -207,3 +204,9 @@ async function DarLike(boton) {
 }
 
 ObtenerFavoritos()
+
+document.querySelector('.atras').addEventListener('click', function () {
+    
+    history.back()
+})
+

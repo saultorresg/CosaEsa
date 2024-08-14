@@ -363,17 +363,14 @@ const registrar_cliente = async (req, res) => {
         const [idUsuario] = await db.query('SELECT idUsuario FROM sesion WHERE id = ?', [sesion])
         console.log(idUsuario[0]?.idUsuario);
         
-        const [row] = await db.query('INSERT INTO cliente (idUsuario, nombre, primerApellido, segundoApellido, calle, numeroExterior, numeroInterior, colonia, codigoPostal, municipio, entidadFederativa, pais) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)', 
-        [idUsuario[0]?.idUsuario, nombre, primerApellido, segundoApellido, calle, numExterior, numInterior, colonia, codigo, municipio, entidad, pais])
+        const [row] = await db.query('CALL actualizarCliente (?,?,?,?,?,?,?,?,?,?,?,?,?,?)', 
+        [idUsuario[0]?.idUsuario, nombre, primerApellido, segundoApellido, calle, numExterior, numInterior, colonia, codigo, municipio, entidad, pais, card, fecha])
        
         console.log(fecha);
         
-        const [raw] = await db.query('INSERT INTO metodos_pago (idUsuario, cardNumber, fechaExpiracion) VALUES (?,?,?)', [idUsuario[0]?.idUsuario, card, fecha])
-
         console.log(row);
-        console.log(raw);
         
-        res.status(200).json({row, raw})
+        res.status(200).json({row})
     } catch (error) {
         console.log(error);
     }
@@ -398,4 +395,96 @@ const guardar_metodos = async (req, res) => {
     }
 }
 
-module.exports = { guardar_metodos, registrar_cliente, obtener_tipoProducto, obtener_Compras, demostrar_like, dar_like, cerrar_sesion, eliminar_producto_canasta, modificar_cantidad, register, login, ingresar_producto_canasta, mostrar_canasta, obtener_producto };
+const cantidad_cesta = async (req, res) => {
+
+    const  sesion  = req.query.sesion
+    console.log(sesion);
+    
+
+    try {
+        
+        const idUsuario = await db.query('SELECT idUsuario FROM sesion WHERE id = ?', [sesion])
+        const idCanasta = await db.query('SELECT id FROM canasta WHERE usuario_id = ?', [idUsuario[0][0].idUsuario])
+        const [row] = await db.query('SELECT COUNT(*) AS cantidad FROM canasta_productos WHERE id_canasta = ?', [idCanasta[0][0].id])
+        
+        res.json(row)
+
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+
+const cliente_existe = async (req, res) => {
+
+    const sesion = req.query.sesion
+
+    try {
+        const idUsuario = await db.query('SELECT idUsuario FROM sesion WHERE id = ?', [sesion])
+        const [row] = await db.query('SELECT EXISTS ( SELECT 1 FROM cliente WHERE idUsuario = ?) AS EXISTE', [idUsuario[0][0].idUsuario])
+
+        console.log(sesion);
+        console.log(idUsuario);
+
+        if (row[0].EXISTE == 1) {
+            
+            const [cliente] = await db.query('SELECT * FROM cliente WHERE idUsuario = ?', [idUsuario[0][0].idUsuario])
+            const [metodo] = await db.query('SELECT * FROM metodos_pago WHERE idUsuario = ?', [idUsuario[0][0].idUsuario])
+            console.log(cliente);
+            console.log(typeof(metodo[0].cardNumber));
+            const procesado = {
+                card: metodo[0].cardNumber.slice(0, 4),
+                fecha: metodo[0].fechaExpiracion
+            }
+            res.json({row, cliente, procesado})
+        } else {
+
+            res.json(row)
+        }
+        
+
+    } catch (error) {
+        console.log(error);
+        
+    }
+
+}
+
+const verificarContra = async (req, res) => {
+
+    const contra = req.query.pass
+    const sesion = req.query.sesion
+    console.log(sesion);
+    
+
+    try {
+        const [idUsuario] = await db.query('SELECT idUsuario FROM sesion WHERE id = ?', [sesion])
+        console.log(idUsuario);
+        
+        const [row] = await db.query('SELECT password FROM usuario WHERE id = ?', [idUsuario[0].idUsuario])
+
+        console.log(contra);
+        console.log(row[0].password);
+
+        bcrypt.compare(contra, row[0].password, function (err, result) {
+            
+            if (err) {
+
+            } else if (result) {
+                console.log('contraseña correcta');
+                res.json(true)
+                
+            } else {
+                res.json(false)
+            }
+        })
+
+        
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+
+
+module.exports = { verificarContra, cliente_existe, cantidad_cesta, guardar_metodos, registrar_cliente, obtener_tipoProducto, obtener_Compras, demostrar_like, dar_like, cerrar_sesion, eliminar_producto_canasta, modificar_cantidad, register, login, ingresar_producto_canasta, mostrar_canasta, obtener_producto };

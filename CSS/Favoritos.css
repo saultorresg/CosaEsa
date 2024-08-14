@@ -36,7 +36,7 @@
                     width: 100% ;
                     height: calc(100% - 94px);
                     display: flex;
-                    background-image:url("../img/fondo_fav.png");
+                    background-image:url("../IMAGES/fondo_fav.png");
                     background-size: cover; 
                     background-repeat: no-repeat; 
                     background-position: center;

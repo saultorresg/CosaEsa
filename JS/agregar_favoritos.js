@@ -20,7 +20,7 @@ async function AgregarCanasta(boton) {
         })
     
         const data = response
-    
+        ObtenerCantidadCanasta()
         console.log(data);
     } catch (error) {
         console.log(error);
@@ -29,5 +29,20 @@ async function AgregarCanasta(boton) {
 
     
     
+    
+}
+
+async function ObtenerCantidadCanasta() {
+    
+    //Poner el numero de productos en la cesta
+    const sesion = localStorage.getItem('sesion')
+    const response = await fetch(`/auth/cantidad?sesion=${sesion}`)
+    
+    const data = await response.json()
+    
+    const carrit0 = window.parent.document.querySelector('.btn_carrito')
+    carrit0.childNodes[2].textContent = data.row[0].cantidad
+    
+    console.log(carrit0.childNodes[2]);
     
 }

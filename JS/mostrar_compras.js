@@ -138,3 +138,8 @@ async function consultaCompra(idSesion) {
 }
 
 obtieneCompra(idSesion)
+
+document.querySelector('.atras').addEventListener('click', function () {
+    
+    history.back()
+})

@@ -119,6 +119,28 @@ if (localStorage.getItem('name')) {
   
    btn.innerHTML += name
 
+
+    ObtenerCantidadCanasta()
+    
+}
+
+async function ObtenerCantidadCanasta() {
+    
+    //Poner el numero de productos en la cesta
+    const sesion = localStorage.getItem('sesion')
+    const response = await fetch(`/auth/cantidad?sesion=${sesion}`)
+    
+    const data = await response.json()
+    
+    const carrit0 = document.querySelector('.btn_carrito')
+
+    if (data.row) {
+        
+        carrit0.childNodes[2].textContent = data.row[0].cantidad
+    } else {
+        carrit0.childNodes[2].textContent = '0'
+    }
+    
 }
 
 function CambiarFrame(link) {
