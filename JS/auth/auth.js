@@ -282,8 +282,6 @@ const dar_like = async (req, res) => {
     console.log("dar_like:", number, sesion, estado);
 
     try {
-
-        
         if(sesion!=null){
             const [idUsuario] = await db.query('SELECT idUsuario FROM sesion WHERE id = ?', [sesion])
             if (estado == 0) {
